@@ -1,0 +1,14 @@
+.search{
+    padding: 10px 10px;
+    border-radius: 10px;
+    position: fixed;
+    top: 20px;
+    left: 6%;
+    width: 85%;
+    margin: auto;
+    border: none;
+
+    &:focus{
+        outline: none;
+    }
+}

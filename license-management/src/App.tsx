@@ -1,11 +1,17 @@
-import DetailedViewOfEachRecord from "./common/DetailedViewOfRecord/index"
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import Navbar from "./common/components/Navbar"
 
 function App() {
 
   return (
     <>
-      <DetailedViewOfEachRecord />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path='/home' element={<Navbar />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

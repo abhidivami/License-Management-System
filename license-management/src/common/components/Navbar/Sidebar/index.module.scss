@@ -1,0 +1,44 @@
+.navigation {
+    background-color: #27548A;
+    width: 60px;
+    padding: 30px 5px;
+    color: white;
+    height: 100%;
+    position: fixed;
+    top: 50px;
+    display: flex;
+    justify-content: center;
+
+    &Element {
+        border-radius: 10px;
+        padding: 5px 0px;
+        margin-bottom: 20px;
+        text-align: center;
+        width: 50px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &Icon {
+            border: none;
+            color: white;
+            padding: 6px;
+            border-radius: 7px;
+            background-color: #30609a;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        &Title {
+            font-size: 12px;
+            color: white;
+        }
+    }
+}
+
+.active {
+    background-color: transparent;
+}
