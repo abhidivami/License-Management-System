@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,7 +17,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import CreateButton from './CreateButton';
 import styles from './index.module.scss';
 import SearchDialogBox from './SearchDialogBox';
-import Sidebar from './Sidebar';
+import Profile from './Profile';
+import DisplayNavigationBar from './MobileNavigation';
+import { Tooltip } from '@mui/material';
 
 //to style entire search div
 const Search = styled('div')(({ theme }) => ({
@@ -169,6 +171,7 @@ function Navbar() {
                 >
                     <AccountCircle />
                 </IconButton>
+                {/* <Profile/> */}
                 <p>Profile</p>
             </MenuItem>
         </Menu>
@@ -180,15 +183,19 @@ function Navbar() {
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar position="static" sx={{ bgcolor: "#27548A" }}>
                         <Toolbar>
+                            {/* display for web and tablets */}
                             <IconButton
                                 size="large"
                                 edge="start"
                                 color="inherit"
                                 aria-label="open drawer"
-                                sx={{ mr: 2 }}
+                                sx={{ mr: 2, pt: 2, display: { xs: "none", sm: "block" } }}
                             >
                                 <MenuIcon />
                             </IconButton>
+
+                            {/* display only in mobiles */}
+                            <DisplayNavigationBar />
                             <Typography
                                 variant="h6"
                                 noWrap
@@ -211,25 +218,18 @@ function Navbar() {
                             <Box sx={{ flexGrow: 1 }} />
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: "center" }}>
                                 <CreateButton />
-                                <IconButton
-                                    size="large"
-                                    aria-label="notifications regarding expired licenses"
-                                    color="inherit"
-                                >
-                                    <Badge badgeContent={count} color="error">
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </IconButton>
-                                <IconButton
-                                    size="large"
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-controls={menuId}
-                                    aria-haspopup="true"
-                                    color="inherit"
-                                >
-                                    <AccountCircle />
-                                </IconButton>
+                                <Tooltip title='Notification'>
+                                    <IconButton
+                                        size="large"
+                                        aria-label="notifications regarding expired licenses"
+                                        color="inherit"
+                                    >
+                                        <Badge badgeContent={count} color="error">
+                                            <NotificationsIcon />
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Profile />
                             </Box>
 
                             <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: "center", justifyContent: "flex-end" }}>
@@ -253,9 +253,9 @@ function Navbar() {
                     {renderMenu}
                 </Box>
             </div>
-            <div className={styles.content}>
+            {/* <div className={styles.content}>
                 <Sidebar />
-            </div>
+            </div> */}
         </>
     );
 }

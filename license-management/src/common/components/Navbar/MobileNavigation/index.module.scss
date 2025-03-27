@@ -1,0 +1,29 @@
+.navigation{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &Logo{
+        width: 25px;
+    }
+}
+
+.options{
+    &Name{
+        margin-top: 2px;
+        color: black;
+        text-decoration: none;
+        margin-left: 15px;
+    }
+}
+
+.mobile{
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .mobile{
+        display: block;
+    }
+}
