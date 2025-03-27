@@ -1,0 +1,66 @@
+
+$primaryColor: #007bff;
+$primaryFont: 'var(--fontBold)', sans-serif;
+
+
+.detailedViewCard{
+    display:flex;
+    flex-direction:column;
+    
+    border-radius:5px;
+    background-color:white;
+}
+
+.detailedViewCardHeader{
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    border:1px solid #e0e0e0;
+    padding: 10px;
+    gap:20px;
+}
+
+.detailedViewCardHeaderInfoButton,.detailedViewCardHeaderHistoryButton{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-size: 16px;
+}
+
+.detailedViewInfoBodyBasicInfo{
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+    border:1px solid #e0e0e0;
+    margin:10px;
+}
+
+.detailedViewBodyBasicData{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.detailedViewBodyBasicData {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates two equal columns */
+    gap: 20px; /* Adds space between columns */
+    padding: 10px;
+}
+
+.detailedViewBodyBasicDataItem {
+    display: flex;
+    justify-content: space-between;
+    // flex-direction: column;
+}
+
+.bodyBasicDataHeadings {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.detailedViewBodyBasicDataItem span {
+    font-size: 14px;
+    color: #555;
+}
