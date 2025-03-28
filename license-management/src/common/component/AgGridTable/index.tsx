@@ -189,6 +189,7 @@ import { useDispatch } from "react-redux";
 import { addFormData } from "../../../Redux/Slice/LicenseForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store/index";
+import { useNavigate } from "react-router-dom";
 
 // Register the filter modules
 ModuleRegistry.registerModules([
@@ -258,11 +259,19 @@ export const AgGridTable: React.FC = () => {
   }, [dispatch]);
   console.log("Data in the redux State :", formValues);
 
-  const CustomButtonComponent = () => {
+  const navigate = useNavigate();
+  const handleViewClick = (rowData: any) => {
+    navigate("/detailedView", { state: { rowData } });
+  };
+
+
+  const CustomButtonComponent = (props: any) => {
+    const { data } = props; 
+    console.log("data",data)
     return (
       <div className={styles.btnContainer}>
-        <button className={styles.vwbtn}>
-          <View />
+        <button className={styles.vwbtn} >
+          <View onClick={() => handleViewClick(data) }/>
         </button>
         <button className={styles.delbtn}>
           <DeleteIcon />
@@ -270,6 +279,7 @@ export const AgGridTable: React.FC = () => {
       </div>
     );
   };
+  
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
@@ -319,7 +329,7 @@ export const AgGridTable: React.FC = () => {
         Software Details Data
       </Typography> */}
 
-      <div className="ag-theme-quartz" style={{ height : "490px", width: "100%" }}>
+      <div className="ag-theme-quartz" style={{ height : "650px", width: "100%" }}>
         <AgGridReact
           rowData={formValues}
           columnDefs={columnDefs}
