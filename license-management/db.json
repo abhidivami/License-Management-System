@@ -1,0 +1,339 @@
+{
+    "licenses": [
+ 
+     {
+         "id":1,
+         "software_name":"GitHub",
+         "license_type":"software",
+         "manufacturer":"Microsoft",
+         "model_type":"subscription",
+         "total_seats":100,
+         "purchase_date":"2022-06-01",
+         "expiry_date":"2022-12-01",
+         "shelf_life":"6 months",
+         "department_owner":"Development Department",
+         "department_name":"Development",
+         "access_to":["RAVI","BASHA","ABHI"],
+         "billing_email":"dev@company.com",
+         "cost_per_seat":80,
+         "total_cost":2500,
+         "subscription_type":"Annual",
+         "subscription_model":"group",
+         "renewal_details":{
+             "last_renewaled_date":"2023-02-01",
+             "renewal_history":"2023-02-01,2023-02-01,2023-02-01",
+             "renewal_costs":["1200","1250","1100"]
+         }
+     },
+   
+     {
+       "id": 2,
+       "software_name": "Slack",
+       "license_type": "Software",
+       "manufacturer": "Slack Technologies",
+       "modal_type": "Perpetual",
+       "total_seats": 50,
+       "purchase_date": "2022-06-01",
+       "expiry_date": "2023-06-01",
+       "shelf_life": "365 days",
+       "department_owner": "HR Department",
+       "department_name": "HR",
+       "access_to": ["John Doe", "Jane Smith", "Michael Johnson"],
+       "billing_email": "hr@company.com",
+       "cost_per_seat": 75,
+       "total_cost": 2250,
+       "subscription_type": "Annual",
+       "subscription_model": "group",
+       "renewal_details": {
+         "last_renewaled_date": "2023-06-01",
+         "renewal_history": ["2023-06-01", "2022-06-01", "2021-06-01"],
+         "renewal_costs": ["2250", "2000", "1800"]
+       }
+     },
+     {
+       "id": 3,
+       "software_name": "Dell Desktop Workstations",
+       "license_type": "Hardware",
+       "manufacturer": "Dell",
+       "modal_type": "Purchase",
+       "total_seats": 50,
+       "purchase_date": "2023-02-01",
+       "expiry_date": "2028-02-01",
+       "shelf_life": "5 years",
+       "department_owner": "IT Department",
+       "department_name": "IT",
+       "access_to": ["John Doe", "Jane Smith", "Michael Johnson"],
+       "billing_email": "billing@company.com",
+       "cost_per_seat": 1200,
+       "total_cost": 60000,
+       "subscription_type": "One-time",
+       "subscription_model": "hardware based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-02-01",
+         "renewal_history": ["2023-02-01", "2018-02-01", "2013-02-01"],
+         "renewal_costs": ["60000", "55000", "50000"]
+       }
+     },
+     {
+       "id": 4,
+       "software_name": "Apple MacBook Pro",
+       "license_type": "Hardware",
+       "manufacturer": "Apple",
+       "modal_type": "Purchase",
+       "total_seats": 30,
+       "purchase_date": "2023-03-01",
+       "expiry_date": "2028-03-01",
+       "shelf_life": "5 years",
+       "department_owner": "Design Department",
+       "department_name": "Design",
+       "access_to": ["John Doe", "Jane Smith", "Michael Johnson"],
+       "billing_email": "design@company.com",
+       "cost_per_seat": 2500,
+       "total_cost": 75000,
+       "subscription_type": "One-time",
+       "subscription_model": "hardware based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-03-01",
+         "renewal_history": ["2023-03-01", "2018-03-01", "2013-03-01"],
+         "renewal_costs": ["75000", "70000", "65000"]
+       }
+     },
+     {
+       "id": 5,
+       "software_name": "Google Workspace",
+       "license_type": "Software",
+       "manufacturer": "Google",
+       "modal_type": "Subscription",
+       "total_seats": 250,
+       "purchase_date": "2023-04-01",
+       "expiry_date": "2024-04-01",
+       "shelf_life": "365 days",
+       "department_owner": "Operations Department",
+       "department_name": "Operations",
+       "access_to": ["RAM", "RAHIM", "RAMCHARAN"],
+       "billing_email": "operations@company.com",
+       "cost_per_seat": 70,
+       "total_cost": 17500,
+       "subscription_type": "Annual",
+       "subscription_model": "user based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-04-01",
+         "renewal_history": ["2023-04-01", "2022-04-01", "2021-04-01"],
+         "renewal_costs": ["17500", "16500", "15000"]
+       }
+     },
+     {
+       "id": 6,
+       "software_name": "Trello",
+       "license_type": "Software",
+       "manufacturer": "Atlassian",
+       "modal_type": "Subscription",
+       "total_seats": 30,
+       "purchase_date": "2022-09-01",
+       "expiry_date": "2023-09-01",
+       "shelf_life": "365 days",
+       "department_owner": "Project Management Department",
+       "department_name": "Project Management",
+       "access_to": ["WITCHARD", "WAHIM", "RAHIM"],
+       "billing_email": "pm@company.com",
+       "cost_per_seat": 45,
+       "total_cost": 1350,
+       "subscription_type": "Annual",
+       "subscription_model": "user based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-09-01",
+         "renewal_history": ["2023-09-01", "2022-09-01", "2021-09-01"],
+         "renewal_costs": ["1350", "1300", "1200"]
+       }
+     },
+     {
+       "id": 7,
+       "software_name": "Asana",
+       "license_type": "Software",
+       "manufacturer": "Asana, Inc.",
+       "modal_type": "Subscription",
+       "total_seats": 100,
+       "purchase_date": "2022-11-01",
+       "expiry_date": "2023-11-01",
+       "shelf_life": "365 days",
+       "department_owner": "Operations Department",
+       "department_name": "Operations",
+       "access_to": ["John Doe", "Jane Smith", "Michael Johnson"],
+       "billing_email": "operations@company.com",
+       "cost_per_seat": 60,
+       "total_cost": 6000,
+       "subscription_type": "Annual",
+       "subscription_model": "user based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-11-01",
+         "renewal_history": ["2023-11-01", "2022-11-01", "2021-11-01"],
+         "renewal_costs": ["6000", "5800", "5500"]
+       }
+     },
+     {
+       "id": 8,
+       "software_name": "Salesforce",
+       "license_type": "Software",
+       "manufacturer": "Salesforce.com",
+       "modal_type": "Subscription",
+       "total_seats": 150,
+       "purchase_date": "2023-02-01",
+       "expiry_date": "2024-02-01",
+       "shelf_life": "365 days",
+       "department_owner": "Sales Department",
+       "department_name": "Sales",
+       "access_to": ["John Doe", "Jane Smith", "Michael Johnson"],
+       "billing_email": "sales@company.com",
+       "cost_per_seat": 200,
+       "total_cost": 30000,
+       "subscription_type": "Annual",
+       "subscription_model": "user based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-02-01",
+         "renewal_history": ["2023-02-01", "2022-02-01", "2021-02-01"],
+         "renewal_costs": ["30000", "28000", "26000"]
+       }
+     },
+     {
+       "id": 9,
+       "software_name": "GitHub",
+       "license_type": "Software",
+       "manufacturer": "Microsoft",
+       "modal_type": "Subscription",
+       "total_seats": 40,
+       "purchase_date": "2023-05-01",
+       "expiry_date": "2024-05-01",
+       "shelf_life": "365 days",
+       "department_owner": "Development Department",
+       "department_name": "Development",
+       "access_to": ["name22", "name23", "name24"],
+       "billing_email": "dev@company.com",
+       "cost_per_seat": 30,
+       "total_cost": 1200,
+       "subscription_type": "Annual",
+       "subscription_model": "user based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-05-01",
+         "renewal_history": ["2023-05-01", "2022-05-01", "2021-05-01"],
+         "renewal_costs": ["1200", "1100", "1000"]
+       }
+     },
+     {
+       "id": 10,
+       "software_name": "Jira",
+       "license_type": "Hardware",
+       "manufacturer": "Atlassian",
+       "modal_type": "Purchase",
+       "total_seats": 80,
+       "purchase_date": "2022-10-01",
+       "expiry_date": "2027-10-01",
+       "shelf_life": "5 years",
+       "department_owner": "Project Management Department",
+       "department_name": "Project Management",
+       "access_to": ["John Doe", "Jane Smith", "Michael Johnson"],
+       "billing_email": "pm@company.com",
+       "cost_per_seat": 1000,
+       "total_cost": 80000,
+       "subscription_type": "One-time",
+       "subscription_model": "hardware based",
+       "renewal_details": {
+         "last_renewaled_date": "2023-10-01",
+         "renewal_history": ["2023-10-01", "2022-10-01", "2021-10-01"],
+         "renewal_costs": ["80000", "75000", "70000"]
+       }
+     }
+ ],
+ 
+ "departments": [
+     {
+         "id":1,
+         "name":"IT",
+         "owner":"will smith",
+         "description":"Responsible for technology and software management"
+     },
+   {
+     "id": 2,
+     "name": "HR",
+     "owner": "Jane Smith",
+     "description": "Manages employee records, payroll, and benefits."
+   },
+   {
+     "id": 3,
+     "name": "Sales",
+     "owner": "Emily Davis",
+     "description": "Handles customer acquisition, sales processes, and client relationships."
+   },
+   {
+     "id": 4,
+     "name": "Marketing",
+     "owner": "Michael Johnson",
+     "description": "Responsible for advertising, promotions, and brand development."
+   },
+   {
+     "id": 5,
+     "name": "Finance",
+     "owner": "Sophia Brown",
+     "description": "Manages financial planning, analysis, budgeting, and accounting."
+   }
+ ],
+  
+ "Users": [
+     {
+         "id":1,
+         "name":"will card",
+         "designation":"junior software engineer"
+     },
+ 
+   {
+     "id": 2,
+     "name": "Jane Smith",
+     "designation": "Software Engineer"
+   },
+   {
+     "id": 3,
+     "name": "Michael Johnson",
+     "designation": "Lead Software Engineer"
+   },
+   {
+     "id": 4,
+     "name": "Alice Brown",
+     "designation": "Senior Software Engineer"
+   },
+   {
+     "id": 5,
+     "name": "David Kim",
+     "designation": "Software Engineering Manager"
+   }
+ ],
+ 
+ 
+ "notifications": [
+     {
+         "license_id":1,
+         "message":"microsoft office 365 expiring soon.please renew immediately",
+         "notification_date":"2023-12-15"
+ 
+     },
+   {
+     "license_id": 2,
+     "message": "Slack has expired. Please renew immediately.",
+     "notification_date": "2023-06-01"
+   },
+   {
+     "license_id": 3,
+     "message": "GitHub subscription is about to expire. Renew by 2023-08-01.",
+     "notification_date": "2023-07-15"
+   },
+   {
+     "license_id": 4,
+     "message": "Adobe Photoshop license is expiring soon. Please renew by 2024-03-10.",
+     "notification_date": "2024-02-25"
+   },
+   {
+     "license_id": 5,
+     "message": "Zoom subscription will expire in 5 days. Renew by 2023-12-20.",
+     "notification_date": "2023-12-15"
+   }
+ ]
+ 
+ }
