@@ -1,40 +1,28 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import { AgGridTable } from "./common/component/AgGridTable/index"
-import { Provider } from "react-redux"
-import { store } from "./Redux/Store"
-import { LicenseForm } from "./components/LicenseForm/index"
-import { ExampleComponent } from "./pages"
-import Navbar from './common/components/Navbar'
-import Sidebar from './common/components/Navbar/Sidebar'
-// import Navbar from "./common/components/Navbar"
+// In App component
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './Redux/Store';
+import './App.css';
+import { AgGridTable } from './common/component/AgGridTable/index';
+import Navbar from './common/components/Navbar';
+import Sidebar from './common/components/Navbar/Sidebar';
+import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
 
 function App() {
-
   return (
-    <>
-      {/* <DetailedViewOfEachRecord /> */}
-      
-      {/* <LicenseForm />
-      <AgGridTable/>
-      <ExampleComponent/> */}
-     
-      
-      <Provider store={store} >
-     
-      <BrowserRouter> 
+    <Provider store={store}>
+      <BrowserRouter>
         <Navbar />
-        <div className='main'>
+        <div className="main">
           <Sidebar />
-          <AgGridTable/>
+          <Routes>
+            <Route path="/" element={<AgGridTable />} />
+            <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
+          </Routes>
         </div>
-        <Routes>
-          {/* <Route path='/home' element={<Navbar />} /> */}
-        </Routes>
-     </BrowserRouter>
-      </Provider>
-    </>
-  )
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
-export default App
+export default App;

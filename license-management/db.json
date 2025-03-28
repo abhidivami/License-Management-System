@@ -10,7 +10,7 @@
          "totalSeats":100,
          "purchaseDate":"2022-06-01",
          "expirationDate":"2022-12-01",
-         "shelfLife":"6",
+         "shelfLife":"180",
          "departmentOwner":"Development ",
          "departmentName":"Development",
          "employeeName":["RAVI","BASHA","ABHI"],
