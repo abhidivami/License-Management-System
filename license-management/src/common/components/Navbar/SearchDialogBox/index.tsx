@@ -11,13 +11,28 @@ export interface DialogProps {
 function SimpleDialog(props: DialogProps) {
     const { onClose, open } = props;
 
+    const [searchField, setSearchField] = React.useState<string>("");
+
     const handleClose = () => {
         onClose();
     };
 
+    const handleSearchText = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchField(event.target.value);
+    }
+
+    const handleEnterKeyForSearch = (event: React.KeyboardEvent) => {
+        if(event.key == "Enter"){
+            console.log("search in mobile: ", searchField);
+
+            //to close the search filed after pressing enter
+            handleClose();
+        }
+    }
+
     return (
         <Dialog onClose={handleClose} open={open} >
-            <input type='text' placeholder='Search..' className={styles.search}/>
+            <input type='text' placeholder='Search..' className={styles.search} onChange={handleSearchText} onKeyDown={handleEnterKeyForSearch}/>
         </Dialog>
     );
 }

@@ -29,7 +29,7 @@ function DisplayNavigationBar() {
             </div>
             <div className={styles.options}>
                 <List>
-                    <NavLink to='/'>
+                    <NavLink to='/' className={styles.navigationLink}>
                         <ListItem disablePadding>
                             <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
                                 <HomeIcon sx={{ color: "black" }} />
@@ -38,7 +38,7 @@ function DisplayNavigationBar() {
                         </ListItem>
                     </NavLink>
                     <Divider />
-                    <NavLink to='/analytics'>
+                    <NavLink to='/analytics' className={styles.navigationLink}>
                         <ListItem disablePadding>
                             <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
                                 <Analytics sx={{ color: "black" }} />
@@ -47,7 +47,7 @@ function DisplayNavigationBar() {
                         </ListItem>
                     </NavLink>
                     <Divider />
-                    <NavLink to='/expired'>
+                    <NavLink to='/expired' className={styles.navigationLink}>
                         <ListItem disablePadding>
                             <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
                                 <Expired sx={{ color: "black" }} />
@@ -56,7 +56,7 @@ function DisplayNavigationBar() {
                         </ListItem>
                     </NavLink>
                     <Divider />
-                    <NavLink to='/expiring'>
+                    <NavLink to='/expiring' className={styles.navigationLink}>
                         <ListItem disablePadding>
                             <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
                                 <ExpiringSoon sx={{ color: "black" }} />

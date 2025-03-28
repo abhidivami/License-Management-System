@@ -14,8 +14,10 @@ function Sidebar() {
     return (
         <div className={styles.navigation}>
             <div>
+
+                {/* home page */}
                 <Tooltip title='Home' placement={position}>
-                    <NavLink to='/home'>
+                    <NavLink to='/home' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
                             <button className={styles.navigationElementIcon}>
                                 <HomeIcon />
@@ -27,7 +29,7 @@ function Sidebar() {
 
                 {/* analytics page */}
                 <Tooltip title='Analytics' placement={position}>
-                    <NavLink to='/analytics'>
+                    <NavLink to='/analytics' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
                             <button className={styles.navigationElementIcon}>
                                 <Analytics />
@@ -39,7 +41,7 @@ function Sidebar() {
 
                 {/* expired page */}
                 <Tooltip title='Expired' placement={position}>
-                    <NavLink to='/expired'>
+                    <NavLink to='/expired' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
                             <button className={styles.navigationElementIcon}>
                                 <Expired />
@@ -51,7 +53,7 @@ function Sidebar() {
 
                 {/* expiring soon page */}
                 <Tooltip title='Expiring soon' placement={position}>
-                    <NavLink to='/expiring'>
+                    <NavLink to='/expiring' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
                             <button className={styles.navigationElementIcon}>
                                 <ExpiringSoon />

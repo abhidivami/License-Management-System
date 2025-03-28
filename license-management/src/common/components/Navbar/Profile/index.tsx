@@ -6,8 +6,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import profileLogo from '../../../../assets/brand.jpg';
 import styles from './index.module.scss';
 
+interface ProfileProps {
+    iconColor: "white" | "black";
+}
+function Profile(props: ProfileProps) {
 
-function Profile() {
+    const { iconColor } = props;
+
     const [open, setOpen] = React.useState(false);
 
     const toggleDrawer = (newOpen: boolean) => () => {
@@ -19,7 +24,7 @@ function Profile() {
 
 
     const DrawerList = (
-        <Box sx={{ width: 400 }} role="Profile" onClick={toggleDrawer(false)}>
+        <Box sx={{ width: iconColor == "black" ? 320 : 400 }} role="Profile" onClick={toggleDrawer(false)}>
             <div className={styles.profile}>
                 <img src={profileLogo} className={styles.profileLogo} />
                 <span className={styles.profileTitle}>Divami Design Labs Private Limited</span>
@@ -33,18 +38,22 @@ function Profile() {
     return (
         <div>
             <Tooltip title='Profile'>
-                <IconButton
-                    size="medium"
-                    edge='end'
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    color="inherit"
-                    sx={{ color: "white" }}
-                    onClick={toggleDrawer(true)}
-                >
-                    <AccountCircle />
-                </IconButton>
+                <div onClick={toggleDrawer(true)} className={styles.mobile}>
+                    <IconButton
+                        size="medium"
+                        edge='end'
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                        color="inherit"
+                        sx={{ color: iconColor }}
+                    >
+                        <AccountCircle />
+                    </IconButton>
+
+                    {/* for mobile versions */}
+                    {iconColor == "black" && <p>Profile</p>}
+                </div>
             </Tooltip>
             <Drawer open={open} onClose={toggleDrawer(false)} anchor='right'>
                 {DrawerList}

@@ -6,20 +6,17 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CreateButton from './CreateButton';
 import styles from './index.module.scss';
 import SearchDialogBox from './SearchDialogBox';
 import Profile from './Profile';
 import DisplayNavigationBar from './MobileNavigation';
-import { Tooltip } from '@mui/material';
+import Notification from './Notification';
 
 //to style entire search div
 const Search = styled('div')(({ theme }) => ({
@@ -68,9 +65,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Navbar() {
-
-    //to store notifications length
-    const count = 0;
 
     //to store search text field
     const [searchField, setSearchField] = React.useState<string>("");
@@ -143,6 +137,7 @@ function Navbar() {
             }}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
+            sx={{zIndex: 100}}
         >
             <MenuItem>
                 <div className={styles.create}>
@@ -150,29 +145,10 @@ function Navbar() {
                 </div>
             </MenuItem>
             <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="notifications regarding expired licenses"
-                    color="inherit"
-                >
-                    <Badge badgeContent={count} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
+                <Notification iconColor="black"/>
             </MenuItem>
             <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                {/* <Profile/> */}
-                <p>Profile</p>
+                <Profile iconColor="black"/>
             </MenuItem>
         </Menu>
     );
@@ -189,7 +165,7 @@ function Navbar() {
                                 edge="start"
                                 color="inherit"
                                 aria-label="open drawer"
-                                sx={{ mr: 2, pt: 2, display: { xs: "none", sm: "block" } }}
+                                sx={{ mr: 2, pt: 2, display: { xs: "none", md: "block" } }}
                             >
                                 <MenuIcon />
                             </IconButton>
@@ -217,19 +193,15 @@ function Navbar() {
                             </Search>
                             <Box sx={{ flexGrow: 1 }} />
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: "center" }}>
+                                
+                                {/* create button */}
                                 <CreateButton />
-                                <Tooltip title='Notification'>
-                                    <IconButton
-                                        size="large"
-                                        aria-label="notifications regarding expired licenses"
-                                        color="inherit"
-                                    >
-                                        <Badge badgeContent={count} color="error">
-                                            <NotificationsIcon />
-                                        </Badge>
-                                    </IconButton>
-                                </Tooltip>
-                                <Profile />
+                                
+                                {/* notifications icon  */}
+                                <Notification iconColor='white'/>
+
+                                {/* profile icon  */}
+                                <Profile iconColor='white'/>
                             </Box>
 
                             <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: "center", justifyContent: "flex-end" }}>
@@ -253,9 +225,6 @@ function Navbar() {
                     {renderMenu}
                 </Box>
             </div>
-            {/* <div className={styles.content}>
-                <Sidebar />
-            </div> */}
         </>
     );
 }

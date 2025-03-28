@@ -9,6 +9,9 @@
     display: flex;
     justify-content: center;
 
+    &Link{
+        text-decoration: none;
+    }
     &Element {
         border-radius: 10px;
         padding: 5px 0px;
@@ -35,18 +38,19 @@
         &Title {
             font-size: 12px;
             color: white;
+            text-decoration: none;
         }
 
     }
 }
 
 .active {
-    background-color: transparent;
+    background-color: lightblue;
     color: black;
     font-style: italic;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
     .navigation{
         display: none;
     }
