@@ -1,0 +1,34 @@
+// styling for button components
+.btnContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+}
+// styling for view details icon
+.vwbtn{
+    // padding: 3px 0px;
+    border-radius: 6px;
+    width: auto;
+    border:none;
+    background-color: white;
+&:hover{
+    cursor: pointer;
+    background-color: rgb(62, 111, 227);
+    color: white;
+    border: none;
+
+}}
+// Styling for delete icon
+.delbtn{
+    border:none;
+    background-color: white;
+    border-radius: 6px;
+    margin-left: 12px;
+    width: auto;
+&:hover{
+    cursor: pointer;
+    background-color: rgb(242, 27, 27);
+    color: white;
+}
+}
