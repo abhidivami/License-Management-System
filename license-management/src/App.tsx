@@ -7,6 +7,7 @@ import { AgGridTable } from './common/component/AgGridTable/index';
 import Navbar from './common/components/Navbar';
 import Sidebar from './common/components/Navbar/Sidebar';
 import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
+import DepartmentForm from './common/components/DepartmentForm';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<AgGridTable />} />
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
+            <Route path="/departmentForm" element={<DepartmentForm/>}/>
           </Routes>
         </div>
       </BrowserRouter>

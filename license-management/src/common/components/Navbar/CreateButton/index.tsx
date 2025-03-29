@@ -2,6 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import DepartmentForm from '../../DepartmentForm';
 
 function CreateButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -21,7 +22,7 @@ function CreateButton() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{bgcolor: "white", marginRight: "10px", width: "100px", color: "#27548A"}}
+        sx={{ bgcolor: "white", marginRight: "10px", width: "100px", color: "#27548A" }}
       >
         Create +
       </Button>
@@ -35,11 +36,13 @@ function CreateButton() {
         }}
       >
         <MenuItem onClick={handleClose}>License</MenuItem>
-        <MenuItem onClick={handleClose}>Department</MenuItem>
-        {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+        <MenuItem>
+          <DepartmentForm />
+          {/* Department */}
+        </MenuItem>
       </Menu>
     </div>
   );
 }
 
-export default  CreateButton;
+export default CreateButton;
