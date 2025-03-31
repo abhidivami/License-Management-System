@@ -29,6 +29,8 @@ const formSlice = createSlice({
     // To add License details
     addFormData: (state, action: PayloadAction<FormData>) => {
       state.push(action.payload); 
+
+      console.log("form details in store : ", state.length);
     },
     // To delete the formData
     removeFormData: (state, action: PayloadAction<number>) => {

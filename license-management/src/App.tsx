@@ -18,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<AgGridTable />} />
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
+            <Route path="/expired" element={<AgGridTable />} />
           </Routes>
         </div>
       </BrowserRouter>
