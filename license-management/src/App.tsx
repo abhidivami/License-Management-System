@@ -7,6 +7,7 @@ import { AgGridTable } from './common/component/AgGridTable/index';
 import Navbar from './common/components/Navbar';
 import Sidebar from './common/components/Navbar/Sidebar';
 import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
+import { LicenseForm } from './components/LicenseForm';
 
 function App() {
   return (
@@ -16,10 +17,12 @@ function App() {
         <div className="main">
           <Sidebar />
           <Routes>
-            <Route path="/" element={<AgGridTable page='home'/>} />
+            <Route path="/" element={<AgGridTable />} />
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
-            <Route path="/expired" element={<AgGridTable page='expired'/>} />
+            <Route path="/expired" element={<AgGridTable/>} />
           </Routes>
+          {/* <LicenseForm/>
+          <AgGridTable/> */}
         </div>
       </BrowserRouter>
     </Provider>
