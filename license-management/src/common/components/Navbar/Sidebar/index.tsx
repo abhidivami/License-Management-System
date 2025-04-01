@@ -17,7 +17,7 @@ function Sidebar() {
 
                 {/* home page */}
                 <Tooltip title='Home' placement={position}>
-                    <NavLink to='/home' className={styles.navigationLink}>
+                    <NavLink to='/' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
                             <button className={styles.navigationElementIcon}>
                                 <HomeIcon />
