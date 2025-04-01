@@ -194,10 +194,10 @@ function DepartmentForm() {
 
   return (
     <div>
-      {/* <p onClick={handleClickOpen}>Department</p> */}
-      <Button variant="contained" onClick={handleClickOpen}>
+      <p onClick={handleClickOpen}>Department</p>
+      {/* <Button variant="contained" onClick={handleClickOpen}>
         Department
-      </Button>
+      </Button> */}
       <Department
         open={open}
         onClose={handleClose}

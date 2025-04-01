@@ -1,6 +1,7 @@
 {
   "licenses": [
     {
+<<<<<<< HEAD
       "id": "1",
       "licenseName": "GitHub",
       "licenseType": "software",
@@ -105,6 +106,8 @@
       }
     },
     {
+=======
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
       "id": "4",
       "licenseName": "Apple MacBook Pro",
       "licenseType": "Hardware",
@@ -141,6 +144,7 @@
       }
     },
     {
+<<<<<<< HEAD
       "id": "5",
       "licenseName": "Google Workspace",
       "licenseType": "Software",
@@ -321,6 +325,8 @@
       }
     },
     {
+=======
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
       "id": "10",
       "licenseName": "Jira",
       "licenseType": "Hardware",
@@ -328,7 +334,11 @@
       "modalType": "Purchase",
       "totalSeats": 80,
       "purchaseDate": "2022-10-01",
+<<<<<<< HEAD
       "expirationDate": "2027-10-01",
+=======
+      "expirationDate": "2021-10-01",
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
       "shelfLife": "5",
       "departmentOwner": "Project Management",
       "departmentName": "Project Management",
@@ -355,6 +365,162 @@
           "70000"
         ]
       }
+<<<<<<< HEAD
+=======
+    },
+    {
+      "id": "670d",
+      "licenseName": "Mercedes",
+      "licenseType": "Hardware",
+      "modalType": "Subscription",
+      "subscriptionType": "Annual",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "basha@gmail.com",
+      "departmentOwner": "eshaa",
+      "departmentName": "HR",
+      "employeeName": "suryaa",
+      "totalSeats": "876",
+      "totalCost": "99",
+      "purchaseDate": "2025-04-04",
+      "expirationDate": "2025-05-03",
+      "shelfLife": ""
+    },
+    {
+      "id": "11f8",
+      "licenseName": "Audi",
+      "licenseType": "Cloud Services",
+      "modalType": "Subscription",
+      "subscriptionType": "Quarterly",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "bbb@gmil.com",
+      "departmentOwner": "suryaa",
+      "departmentName": "Sales",
+      "employeeName": "Neha",
+      "totalSeats": "12",
+      "totalCost": "29987",
+      "purchaseDate": "2025-04-01",
+      "expirationDate": "2025-08-08",
+      "shelfLife": ""
+    },
+    {
+      "id": "7a83",
+      "licenseName": "Copilot",
+      "licenseType": "API",
+      "modalType": "Subscription",
+      "subscriptionType": "Quarterly",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "basha@gmail.com",
+      "departmentOwner": "Gopal",
+      "departmentName": "IT",
+      "employeeName": "Kasi",
+      "totalSeats": "22",
+      "totalCost": "22999",
+      "purchaseDate": "2025-04-01",
+      "expirationDate": "2025-08-09",
+      "shelfLife": ""
+    },
+    {
+      "id": "223e",
+      "licenseName": "ChatGPT",
+      "licenseType": "Cloud Services",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "damu@gmail.com",
+      "departmentOwner": "Ganesh",
+      "departmentName": "IT",
+      "employeeName": "suryaa",
+      "totalSeats": "123",
+      "totalCost": "12107",
+      "purchaseDate": "2025-04-01",
+      "expirationDate": "2025-11-05",
+      "shelfLife": ""
+    },
+    {
+      "id": "db05",
+      "licenseName": "Figma",
+      "licenseType": "Software",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "Enterprise",
+      "billingEmail": "abhi@gmail.com",
+      "departmentOwner": "Ravi",
+      "departmentName": "Sales",
+      "employeeName": "Vijaya",
+      "totalSeats": "12",
+      "totalCost": "12999",
+      "purchaseDate": "2025-04-01",
+      "expirationDate": "2025-08-29",
+      "shelfLife": ""
+    },
+    {
+      "id": "c2a8",
+      "licenseName": "Postman",
+      "licenseType": "Software",
+      "modalType": "Subscription",
+      "subscriptionType": "Quarterly",
+      "subscriptionModel": "Enterprise",
+      "billingEmail": "bbb@gmil.com",
+      "departmentOwner": "Vinay",
+      "departmentName": "Finance",
+      "employeeName": "Neha",
+      "totalSeats": "43",
+      "totalCost": "76999",
+      "purchaseDate": "2025-04-01",
+      "expirationDate": "2025-08-22",
+      "shelfLife": ""
+    },
+    {
+      "id": "2ddf",
+      "licenseName": "FireBase",
+      "licenseType": "Software",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "Enterprise",
+      "billingEmail": "kasi@gmail.com",
+      "departmentOwner": "Vyshnavi",
+      "departmentName": "Finance",
+      "employeeName": "suryaa",
+      "totalSeats": "12",
+      "totalCost": "1404",
+      "purchaseDate": "2025-04-16",
+      "expirationDate": "2025-10-11",
+      "shelfLife": ""
+    },
+    {
+      "id": "2168",
+      "licenseName": "S3",
+      "licenseType": "Cloud Services",
+      "modalType": "Subscription",
+      "subscriptionType": "Quarterly",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "awsbasha@gmail.com",
+      "departmentOwner": "Gangadhar",
+      "departmentName": "IT",
+      "employeeName": "surya",
+      "totalSeats": "12",
+      "totalCost": "98888",
+      "purchaseDate": "2025-05-02",
+      "expirationDate": "2025-07-30",
+      "shelfLife": ""
+    },
+    {
+      "id": "49bb",
+      "licenseName": "S3",
+      "licenseType": "Cloud Services",
+      "modalType": "Subscription",
+      "subscriptionType": "Quarterly",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "awsbasha@gmail.com",
+      "departmentOwner": "Gangadhar",
+      "departmentName": "IT",
+      "employeeName": "surya",
+      "totalSeats": "12",
+      "totalCost": "98888",
+      "purchaseDate": "2025-05-02",
+      "expirationDate": "2025-07-30",
+      "shelfLife": ""
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     }
   ],
   "departments": [
@@ -387,6 +553,7 @@
       "name": "Finance",
       "owner": "Sophia Brown",
       "description": "Manages financial planning, analysis, budgeting, and accounting."
+<<<<<<< HEAD
     },
     {
       "id": "6",
@@ -411,6 +578,8 @@
       "name": "it ",
       "owner": "gopal",
       "description": "Which proves everything is possible"
+=======
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     }
   ],
   "Users": [
@@ -445,31 +614,51 @@
       "license_id": 1,
       "message": "microsoft office 365 expiring soon.please renew immediately",
       "notification_date": "2023-12-15",
+<<<<<<< HEAD
       "id": "1169"
+=======
+      "id": "7675"
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     },
     {
       "license_id": 2,
       "message": "Slack has expired. Please renew immediately.",
       "notification_date": "2023-06-01",
+<<<<<<< HEAD
       "id": "e596"
+=======
+      "id": "95ea"
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     },
     {
       "license_id": 3,
       "message": "GitHub subscription is about to expire. Renew by 2023-08-01.",
       "notification_date": "2023-07-15",
+<<<<<<< HEAD
       "id": "4005"
+=======
+      "id": "f9b9"
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     },
     {
       "license_id": 4,
       "message": "Adobe Photoshop license is expiring soon. Please renew by 2024-03-10.",
       "notification_date": "2024-02-25",
+<<<<<<< HEAD
       "id": "64fa"
+=======
+      "id": "ca53"
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     },
     {
       "license_id": 5,
       "message": "Zoom subscription will expire in 5 days. Renew by 2023-12-20.",
       "notification_date": "2023-12-15",
+<<<<<<< HEAD
       "id": "1d08"
+=======
+      "id": "3c70"
+>>>>>>> 2f3e35afd2c335a3b38145ff8350a61aae4dad75
     }
   ]
 }

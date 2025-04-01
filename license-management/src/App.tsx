@@ -7,7 +7,7 @@ import { AgGridTable } from './common/component/AgGridTable/index';
 import Navbar from './common/components/Navbar';
 import Sidebar from './common/components/Navbar/Sidebar';
 import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
-import DepartmentForm from './common/components/DepartmentForm';
+import { LicenseForm } from './components/LicenseForm';
 
 function App() {
   return (
@@ -19,8 +19,10 @@ function App() {
           <Routes>
             <Route path="/" element={<AgGridTable />} />
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
-            <Route path="/departmentForm" element={<DepartmentForm/>}/>
+            <Route path="/expired" element={<AgGridTable/>} />
           </Routes>
+          {/* <LicenseForm/>
+          <AgGridTable/> */}
         </div>
       </BrowserRouter>
     </Provider>
