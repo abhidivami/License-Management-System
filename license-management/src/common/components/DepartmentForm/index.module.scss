@@ -25,3 +25,13 @@
         }
     }
 }
+
+@media screen and (max-width: 670px){
+    .department{
+        width: 80vw;
+
+        &Creation{
+            font-size: 25px;
+        }
+    }
+}

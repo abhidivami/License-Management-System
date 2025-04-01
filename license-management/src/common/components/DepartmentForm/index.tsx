@@ -90,6 +90,9 @@ function Department(props: DepartmentProps) {
       owner: "",
       description: "",
     });
+
+    //consider there is no error
+    setDeptError(false);
     onClose();
   };
 
