@@ -16,8 +16,9 @@ function App() {
         <div className="main">
           <Sidebar />
           <Routes>
-            <Route path="/" element={<AgGridTable />} />
+            <Route path="/" element={<AgGridTable page='home'/>} />
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
+            <Route path="/expired" element={<AgGridTable page='expired'/>} />
           </Routes>
         </div>
       </BrowserRouter>
