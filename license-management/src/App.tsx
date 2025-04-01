@@ -7,7 +7,6 @@ import { AgGridTable } from './common/component/AgGridTable/index';
 import Navbar from './common/components/Navbar';
 import Sidebar from './common/components/Navbar/Sidebar';
 import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
-import { LicenseForm } from './components/LicenseForm';
 
 function App() {
   return (
