@@ -7,6 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import {LicenseForm} from '../../../../components/LicenseForm/index'; 
+import DepartmentForm from '../../DepartmentForm';
 
 function CreateButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -61,7 +62,7 @@ function CreateButton() {
         }}
       >
         <MenuItem onClick={handleOpenDialog}>License</MenuItem>
-        <MenuItem onClick={handleCloseMenu}>Department</MenuItem>
+        <MenuItem><DepartmentForm/></MenuItem>
       </Menu>
 
       {/* Dialog */}
