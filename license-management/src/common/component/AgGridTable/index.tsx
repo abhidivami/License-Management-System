@@ -365,11 +365,51 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       filter: true,
     },
     {
-      headerName: page == "expired" ? "Renew" : "Actions",
+      headerName: "Actions",
       field: "button",
-      cellRenderer: page != "expired" ? CustomButtonComponent : RenewButton,
+      cellRenderer: CustomButtonComponent,
     },
   ]);
+
+  //for expired page
+  const [columnDefs1, setColumnDefs1] = useState<ColDef[]>([
+    {
+      headerName: "License Name",
+      field: "licenseName",
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: "Modal Type",
+      field: "modalType",
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: "Department Name",
+      field: "departmentName",
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: "Total Cost",
+      field: "totalCost",
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: "License Status",
+      field: "LicenseStatus",
+      sortable: true,
+      filter: true,
+    },
+    {
+      headerName: "Renew",
+      field: "button",
+      cellRenderer: RenewButton,
+    },
+  ]);
+
 
   return (
     <Container
@@ -386,7 +426,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         {!showLicenseForm ?
           <AgGridReact
             rowData={page != "expired" ? formValues : expiredLicensesData}
-            columnDefs={columnDefs}
+            columnDefs={page != "expired" ? columnDefs : columnDefs1}
             pagination={true}
             paginationPageSize={10}
             paginationPageSizeSelector={[5, 15, 25, 35]}
@@ -399,7 +439,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
             ]}
           />
           :
-          <LicenseForm licenseData={licenseData} page='expired'/>
+          <LicenseForm licenseData={licenseData} page='expired' />
         }
       </div>
     </Container>
