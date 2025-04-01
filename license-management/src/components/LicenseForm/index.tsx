@@ -1,81 +1,14 @@
-// MyForm.tsx
-import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Select,
-  Box, Stack,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  InputAdornment,
-  SelectChangeEvent,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addFormData } from "../../Redux/Slice/LicenseForm/";
-
-// interface MyFormProps {
-//   onFormSubmit: (newData: any) => void;
-// }
+import axios from "axios";
 
 export const LicenseForm: React.FC = () => {
   const dispatch = useDispatch();
-  const [formData, setFormDataState] = useState({
-    licenseName: "",
-    licenseType: "",
-    modalType: "",
-    subscriptionType: "",
-    subscriptionModel: "",
-    billingEmail: "",
-    departmentOwner: "",
-    departmentName: "",
-    employeeName: "",
-    totalSeats: "",
-    totalCost: "",
-    purchaseDate: "",
-    expirationDate: "",
-    shelfLife: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormDataState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    const { name, value } = event.target;
-    setFormDataState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const calculateShelfLife = (expirationDate: string) => {
-    const today = new Date();
-    const expiry = new Date(expirationDate);
-    const timeDiff = expiry.getTime() - today.getTime();
-    const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-    return dayDiff;
-  };
-  // To handle the form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    // Dispatch the form data to Redux
-    dispatch(addFormData(formData));
-
-    // Optionally, pass data to parent or API call
-    // onFormSubmit(formData);
-
-    setFormDataState({
+  const { control, handleSubmit, setError, clearErrors, formState: { errors }, watch, setValue } = useForm({
+    defaultValues: {
       licenseName: "",
       licenseType: "",
       modalType: "",
@@ -90,53 +23,122 @@ export const LicenseForm: React.FC = () => {
       purchaseDate: "",
       expirationDate: "",
       shelfLife: "",
-    });
+    }
+  });
+
+  const [formDataState, setFormDataState] = useState({
+    shelfLife: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const formData = watch();
+
+  // Function to calculate shelf life in days
+  const calculateShelfLife = (expirationDate: string): number => {
+    const today = new Date();
+    const expiry = new Date(expirationDate);
+    const timeDiff = expiry.getTime() - today.getTime();
+    const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+    return dayDiff;
+  };
+
+  // Validation function for negative numbers
+  const validateNegativeValues = (value: string) => {
+    const number = parseFloat(value);
+    if (number < 0) {
+      return "Value cannot be negative";
+    }
+    return true;
+  };
+
+  // Validation for spaces 
+  const validateNoSpaces = (value: string) => {
+    if (!value.trim()) {
+      return "Please enter a valid name"; 
+    }
+    return true;
+  };
+
+  // Custom validation for date comparison
+  const validateDateOrder = (purchaseDate: string, expirationDate: string) => {
+    if (new Date(expirationDate) <= new Date(purchaseDate)) {
+      return "Expiration date must be later than purchase date";
+    }
+    return true;
+  };
+
+  // Submit handler
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+
+    // Dispatch to Redux 
+    dispatch(addFormData(data));
+
+    try {
+      // Make the API POST request using axios
+      const response = await axios.post("http://localhost:3034/licenses", data);  
+  
+      // If the request is successful, log the response or handle success
+      console.log("Form data submitted successfully:", response.data);
+
+      setFormDataState({ shelfLife: "" });
+  
+
+    } catch (error) {
+      // If the API call fails, log the error or handle failure
+      console.error("Error submitting form data:", error);
+    }
+
+    // Reset form data
+    clearErrors();
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (formData.expirationDate) {
+      const shelfLifeNumber = calculateShelfLife(formData.expirationDate);
+      setFormDataState((prevState) => ({
+        ...prevState,
+        shelfLife: shelfLifeNumber > 0 ? shelfLifeNumber.toString() : "0", 
+      }));
+    }
+  }, [formData.expirationDate]);
+
   return (
-    <Container
-      maxWidth="lg"
-      style={{
-        backgroundColor: "#f5f5f5",
-        padding: "2rem",
-        borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-      }}
-    >
-      <Typography
-        variant="h4"
-        gutterBottom
-        align="center"
-        style={{ color: "#00796b" }}
-      >
-        License Details Form
-      </Typography>
-      <form onSubmit={handleSubmit}>
+    <Container maxWidth="lg" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* License Name */}
-            <Box width={{ xs: "100%", md: "48%" }}>
+          {/* License Name */}
+          <Controller
+            name="licenseName"
+            control={control}
+            rules={{ validate: validateNoSpaces }}
+            render={({ field }) => (
               <TextField
+                {...field}
                 label="License Name"
-                name="licenseName"
-                value={formData.licenseName}
-                onChange={handleTextFieldChange}
                 fullWidth
                 required
                 margin="normal"
+                error={!!errors.licenseName}
+                helperText={errors.licenseName?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
-            </Box>
+            )}
+          />
 
-            {/* License Type */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <FormControl fullWidth margin="normal">
+          {/* License Type */}
+          <Controller
+            name="licenseType"
+            control={control}
+            render={({ field }) => (
+              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
                 <InputLabel>License Type</InputLabel>
                 <Select
-                  name="licenseType"
-                  value={formData.licenseType}
-                  onChange={handleSelectChange}
+                  {...field}
+                  label="License Type"
                   required
+                  error={!!errors.licenseType}
                 >
                   <MenuItem value="Software">Software</MenuItem>
                   <MenuItem value="Hardware">Hardware</MenuItem>
@@ -146,226 +148,265 @@ export const LicenseForm: React.FC = () => {
                   <MenuItem value="Virtual Machine">Virtual Machine</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
-          </Stack>
+            )}
+          />
 
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* Modal Type */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <FormControl fullWidth margin="normal">
+          {/* Modal Type */}
+          <Controller
+            name="modalType"
+            control={control}
+            render={({ field }) => (
+              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
                 <InputLabel>Modal Type</InputLabel>
                 <Select
-                  name="modalType"
-                  value={formData.modalType}
-                  onChange={handleSelectChange}
+                  {...field}
+                  label="Modal Type"
                   required
+                  error={!!errors.modalType}
                 >
                   <MenuItem value="Perpetual">Perpetual</MenuItem>
                   <MenuItem value="Subscription">Subscription</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
+            )}
+          />
 
-            {/* Subscription Model */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <FormControl fullWidth margin="normal">
+          {/* Subscription Type */}
+          {formData.modalType === "Subscription" && (
+            <Controller
+              name="subscriptionType"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
+                  <InputLabel>Subscription Type</InputLabel>
+                  <Select
+                    {...field}
+                    label="Subscription Type"
+                    required
+                    error={!!errors.subscriptionType}
+                  >
+                    <MenuItem value="Annual">Annual</MenuItem>
+                    <MenuItem value="Half-Yearly">Half-Yearly</MenuItem>
+                    <MenuItem value="Quarterly">Quarterly</MenuItem>
+                    <MenuItem value="Monthly">Monthly</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
+          )}
+
+          {/* Subscription Model */}
+          <Controller
+            name="subscriptionModel"
+            control={control}
+            render={({ field }) => (
+              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
                 <InputLabel>Subscription Model</InputLabel>
                 <Select
-                  name="subscriptionModel"
-                  value={formData.subscriptionModel}
-                  onChange={handleSelectChange}
+                  {...field}
+                  label="Subscription Model"
                   required
+                  error={!!errors.subscriptionModel}
                 >
                   <MenuItem value="UserBased">User-Based</MenuItem>
                   <MenuItem value="Enterprise">Enterprise</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
-          </Stack>
+            )}
+          />
 
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* Subscription Type */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <FormControl fullWidth margin="normal">
-                <InputLabel>Subscription Type</InputLabel>
-                <Select
-                  name="subscriptionType"
-                  value={formData.subscriptionType}
-                  onChange={handleSelectChange}
-                  required
-                >
-                  <MenuItem value="Monthly">Monthly</MenuItem>
-                  <MenuItem value="Quarterly">Quarterly</MenuItem>
-                  <MenuItem value="Half-Yearly">Half-Yearly</MenuItem>
-                  <MenuItem value="Annually">Annually</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-
-            {/* Billing Email */}
-            <Box width={{ xs: "100%", md: "48%" }}>
+          {/* Billing Email */}
+          <Controller
+            name="billingEmail"
+            control={control}
+            render={({ field }) => (
               <TextField
+                {...field}
                 label="Billing Email"
-                name="billingEmail"
                 type="email"
-                value={formData.billingEmail}
-                onChange={handleTextFieldChange}
                 fullWidth
                 required
                 margin="normal"
+                error={!!errors.billingEmail}
+                helperText={errors.billingEmail?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
-            </Box>
-          </Stack>
+            )}
+          />
 
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* Department Name */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <FormControl fullWidth margin="normal">
+          {/* Department Owner */}
+          <Controller
+            name="departmentOwner"
+            control={control}
+            rules={{ validate: validateNoSpaces }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Department Head"
+                fullWidth
+                required
+                margin="normal"
+                error={!!errors.departmentOwner}
+                helperText={errors.departmentOwner?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
+              />
+            )}
+          />
+
+          {/* Department Name */}
+          <Controller
+            name="departmentName"
+            control={control}
+            render={({ field }) => (
+              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
                 <InputLabel>Department Name</InputLabel>
                 <Select
-                  name="departmentName"
-                  value={formData.departmentName}
-                  onChange={handleSelectChange}
+                  {...field}
+                  label="Department Type"
                   required
+                  error={!!errors.departmentName}
                 >
                   <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="Design">Design</MenuItem>
-                  <MenuItem value="SE">SE</MenuItem>
-                  <MenuItem value="QA">QA</MenuItem>
-                  <MenuItem value="Devops">Devops</MenuItem>
+                  <MenuItem value="IT">IT</MenuItem>
                   <MenuItem value="Sales">Sales</MenuItem>
+                  <MenuItem value="Finance">Finance</MenuItem>
                   <MenuItem value="Marketing">Marketing</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
+            )}
+          />
 
-            {/* Department Owner */}
-            <Box width={{ xs: "100%", md: "48%" }}>
+          {/* Employee Name */}
+          <Controller
+            name="employeeName"
+            control={control}
+            rules={{ validate: validateNoSpaces }}
+            render={({ field }) => (
               <TextField
-                label="Department Owner"
-                name="departmentOwner"
-                value={formData.departmentOwner}
-                onChange={handleTextFieldChange}
-                fullWidth
-                margin="normal"
-              />
-            </Box>
-          </Stack>
-
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* Employee Name */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <TextField
+                {...field}
                 label="Employee Name"
-                name="employeeName"
-                value={formData.employeeName}
-                onChange={handleTextFieldChange}
                 fullWidth
+                required
                 margin="normal"
+                error={!!errors.employeeName}
+                helperText={errors.employeeName?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
-            </Box>
+            )}
+          />
 
-            {/* Total Seats */}
-            <Box width={{ xs: "100%", md: "48%" }}>
+          {/* Total Seats */}
+          <Controller
+            name="totalSeats"
+            control={control}
+            rules={{ validate: validateNegativeValues }}
+            render={({ field }) => (
               <TextField
+                {...field}
                 label="Total Seats"
-                name="totalSeats"
                 type="number"
-                value={formData.totalSeats}
-                onChange={handleTextFieldChange}
                 fullWidth
+                required
                 margin="normal"
+                error={!!errors.totalSeats}
+                helperText={errors.totalSeats?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
-            </Box>
-          </Stack>
+            )}
+          />
 
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* Total Cost */}
-            <Box width={{ xs: "100%", md: "48%" }}>
+          {/* Total Cost */}
+          <Controller
+            name="totalCost"
+            control={control}
+            rules={{ validate: validateNegativeValues }}
+            render={({ field }) => (
               <TextField
+                {...field}
                 label="Total Cost"
-                name="totalCost"
                 type="number"
-                value={formData.totalCost}
-                onChange={handleTextFieldChange}
                 fullWidth
+                required
                 margin="normal"
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
                 }}
+                error={!!errors.totalCost}
+                helperText={errors.totalCost?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
-            </Box>
+            )}
+          />
 
-            {/* Purchase Date */}
-            <Box width={{ xs: "100%", md: "48%" }}>
+          {/* Purchase Date */}
+          <Controller
+            name="purchaseDate"
+            control={control}
+            render={({ field }) => (
               <TextField
+                {...field}
                 label="Purchase Date"
-                name="purchaseDate"
                 type="date"
-                value={formData.purchaseDate}
-                onChange={handleTextFieldChange}
                 fullWidth
+                required
                 margin="normal"
                 InputLabelProps={{ shrink: true }}
+                error={!!errors.purchaseDate}
+                helperText={errors.purchaseDate?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
-            </Box>
-          </Stack>
+            )}
+          />
 
-          <Stack direction="row" spacing={3} flexWrap="wrap">
-            {/* Expiration Date */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <TextField
-                label="Expiration Date"
-                name="expirationDate"
-                type="date"
-                value={formData.expirationDate}
-                onChange={handleTextFieldChange}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Box>
-
-            {/* Shelf Life */}
-            <Box width={{ xs: "100%", md: "48%" }}>
-              <TextField
-                label="Shelf Life (in days)"
-                name="shelfLife"
-                value={calculateShelfLife(formData.expirationDate)}
-                disabled
-                fullWidth
-                margin="normal"
-              />
-            </Box>
-          </Stack>
-
-          {/* Submit Button */}
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{
-
-              justifyContent: 'end',
-              marginTop: "4px",
+          {/* Expiration Date */}
+          <Controller
+            name="expirationDate"
+            control={control}
+            rules={{
+              validate: (value) => validateDateOrder(formData.purchaseDate, value),
             }}
-          >
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Expiration Date"
+                type="date"
+                fullWidth
+                required
+                margin="normal"
+                InputLabelProps={{ shrink: true }}
+                error={!!errors.expirationDate}
+                helperText={errors.expirationDate?.message}
+                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
+              />
+            )}
+          />
+
+          {/* Shelf Life */}
+          <TextField
+            label="Shelf Life (in days)"
+            value={formDataState.shelfLife}
+            disabled
+            fullWidth
+            margin="normal"
+            sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
+          />
+
+          {/* Action Buttons */}
+          <Stack direction="row" spacing={2} sx={{ justifyContent: "flex-end", marginTop: "16px" }}>
             <Button
               variant="contained"
-              color="inherit"
+              color="primary"
               type="submit"
               disabled={loading}
-              sx={{ width: "99px" }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              type="submit"
-              disabled={loading}
-              sx={{ padding: "8px 0px", width: "99px" }}
+              sx={{
+                width: "120px",
+                fontWeight: 600,
+                backgroundColor: "#1976d2",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#1565c0",
+                },
+              }}
             >
               {loading ? "Submitting..." : "Create"}
             </Button>

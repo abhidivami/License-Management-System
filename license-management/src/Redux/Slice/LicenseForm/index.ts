@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Interface for  form data
 interface FormData {
+  id: number;
   licenseName: string;
   licenseType: string;
   modalType: string;
@@ -33,11 +34,15 @@ const formSlice = createSlice({
       console.log("form details in store : ", state.length);
     },
     // To delete the formData
+    // removeFormData: (state, action: PayloadAction<number>) => {
+    //   const index = action.payload;
+    //   if (index >= 0 && index < state.length) {
+    //     state.splice(index, 1); 
+    //   }
+    // },
     removeFormData: (state, action: PayloadAction<number>) => {
-      const index = action.payload;
-      if (index >= 0 && index < state.length) {
-        state.splice(index, 1); 
-      }
+      // Filter out the item based on the id to remove the item from the state
+      return state.filter((formData) => formData.id !== action.payload);
     },
     // To clear the license form
     clearFormData: () => initialState, 
