@@ -19,8 +19,10 @@ import { useDispatch } from "react-redux";
 import { addFormData, removeFormData } from "../../../Redux/Slice/LicenseForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store/index";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import { LicenseForm } from "../../../components/LicenseForm";
+
+
 
 // Register the filter modules
 ModuleRegistry.registerModules([
@@ -52,7 +54,7 @@ export const AgGridTable: React.FC = () => {
   const [licenseData, setLicenseData] = useState({});
 
   //to handle expired page
-  // const expired = useMatch('/expired');
+  const expired = useMatch('/expired');
   const [expiredLicensesData, setExpiredLicensesData] = useState<RowData[]>([]);
 
   useEffect(() => {
@@ -64,13 +66,13 @@ export const AgGridTable: React.FC = () => {
           // to get current day's date
           const today = new Date();
           const todayDate = today.toISOString().split("T")[0];
- // Update LicenseStatus based on expirationDate comparison with current day's date
+          // Update LicenseStatus based on expirationDate comparison with current day's date
           const updatedRowData = response.data.map((item: any) => {
             const isActive =
               item.expirationDate >= todayDate ? "Active" : "Expired";
             return {
               ...item,
-              LicenseStatus: isActive, 
+              LicenseStatus: isActive,
             };
           });
 
@@ -97,6 +99,14 @@ export const AgGridTable: React.FC = () => {
               })
             );
           });
+
+          //for expired page
+          setExpiredLicensesData(updatedRowData.filter((license: any) => {
+            if (license.LicenseStatus == "Expired") {
+              return true;
+            }
+            return false;
+          }))
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -113,7 +123,7 @@ export const AgGridTable: React.FC = () => {
 
   const handleDeleteClick = (data: RowData) => {
     dispatch(removeFormData(data.id));
-  // API call to delete from the backend [API]
+    // API call to delete from the backend [API]
     axios
       .delete(`http://localhost:3034/licenses/${data.id}`)
       .then((response) => {
@@ -137,6 +147,21 @@ export const AgGridTable: React.FC = () => {
       </div>
     );
   };
+
+  const RenewButton = (props: any) => {
+    const { data } = props;
+    console.log("renew data", data);
+
+    const openLicenseForm = (data: any) => {
+      //to display license form by clicking on renew button
+      setShowLicenseForm(true);
+      setLicenseData(data);
+    }
+
+    return (
+      <button className={styles.renew} onClick={() => openLicenseForm(data)}>Renew</button>
+    );
+  }
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
@@ -214,11 +239,11 @@ export const AgGridTable: React.FC = () => {
       sortable: true,
       filter: true,
     },
-    // {
-    //   headerName: "Renew",
-    //   field: "button",
-    //   cellRenderer: RenewButton,
-    // },
+    {
+      headerName: "Renew",
+      field: "button",
+      cellRenderer: RenewButton,
+    },
   ]);
 
 
@@ -231,20 +256,24 @@ export const AgGridTable: React.FC = () => {
         className="ag-theme-quartz"
         style={{ height: "650px", width: "100%" }}
       >
-        <AgGridReact
-          rowData={formValues} 
-          columnDefs={columnDefs}
-          pagination={true}
-          paginationPageSize={10}
-          paginationPageSizeSelector={[5, 15, 25, 35]}
-          modules={[
-            ClientSideRowModelModule,
-            TextFilterModule,
-            NumberFilterModule,
-            PaginationModule,
-            RowSelectionModule,
-          ]}
-        />
+        {!showLicenseForm ?
+          <AgGridReact
+            rowData={expired == null ? formValues : expiredLicensesData}
+            columnDefs={expired == null ? columnDefs : columnDefs1}
+            pagination={true}
+            paginationPageSize={10}
+            paginationPageSizeSelector={[5, 15, 25, 35]}
+            modules={[
+              ClientSideRowModelModule,
+              TextFilterModule,
+              NumberFilterModule,
+              PaginationModule,
+              RowSelectionModule,
+            ]}
+          />
+          :
+          <LicenseForm licenseData={licenseData} page='expired'/>
+        }
       </div>
     </Container>
   );
