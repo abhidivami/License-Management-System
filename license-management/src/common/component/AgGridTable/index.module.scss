@@ -2,7 +2,9 @@
 .btnContainer{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
+    gap:20px;
+    padding:5px;
     
 }
 // styling for view details icon

@@ -30,6 +30,7 @@ body {
     gap: 20px;
     border-radius:10px;
     position:sticky;
+    justify-content:space-between;
 }
 
 .detailedViewCardHeaderInfoButton,
@@ -194,5 +195,12 @@ body {
     border-radius:5px;
     padding:10px;
     cursor:pointer;
+  }
+
+  .detailedViewCardHeaderBackButton{
+    background-color: red !important;
+    border-radius:10px;
+    color:white;
+
   }
   

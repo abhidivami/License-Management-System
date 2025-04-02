@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useForm, Controller } from "react-hook-form";
-import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment } from "@mui/material";
+import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, Snackbar } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addFormData } from "../../Redux/Slice/LicenseForm/";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
-export const LicenseForm: React.FC = () => {
+
+type LicenceformProps ={
+  close : () =>void;
+}
+
+export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformProps) => {
   const dispatch = useDispatch();
   const { control, handleSubmit, setError, clearErrors, formState: { errors }, watch, setValue } = useForm({
     defaultValues: {
+      licenseId: "",
       licenseName: "",
       licenseType: "",
       modalType: "",
@@ -26,6 +33,10 @@ export const LicenseForm: React.FC = () => {
     }
   });
 
+  const notify = () => toast("Record Added Successfully");
+
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   const [formDataState, setFormDataState] = useState({
     shelfLife: "",
   });
@@ -40,7 +51,7 @@ export const LicenseForm: React.FC = () => {
     const timeDiff = expiry.getTime() - today.getTime();
     const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
     return dayDiff;
-  };
+  }
 
   // Validation function for negative numbers
   const validateNegativeValues = (value: string) => {
@@ -69,23 +80,19 @@ export const LicenseForm: React.FC = () => {
 
   // Submit handler
   const onSubmit = async (data: any) => {
+    data.id =  Math.floor(Math.random() * 1000000);
     setLoading(true);
-
-    // Dispatch to Redux 
     dispatch(addFormData(data));
 
     try {
-      // Make the API POST request using axios
-      const response = await axios.post("http://localhost:3034/licenses", data);  
-  
-      // If the request is successful, log the response or handle success
+      const response = await axios.post("http://localhost:3005/licenses", data);  
       console.log("Form data submitted successfully:", response.data);
-
       setFormDataState({ shelfLife: "" });
-  
-
+      setIsModalOpen(false);
+      notify(); 
+      close(); 
+      
     } catch (error) {
-      // If the API call fails, log the error or handle failure
       console.error("Error submitting form data:", error);
     }
 
@@ -104,8 +111,10 @@ export const LicenseForm: React.FC = () => {
     }
   }, [formData.expirationDate]);
 
+
   return (
-    <Container maxWidth="lg" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+    isModalOpen && (
+      <Container maxWidth="lg" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
           {/* License Name */}
@@ -406,7 +415,7 @@ export const LicenseForm: React.FC = () => {
                 "&:hover": {
                   backgroundColor: "#1565c0",
                 },
-              }}
+              }}  
             >
               {loading ? "Submitting..." : "Create"}
             </Button>
@@ -414,5 +423,6 @@ export const LicenseForm: React.FC = () => {
         </Stack>
       </form>
     </Container>
+    )
   );
 };

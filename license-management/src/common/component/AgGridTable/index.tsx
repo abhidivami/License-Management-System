@@ -1,9 +1,10 @@
-import { Container, Typography } from "@mui/material";
+import { Container} from "@mui/material";
+import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 import {
   ClientSideRowModelModule,
   TextFilterModule,
@@ -16,11 +17,12 @@ import { ModuleRegistry } from "ag-grid-community";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ColDef } from "ag-grid-community";
 import { useDispatch } from "react-redux";
-import { addFormData, removeFormData } from "../../../Redux/Slice/LicenseForm";
+import {removeFormData, setData } from "../../../Redux/Slice/LicenseForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store/index";
 import { useNavigate } from "react-router-dom";
 import { LicenseForm } from "../../../components/LicenseForm";
+import { toast } from "react-toastify";
 
 // Register the filter modules
 ModuleRegistry.registerModules([
@@ -38,19 +40,32 @@ type RowData = {
   modalType: string;
   billingEmail: string;
   totalCost: string;
+  totalSeats:string | number;
   LicenseStatus: string;
   departmentName: string;
 };
 
-export const AgGridTable: React.FC = () => {
-  const dispatch = useDispatch();
-  // To access data from redux
+//in order to display renew button in expired page
+interface TableProps {
+  page: string;
+}
+
+export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
+
+  //to get details about current page
+  const { page } = props;
+  const [rowData, setRowData] = useState<RowData[]>([]);
   const formValues = useSelector((state: RootState) => state.form);
+  const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedLicenseId, setSelectedLicenseId] = useState<string | null>(null);
+
 
   //to display license form by clicking on renew button with respective data
   const [showLicenseForm, setShowLicenseForm] = useState<boolean>(false);
   const [licenseData, setLicenseData] = useState({});
 
+  const notify = () => toast("Record Deleted Successfully!");
   //to handle expired page
   // const expired = useMatch('/expired');
   const [expiredLicensesData, setExpiredLicensesData] = useState<RowData[]>([]);
@@ -58,71 +73,98 @@ export const AgGridTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check if data is already present in Redux store before fetching
-        if (formValues.length === 0) {
-          const response = await axios.get("http://localhost:3034/licenses");
-          // to get current day's date
-          const today = new Date();
-          const todayDate = today.toISOString().split("T")[0];
- // Update LicenseStatus based on expirationDate comparison with current day's date
-          const updatedRowData = response.data.map((item: any) => {
-            const isActive =
-              item.expirationDate >= todayDate ? "Active" : "Expired";
-            return {
-              ...item,
-              LicenseStatus: isActive, 
-            };
-          });
+        const response = await axios.get("http://localhost:3005/licenses");
+        console.log("API Response Data: ", response.data);
 
-          // Dispatch data to Redux if not already present
-          updatedRowData.forEach((item: any) => {
-            dispatch(
-              addFormData({
-                id: item.id,
-                licenseName: item.licenseName,
-                licenseType: item.licenseType,
-                modalType: item.modalType,
-                subscriptionType: item.subscriptionType,
-                subscriptionModel: item.subscriptionModel,
-                billingEmail: item.billingEmail,
-                departmentOwner: item.departmentOwner,
-                departmentName: item.departmentName,
-                employeeName: item.employeeName,
-                totalSeats: item.totalSeats,
-                totalCost: item.totalCost,
-                purchaseDate: item.purchaseDate,
-                expirationDate: item.expirationDate,
-                shelfLife: item.shelfLife,
-                LicenseStatus: item.LicenseStatus,
-              })
-            );
-          });
-        }
+        const updatedRowData = response.data.map((item: any) => ({
+          ...item,
+          LicenseStatus: parseInt(item.shelfLife, 10) < 0 ? "Expired" : "Active",
+          totalseats:Number(item.totalSeats),
+          shelfLife: parseInt(item.shelfLife, 10),
+        }));
+
+        setRowData(updatedRowData);
+
+        //store current date in order to calculate expired licenses
+        const currDate = new Date();
+        // store expired data
+        setExpiredLicensesData(updatedRowData.map((license: any) => {
+          const expiredDate = new Date(license.expirationDate);
+          const timeDiff = currDate.getTime() - expiredDate.getTime();
+          if (timeDiff > 0) {
+            //expiration date over
+            return { ...license, LicenseStatus: "Expired" };
+          }
+          else {
+            return { ...license, LicenseStatus: "Active" };
+          }
+        }).filter((license: any) => {
+          if (license.LicenseStatus == "Expired") {
+            //store expired licenses
+            return true;
+          }
+          return false;
+        }));
+        dispatch(setData(response.data)); 
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, [dispatch, formValues.length]);
-
+  }, [dispatch]);
   const navigate = useNavigate();
-  const handleViewClick = (rowData: any) => {
+ 
+  console.log("Data in the redux State :", formValues);
+  const handleViewClick = (rowData: RootState) => {
     navigate("/detailedView", { state: { rowData } });
   };
 
-  const handleDeleteClick = (data: RowData) => {
-    dispatch(removeFormData(data.id));
-  // API call to delete from the backend [API]
-    axios
-      .delete(`http://localhost:3034/licenses/${data.id}`)
-      .then((response) => {
-        console.log("Record deleted successfully", response.data);
-      })
-      .catch((error) => {
-        console.error("Error deleting the row", error);
-      });
+  const handleDeleteClick = (rowData: RowData) => {
+    if (rowData.id) {
+      setSelectedLicenseId(rowData.id);
+      setOpenDialog(true);
+    } else {
+      console.error("License ID not found.");
+    }
   };
+
+  const confirmDelete = () => {
+    if (selectedLicenseId) {
+      // Delete from Redux state
+      dispatch(removeFormData(selectedLicenseId));
+  
+      // Delete from the server
+      axios.delete(`http://localhost:3005/licenses/${selectedLicenseId}`)
+        .then(() => {
+          setRowData(prevData => prevData.filter(item => item.id !== selectedLicenseId));
+          console.log("Data deleted successfully");
+        })
+        .catch((error) => {
+          console.error("Error deleting data:", error);
+        })
+        .finally(() => {
+          setOpenDialog(false);
+          setSelectedLicenseId(null);
+        });
+        notify();
+    }
+  };
+  
+  
+  
+  const RenewButton = (props: any) => {
+    const { data } = props;
+    console.log("renew data", data);
+    const openLicenseForm = (data: any) => {
+      setShowLicenseForm(true);     
+      setLicenseData(data);
+    }
+
+    return (
+      <button className={styles.renew} onClick={() => openLicenseForm(data)}>Renew</button>
+    );
+  }
 
   const CustomButtonComponent = (props: any) => {
     const { data } = props;
@@ -132,7 +174,7 @@ export const AgGridTable: React.FC = () => {
           <View onClick={() => handleViewClick(data)} />
         </button>
         <button className={styles.delbtn}>
-          <DeleteIcon onClick={() => handleDeleteClick(data)} />
+          <DeleteIcon onClick={()=>handleDeleteClick(data)}/>
         </button>
       </div>
     );
@@ -144,41 +186,69 @@ export const AgGridTable: React.FC = () => {
       field: "licenseName",
       sortable: true,
       filter: true,
+      // flex:1,
     },
     {
       headerName: "Modal Type",
       field: "modalType",
       sortable: true,
       filter: true,
+      flex:1,
     },
     {
       headerName: "Department Name",
       field: "departmentName",
       sortable: true,
       filter: true,
+      flex:1,
+    },
+    {
+      headerName: "Department Owner",
+      field: "departmentOwner",
+      sortable: true,
+      filter: true,
+      // flex:1,
+    },
+    {
+      headerName: "Total Seats",
+      field: "totalSeats",
+      sortable: true,
+      filter: true,
+      flex:1,
     },
     {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
+      flex:1,
+    },
+    {
+      headerName:"Purchase Date",
+      field:"purchaseDate",
+      sortable: true,
+      filter: true,
+      flex:1,
     },
     {
       headerName: "Expiration Date",
       field: "expirationDate",
       sortable: true,
       filter: true,
+      flex:1
     },
     {
       headerName: "License Status",
       field: "LicenseStatus",
       sortable: true,
       filter: true,
+      flex:1,
     },
     {
       headerName: "Actions",
       field: "button",
       cellRenderer: CustomButtonComponent,
+      flex:1
     },
   ]);
 
@@ -195,6 +265,7 @@ export const AgGridTable: React.FC = () => {
       field: "modalType",
       sortable: true,
       filter: true,
+      
     },
     {
       headerName: "Department Name",
@@ -203,49 +274,73 @@ export const AgGridTable: React.FC = () => {
       filter: true,
     },
     {
+      headerName: "Department Owner",
+      field:"departmentOwner",
+      sortable:true,
+      filter:true,
+    },
+    {
+      headerName: "Total seats",
+      field: "totalSeats",
+      sortable: true,
+      filter: true,
+      flex:1
+    },
+    {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
+      flex:1
     },
     {
-      headerName: "License Status",
-      field: "LicenseStatus",
+      headerName: "Expired Date",
+      field: "expirationDate",
       sortable: true,
       filter: true,
     },
-    // {
-    //   headerName: "Renew",
-    //   field: "button",
-    //   cellRenderer: RenewButton,
-    // },
+    {
+      headerName: "Renew",
+      field: "button",
+      cellRenderer: RenewButton,
+      flex:1
+    },
   ]);
 
 
   return (
     <Container
       maxWidth="xl"
-      style={{ paddingTop: "2rem", overflowY: "scroll" }}
-    >
-      <div
-        className="ag-theme-quartz"
-        style={{ height: "650px", width: "100%" }}
-      >
-        <AgGridReact
-          rowData={formValues} 
-          columnDefs={columnDefs}
-          pagination={true}
-          paginationPageSize={10}
-          paginationPageSizeSelector={[5, 15, 25, 35]}
-          modules={[
-            ClientSideRowModelModule,
-            TextFilterModule,
-            NumberFilterModule,
-            PaginationModule,
-            RowSelectionModule,
-          ]}
-        />
+      style={{
+        paddingTop: "2rem",
+        overflowY: "scroll"
+      }}>
+
+      <div className="ag-theme-quartz" style={{ height: "590px", width: "100%" }}>
+        {!showLicenseForm ?
+          <AgGridReact
+            rowData={page != "expired" ? formValues : expiredLicensesData}
+            columnDefs={page != "expired" ? columnDefs : columnDefs1}
+            pagination={true}
+            paginationPageSize={10}
+            paginationPageSizeSelector={[5, 15, 25, 35]}
+            modules={[
+              ClientSideRowModelModule,
+              TextFilterModule,
+              NumberFilterModule,
+              PaginationModule,
+              RowSelectionModule,
+            ]}
+          />
+          :
+          <LicenseForm licenseData={licenseData} page='expired' />
+        }
       </div>
+      <ConfirmationDialog open={openDialog} onClose={() => setOpenDialog(false)} onConfirm={confirmDelete} 
+      title="Confirm Deletion"
+      message="Are you sure you want to delete this license? This action cannot be undone."
+/>
     </Container>
   );
 };
+
