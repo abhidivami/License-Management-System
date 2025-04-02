@@ -51,7 +51,7 @@ const formSlice = createSlice({
       }));
     },
   },
-});
+}); 
 
 // Export the actions and reducer
 export const { addFormData, removeFormData, clearFormData, setData } = formSlice.actions;
