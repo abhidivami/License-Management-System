@@ -1,4 +1,3 @@
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Interface for  form data
@@ -13,25 +12,24 @@ interface FormData {
   departmentOwner: string;
   departmentName: string;
   employeeName: string;
-  totalSeats: string;
+  totalSeats: string | number;
   totalCost: string;
   purchaseDate: string;
   expirationDate: string;
-  shelfLife: string;
-  LicenseStatus ?: string;
+  shelfLife: string | number;
+  LicenseStatus?: string;
 }
+
 // Initial state for the license form
 const initialState: FormData[] = [];
+
 // License form slice creation
 const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    // To add License details
     addFormData: (state, action: PayloadAction<FormData>) => {
-      state.push(action.payload); 
-
-      console.log("form details in store : ", state.length);
+      state.push(action.payload);
     },
     // To delete the formData
     // removeFormData: (state, action: PayloadAction<number>) => {
@@ -44,11 +42,17 @@ const formSlice = createSlice({
       // Filter out the item based on the id to remove the item from the state
       return state.filter((formData) => formData.id !== action.payload);
     },
-    // To clear the license form
-    clearFormData: () => initialState, 
+    clearFormData: () => initialState,
+    setData: (state, action: PayloadAction<FormData[]>) => {
+      return action.payload.map((item) => ({
+        ...item,
+        LicenseStatus: item.expirationDate < new Date().toISOString() ? 'Expired' : 'Active',
+        shelfLife: item.shelfLife, 
+      }));
+    },
   },
 });
 
 // Export the actions and reducer
-export const { addFormData, removeFormData, clearFormData } = formSlice.actions;
+export const { addFormData, removeFormData, clearFormData, setData } = formSlice.actions;
 export default formSlice.reducer;
