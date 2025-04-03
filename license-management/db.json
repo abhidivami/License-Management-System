@@ -174,8 +174,8 @@
       "employeeName": "suryaa",
       "totalSeats": 12,
       "totalCost": "1404",
-      "purchaseDate": "2025-04-16",
-      "expirationDate": "2025-10-11",
+      "purchaseDate": "2025-03-16",
+      "expirationDate": "2025-04-10",
       "shelfLife": ""
     },
     {
@@ -191,8 +191,8 @@
       "employeeName": "surya",
       "totalSeats": 12,
       "totalCost": "98888",
-      "purchaseDate": "2025-05-02",
-      "expirationDate": "2025-07-30",
+      "purchaseDate": "2025-03-02",
+      "expirationDate": "2025-04-01",
       "shelfLife": ""
     },
     {
@@ -233,24 +233,6 @@
       "expirationDate": "2025-04-24",
       "shelfLife": 5,
       "id": "281741"
-    },
-    {
-      "licenseId": "176507",
-      "licenseName": "unknown",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "unknown@gmail.com",
-      "departmentOwner": "Project Management",
-      "departmentName": "HR",
-      "employeeName": "unknown1",
-      "totalSeats": 12,
-      "totalCost": "123456",
-      "purchaseDate": "2025-04-04",
-      "expirationDate": "2025-04-30",
-      "shelfLife": "",
-      "id": "176507"
     }
   ],
   "departments": [

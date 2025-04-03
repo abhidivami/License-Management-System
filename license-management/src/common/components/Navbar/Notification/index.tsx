@@ -19,7 +19,7 @@ function Notification(props: NotificationProps) {
     
     const [notification,setNotification]=useState([])
    React.useEffect(()=>{
-    axios.get('http://localhost:3034/notifications')
+    axios.get('http://localhost:3005/notifications')
     .then(Response=>{setNotification(Response.data);
       console.log('fetch notification',Response.data.notification)
      })
@@ -43,7 +43,7 @@ function Notification(props: NotificationProps) {
     }
 
     const DrawerList = (
-        <Box sx={{ width: iconColor == "black" ? 320 : 400, margin:'10px', boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.6)",borderRadius:"10px" , background:'white'  }} role="Notification" onClick={toggleDrawer(false)}>
+        <Box sx={{ width: iconColor == "black" ? 320 : 400, margin:'10px', boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.6)",borderRadius:"10px" , background:'white'  }} role="Notification" >
             <div className={styles.notifications}>
                 <div className={styles.notificationsHeading}>
                     <h4>Notifications</h4>
@@ -62,7 +62,7 @@ function Notification(props: NotificationProps) {
                 </div> */}
                 {
                     notification.map((item: any, index) => (
-                        <Card key={index} sx={{ margin:'10px', boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.6)" ,borderRadius:'15px' }}>
+                        <Card key={index} sx={{ margin:'10px', boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.6)" ,borderRadius:'15px', cursor: 'pointer' }} onClick={()=>toggleDrawer(item)}>
                             <CardContent>
                                 <p>{item.message}</p>
                                 <p style={{opacity:0.8,paddingTop:'10px'}}><b>{item.notification_date}</b></p>

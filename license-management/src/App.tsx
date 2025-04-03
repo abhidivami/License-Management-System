@@ -24,6 +24,7 @@ function App() {
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/expired" element={<AgGridTable page="expired" />} />
+            <Route path="/expiring" element={<AgGridTable page="expiring" />} />
           </Routes>
           {/* <LicenseForm/>
           <AgGridTable/> */}

@@ -70,6 +70,10 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   // const expired = useMatch('/expired');
   const [expiredLicensesData, setExpiredLicensesData] = useState<RowData[]>([]);
 
+  //to handle expiring soon page 
+  const [expiringsoonData,setExpiringsoonData]= useState<RowData[]>([]);
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -152,7 +156,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     setShowLicenseForm(false); 
   };
 
-  const currDate = new Date();
+ // const currDate = new Date();
   const dataFromRedux = useSelector((state:any)=>state.form);
   // AgGridTable.tsx
   useEffect(() => {
@@ -164,6 +168,24 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     setExpiredLicensesData(expiredLicenses);
   }, [dataFromRedux]); // Add dataFromRedux as a dependency
   
+
+ 
+   useEffect(() => {
+    console.log('data from redux expiring soon',dataFromRedux);
+    
+    const currentDate=new Date();
+    const expiringSoonLicenses=dataFromRedux.filter((item:any) => {
+      const expiringSoonDate=new Date(item.expirationDate)
+      const ExpirationInDays = (expiringSoonDate - currentDate)/1000/60/60/24;
+      return ExpirationInDays>=0  &&  ExpirationInDays<=10
+    });
+    setExpiringsoonData(expiringSoonLicenses)
+    console.log('expiring soon licenses',expiringSoonLicenses);
+   },[dataFromRedux])
+
+
+
+   
 
 
   const CustomButtonComponent = (props: any) => {
@@ -307,13 +329,76 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     },
   ]);
 
+
+  //for expiring soon page 
+  const [columnDefs2, setColumnDefs2] = useState<ColDef[]>(
+    [
+      {
+        headerName: "License Name",
+        field: "licenseName",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Modal Type",
+        field: "modalType",
+        sortable: true,
+        filter: true,       
+      },
+      {
+        headerName: "Department Name",
+        field: "departmentName",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Department Owner",
+        field:"departmentOwner",
+        sortable:true,
+        filter:true,
+      },
+      {
+        headerName: "Total seats",
+        field: "totalSeats",
+        sortable: true,
+        filter: true,
+        flex:1
+      },
+      {
+        headerName: "Total Cost",
+        field: "totalCost",
+        sortable: true,
+        filter: true,
+        flex:1
+      },
+      {
+        headerName: "Expired Date",
+        field: "expirationDate",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName:"Expired in(DAYS)",
+        field:"expiredInDays",
+        sortable:true,
+        filter:true,
+        flex:1
+      }
+    ]
+  )
+
+
+
+
+
+
   const gridRef = useRef<AgGridReact>(null);
   useEffect(() => {
     if (gridRef.current?.api) {
       gridRef.current.api.refreshCells();
       gridRef.current.api.redrawRows();
     }
-  }, [formValues, expiredLicensesData]);
+  }, [formValues, expiredLicensesData,expiringsoonData]);
 
 
   return (
@@ -327,8 +412,8 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       <div className="ag-theme-quartz" style={{ height: "590px", width: "100%" }}>
         {!showLicenseForm ?
           <AgGridReact
-            rowData={page != "expired" ? formValues : expiredLicensesData}
-            columnDefs={page != "expired" ? columnDefs : columnDefs1}
+            rowData={page ===  "expired" ?  expiredLicensesData : page ==='expiring' ?  expiringsoonData :formValues }
+            columnDefs={page === "expired" ?  columnDefs1 : page ==='expiring' ?  columnDefs2:columnDefs}
             pagination={true}
             paginationPageSize={10}
             paginationPageSizeSelector={[5, 15, 25, 35]}
