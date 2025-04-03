@@ -1,7 +1,7 @@
-import { Container} from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import styles from './index.module.scss';
@@ -84,35 +84,13 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         }));
 
         setRowData(updatedRowData);
-
-        //store current date in order to calculate expired licenses
-        const currDate = new Date();
-        // store expired data
-        setExpiredLicensesData(updatedRowData.map((license: any) => {
-          const expiredDate = new Date(license.expirationDate);
-          const timeDiff = currDate.getTime() - expiredDate.getTime();
-          if (timeDiff > 0) {
-            //expiration date over
-            return { ...license, LicenseStatus: "Expired" };
-          }
-          else {
-            return { ...license, LicenseStatus: "Active" };
-          }
-        }).filter((license: any) => {
-          if (license.LicenseStatus == "Expired") {
-            //store expired licenses
-            return true;
-          }
-          return false;
-        }));
         dispatch(setData(response.data)); 
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
     fetchData();
-  }, [dispatch]);
+  },[dispatch]);
   const navigate = useNavigate();
  
   console.log("Data in the redux State :", formValues);
@@ -133,7 +111,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     if (selectedLicenseId) {
       // Delete from Redux state
       dispatch(removeFormData(selectedLicenseId));
-  
       // Delete from the server
       axios.delete(`http://localhost:3005/licenses/${selectedLicenseId}`)
         .then(() => {
@@ -151,20 +128,43 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     }
   };
   
-  
-  
+  const openLicenseForm = (data: any) => {
+    setShowLicenseForm(true);     
+    setLicenseData(data);
+  }
+
   const RenewButton = (props: any) => {
     const { data } = props;
     console.log("renew data", data);
-    const openLicenseForm = (data: any) => {
-      setShowLicenseForm(true);     
-      setLicenseData(data);
-    }
-
     return (
       <button className={styles.renew} onClick={() => openLicenseForm(data)}>Renew</button>
     );
   }
+
+  // const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setShowLicenseForm(false); 
+  };
+
+  const currDate = new Date();
+  const dataFromRedux = useSelector((state:any)=>state.form);
+  // AgGridTable.tsx
+  useEffect(() => {
+    const currDate = new Date();
+    const expiredLicenses = dataFromRedux.filter((item: any) => {
+      const expirationDate = new Date(item.expirationDate);
+      return expirationDate < currDate;
+    });
+    setExpiredLicensesData(expiredLicenses);
+  }, [dataFromRedux]); // Add dataFromRedux as a dependency
+  
+
 
   const CustomButtonComponent = (props: any) => {
     const { data } = props;
@@ -307,6 +307,14 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     },
   ]);
 
+  const gridRef = useRef<AgGridReact>(null);
+  useEffect(() => {
+    if (gridRef.current?.api) {
+      gridRef.current.api.refreshCells();
+      gridRef.current.api.redrawRows();
+    }
+  }, [formValues, expiredLicensesData]);
+
 
   return (
     <Container
@@ -333,7 +341,19 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
             ]}
           />
           :
-          <LicenseForm licenseData={licenseData} page='expired' />
+          <Dialog
+            open={handleOpenDialog}
+            onClose={handleCloseDialog}
+            fullWidth
+          >
+            <DialogTitle sx={{backgroundColor : "navyblue"}}> Renew License </DialogTitle>
+            <DialogContent>
+              <LicenseForm close={handleCloseDialog} existingData={licenseData}/>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
+            </DialogActions>
+          </Dialog>
         }
       </div>
       <ConfirmationDialog open={openDialog} onClose={() => setOpenDialog(false)} onConfirm={confirmDelete} 
