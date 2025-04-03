@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Interface for  form data
 interface FormData {
-  id: number;
+  id: string;
   licenseName: string;
   licenseType: string;
   modalType: string;
@@ -40,19 +40,30 @@ const formSlice = createSlice({
     // },
     removeFormData: (state, action: PayloadAction<number>) => {
       // Filter out the item based on the id to remove the item from the state
-      return state.filter((formData) => formData.id !== action.payload);
+      return state.filter((formData) => formData.id !== action.payload.toString());
     },
     clearFormData: () => initialState,
     setData: (state, action: PayloadAction<FormData[]>) => {
+      alert("I am in setData reducer");
       return action.payload.map((item) => ({
         ...item,
         LicenseStatus: item.expirationDate < new Date().toISOString() ? 'Expired' : 'Active',
         shelfLife: item.shelfLife, 
       }));
     },
+    // LicenseFormSlice.ts
+    // LicenseFormSlice.ts
+      updateData: (state, action) => {
+        const index = state.findIndex(
+          (item) => item.id === action.payload.id // Match by existing ID
+        );
+        if (index !== -1) {
+          state[index] = action.payload; // Replace the old entry
+        }
+      },
   },
 });
 
 // Export the actions and reducer
-export const { addFormData, removeFormData, clearFormData, setData } = formSlice.actions;
+export const { addFormData, removeFormData, clearFormData, setData, updateData } = formSlice.actions;
 export default formSlice.reducer;

@@ -1,39 +1,38 @@
 import React, { useState, useEffect} from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, Snackbar } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { addFormData } from "../../Redux/Slice/LicenseForm/";
+import { useDispatch, useSelector } from "react-redux";
+import { addFormData, updateData } from "../../Redux/Slice/LicenseForm/";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 type LicenceformProps ={
   close : () =>void;
+  existingData : any; 
 }
 
-export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformProps) => {
+export const LicenseForm: React.FC<LicenceformProps> = ({ close,existingData }: LicenceformProps) => {
   const dispatch = useDispatch();
-  const { control, handleSubmit, setError, clearErrors, formState: { errors }, watch, setValue } = useForm({
+  const { control, handleSubmit,formState: { errors }, watch,} = useForm({
     defaultValues: {
-      licenseId: "",
-      licenseName: "",
-      licenseType: "",
-      modalType: "",
-      subscriptionType: "",
-      subscriptionModel: "",
-      billingEmail: "",
-      departmentOwner: "",
-      departmentName: "",
-      employeeName: "",
-      totalSeats: "",
-      totalCost: "",
+      licenseId: existingData?.id || "",
+      licenseName: existingData?.licenseName || "",
+      licenseType: existingData?.licenseType || "",
+      modalType: existingData?.modalType || "",
+      subscriptionType: existingData?.subscriptionType || "",
+      subscriptionModel: existingData?.subscriptionModel || "",
+      billingEmail: existingData?.billingEmail || "",
+      departmentOwner: existingData?.departmentOwner || "",
+      departmentName: existingData?.department || "",
+      employeeName: existingData?.employeeName || "",
+      totalSeats: existingData?.totalSeats || "",
+      totalCost: existingData?.totalCost || "",
       purchaseDate: "",
       expirationDate: "",
-      shelfLife: "",
+      shelfLife: existingData?.shelfLife || "",
     }
   });
-
-  const notify = () => toast("Record Added Successfully");
 
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -62,14 +61,6 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformPr
     return true;
   };
 
-  // Validation for spaces 
-  const validateNoSpaces = (value: string) => {
-    if (!value.trim()) {
-      return "Please enter a valid name"; 
-    }
-    return true;
-  };
-
   // Custom validation for date comparison
   const validateDateOrder = (purchaseDate: string, expirationDate: string) => {
     if (new Date(expirationDate) <= new Date(purchaseDate)) {
@@ -78,28 +69,29 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformPr
     return true;
   };
 
-  // Submit handler
-  const onSubmit = async (data: any) => {
-    data.id =  Math.floor(Math.random() * 1000000);
-    setLoading(true);
-    dispatch(addFormData(data));
-
-    try {
-      const response = await axios.post("http://localhost:3005/licenses", data);  
-      console.log("Form data submitted successfully:", response.data);
-      setFormDataState({ shelfLife: "" });
-      setIsModalOpen(false);
-      notify(); 
-      close(); 
+const onSubmit = async (data: any) => {
+  setLoading(true);
+  try {
+    if (existingData) {
+      data.id = existingData.id;
+      data.LicenseStatus = data.expirationDate < new Date().toISOString() ? 'Expired' : 'Active';
+      const response = await axios.put(`http://localhost:3005/licenses/${existingData.id}`,data);
       
-    } catch (error) {
-      console.error("Error submitting form data:", error);
+      dispatch(updateData(response.data));
+      toast.success("License renewed successfully!");
+    } 
+    else{
+      const response = await axios.post("http://localhost:3005/licenses", data);
+      dispatch(addFormData(response.data));
+      toast.success("License created successfully!");
     }
-
-    // Reset form data
-    clearErrors();
-    setLoading(false);
-  };
+    close();
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    toast.error("Failed to save changes.");
+  }
+  setLoading(false);
+};
 
   useEffect(() => {
     if (formData.expirationDate) {
@@ -120,8 +112,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformPr
           {/* License Name */}
           <Controller
             name="licenseName"
+            // defaultValue={data?.licenseName || ""}
             control={control}
-            rules={{ validate: validateNoSpaces }}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -247,7 +239,6 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformPr
           <Controller
             name="departmentOwner"
             control={control}
-            rules={{ validate: validateNoSpaces }}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -289,7 +280,6 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close }: LicenceformPr
           <Controller
             name="employeeName"
             control={control}
-            rules={{ validate: validateNoSpaces }}
             render={({ field }) => (
               <TextField
                 {...field}
