@@ -44,7 +44,6 @@ const formSlice = createSlice({
     },
     clearFormData: () => initialState,
     setData: (state, action: PayloadAction<FormData[]>) => {
-      alert("I am in setData reducer");
       return action.payload.map((item) => ({
         ...item,
         LicenseStatus: item.expirationDate < new Date().toISOString() ? 'Expired' : 'Active',
