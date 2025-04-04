@@ -170,22 +170,37 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   
 
  
-   useEffect(() => {
-    console.log('data from redux expiring soon',dataFromRedux);
+  const [selectedDaysFilter, setSelectedDaysFilter] = useState<string>("all");
+
+// Update the expiring soon data useEffect
+useEffect(() => {
+  console.log('data from redux expiring soon', dataFromRedux);
+  const currentDate = new Date();
+  
+  // Process ALL licenses
+  const allLicensesWithDays = dataFromRedux.map((item: any) => {
+    const expirationDate = new Date(item.expirationDate);
+    const timeDiff = expirationDate.getTime() - currentDate.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     
-    const currentDate=new Date();
-    const expiringSoonLicenses=dataFromRedux.filter((item:any) => {
-      const expiringSoonDate=new Date(item.expirationDate)
-      const ExpirationInDays = (expiringSoonDate - currentDate)/1000/60/60/24;
-      return ExpirationInDays>=0  &&  ExpirationInDays<=10
-    });
-    setExpiringsoonData(expiringSoonLicenses)
-    console.log('expiring soon licenses',expiringSoonLicenses);
-   },[dataFromRedux])
+    return { 
+      ...item, 
+      expiredInDays: daysDiff >= 0 ? `${daysDiff} days` : "Expired",
+      daysRemaining: daysDiff // Add numeric value for filtering
+    };
+  });
 
+  // Apply filter based on selection
+  let filteredData = allLicensesWithDays;
+  if (selectedDaysFilter !== "all") {
+    const maxDays = parseInt(selectedDaysFilter);
+    filteredData = allLicensesWithDays.filter(item => 
+      item.daysRemaining >= 0 && item.daysRemaining < maxDays
+    );
+  }
 
-
-   
+  setExpiringsoonData(filteredData);
+}, [dataFromRedux, selectedDaysFilter]);
 
 
   const CustomButtonComponent = (props: any) => {
@@ -372,13 +387,13 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         flex:1
       },
       {
-        headerName: "Expired Date",
+        headerName: "Expiration Date",
         field: "expirationDate",
         sortable: true,
         filter: true,
       },
       {
-        headerName:"Expired in(DAYS)",
+        headerName:"Expiring in",
         field:"expiredInDays",
         sortable:true,
         filter:true,
@@ -386,10 +401,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       }
     ]
   )
-
-
-
-
 
 
   const gridRef = useRef<AgGridReact>(null);
@@ -408,6 +419,21 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         paddingTop: "2rem",
         overflowY: "scroll"
       }}>
+        {page === "expiring" && (
+      <div className={styles.filterContainer}>
+        <label>Expiration Range: </label>
+        <select 
+          value={selectedDaysFilter} 
+          onChange={(e) => setSelectedDaysFilter(e.target.value)}
+          className={styles.filterSelect}
+        >
+          <option value="all">All</option>
+          <option value="7">&lt; 7 days</option>
+          <option value="15">&lt; 15 days</option>
+          <option value="30">&lt; 30 days</option>
+        </select>
+      </div>
+    )}
 
       <div className="ag-theme-quartz" style={{ height: "590px", width: "100%" }}>
         {!showLicenseForm ?

@@ -157,8 +157,8 @@
       "employeeName": "Neha",
       "totalSeats": 43,
       "totalCost": "76999",
-      "purchaseDate": "2025-04-01",
-      "expirationDate": "2025-08-22",
+      "purchaseDate": "2025-03-01",
+      "expirationDate": "2025-04-05",
       "shelfLife": ""
     },
     {
@@ -230,9 +230,27 @@
       "totalSeats": 80,
       "totalCost": "80000",
       "purchaseDate": "2025-04-02",
-      "expirationDate": "2025-04-24",
+      "expirationDate": "2025-04-08",
       "shelfLife": 5,
       "id": "281741"
+    },
+    {
+      "licenseId": 176507,
+      "licenseName": "unknown",
+      "licenseType": "Software",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "unknown@gmail.com",
+      "departmentOwner": "Project Management",
+      "departmentName": "IT",
+      "employeeName": "unknown1",
+      "totalSeats": 12,
+      "totalCost": "123456",
+      "purchaseDate": "2025-03-03",
+      "expirationDate": "2025-04-02",
+      "shelfLife": "",
+      "id": "176507"
     }
   ],
   "departments": [
@@ -324,6 +342,24 @@
       "message": "Zoom subscription will expire in 5 days. Renew by 2023-12-20.",
       "notification_date": "2023-12-15",
       "id": "3c70"
+    },
+    {
+      "license_id": "281741",
+      "message": "Jira license is expiring in 4 days. Please renew by 4/8/2025.",
+      "notification_date": "4/4/2025",
+      "id": "n6twbzko"
+    },
+    {
+      "license_id": "c2a8",
+      "message": "Postman license is expiring in 1 days. Please renew by 4/5/2025.",
+      "notification_date": "4/4/2025",
+      "id": "r8hq03h7"
+    },
+    {
+      "license_id": "2ddf",
+      "message": "FireBase license is expiring in 6 days. Please renew by 4/10/2025.",
+      "notification_date": "4/4/2025",
+      "id": "vc7zlu7r"
     }
   ]
 }

@@ -10,6 +10,7 @@ import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
 import Analytics from './components/Analytics/index';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EmailTriggering from './common/EmailTriggering/index';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           </Routes>
           {/* <LicenseForm/>
           <AgGridTable/> */}
+          <EmailTriggering />
           <ToastContainer />
         </div>
       </BrowserRouter>

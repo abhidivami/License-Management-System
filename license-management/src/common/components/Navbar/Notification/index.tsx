@@ -28,10 +28,6 @@ function Notification(props: NotificationProps) {
 
     const { iconColor } = props;
     const [open, setOpen] = React.useState(false);
-
-   //const licenseName = "ChatGPT";
-
-    //to store notifications count
     const notificationsCount = 1;
 
     const toggleDrawer = (newOpen: boolean) => () => {
@@ -51,15 +47,7 @@ function Notification(props: NotificationProps) {
                         <CloseIcon />
                     </button>
                 </div>
-
-                {/* notification array */}
-                {/* <div className={styles.notificationsElement}>
-                    <p>{licenseName} is going to expired. Renew now</p>
-                </div>
-
-                <div className={styles.notificationsElement}>
-                    <p>{licenseName} is going to expired. Renew now</p>
-                </div> */}
+                
                 {
                     notification.map((item: any, index) => (
                         <Card key={index} sx={{ margin:'10px', boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.6)" ,borderRadius:'15px', cursor: 'pointer' }} onClick={()=>toggleDrawer(item)}>
