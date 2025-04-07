@@ -358,6 +358,12 @@
       "name": "Finance",
       "owner": "Sophia Brown",
       "description": "Manages financial planning, analysis, budgeting, and accounting."
+    },
+    {
+      "id": 6,
+      "name": "events",
+      "owner": "gopal",
+      "description": "Which proves everything is possible"
     }
   ],
   "Users": [

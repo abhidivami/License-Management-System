@@ -41,7 +41,7 @@ function Department(props: DepartmentProps) {
 
   //fetch data from departments api
   React.useEffect(() => {
-    axios.get("http://localhost:3034/departments")
+    axios.get("http://localhost:3005/departments")
       .then((response) => {
         if (Array.isArray(response.data)) {
           setDepartments(response.data);
@@ -113,7 +113,7 @@ function Department(props: DepartmentProps) {
 
     if (isPresent == false) {
       const id: number = departments.length + 1;
-      axios.post("http://localhost:3034/departments", { id: id, ...formValues })
+      axios.post("http://localhost:3005/departments", { id: id, ...formValues })
         .then((response) => {
           setTemp(1);
           console.log("department created successfully: ", response);
