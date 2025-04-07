@@ -1,4 +1,4 @@
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,10 +17,10 @@ import { ModuleRegistry } from "ag-grid-community";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ColDef } from "ag-grid-community";
 import { useDispatch } from "react-redux";
-import {removeFormData, setData } from "../../../Redux/Slice/LicenseForm";
+import { removeFormData, setData } from "../../../Redux/Slice/LicenseForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store/index";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LicenseForm } from "../../../components/LicenseForm";
 import { toast } from "react-toastify";
 
@@ -40,7 +40,7 @@ type RowData = {
   modalType: string;
   billingEmail: string;
   totalCost: string;
-  totalSeats:string | number;
+  totalSeats: string | number;
   LicenseStatus: string;
   departmentName: string;
 };
@@ -56,6 +56,22 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   const { page } = props;
   const [rowData, setRowData] = useState<RowData[]>([]);
   const formValues = useSelector((state: RootState) => state.form);
+
+  let filteredValues: FormData[] = [];
+  const searchText = useSelector((state: RootState) => state.search.searchText);
+
+  // if (searchText != "") {
+  //   //to display only filtered data
+  //   filteredValues = formValues.filter((license) => {
+  //     if (license.licenseName.toLowerCase().search(searchText) != -1) {
+  //       //matched
+  //       return true;
+  //     }
+  //     //not matched
+  //     return false;
+  //   })
+  // }
+
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedLicenseId, setSelectedLicenseId] = useState<string | null>(null);
@@ -71,7 +87,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   const [expiredLicensesData, setExpiredLicensesData] = useState<RowData[]>([]);
 
   //to handle expiring soon page 
-  const [expiringsoonData,setExpiringsoonData]= useState<RowData[]>([]);
+  const [expiringsoonData, setExpiringsoonData] = useState<RowData[]>([]);
 
 
   useEffect(() => {
@@ -83,20 +99,20 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         const updatedRowData = response.data.map((item: any) => ({
           ...item,
           LicenseStatus: parseInt(item.shelfLife, 10) < 0 ? "Expired" : "Active",
-          totalseats:Number(item.totalSeats),
+          totalseats: Number(item.totalSeats),
           shelfLife: parseInt(item.shelfLife, 10),
         }));
 
         setRowData(updatedRowData);
-        dispatch(setData(response.data)); 
+        dispatch(setData(response.data));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  },[dispatch]);
+  }, [dispatch]);
   const navigate = useNavigate();
- 
+
   console.log("Data in the redux State :", formValues);
   const handleViewClick = (rowData: RootState) => {
     navigate("/detailedView", { state: { rowData } });
@@ -128,12 +144,12 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
           setOpenDialog(false);
           setSelectedLicenseId(null);
         });
-        notify();
+      notify();
     }
   };
-  
+
   const openLicenseForm = (data: any) => {
-    setShowLicenseForm(true);     
+    setShowLicenseForm(true);
     setLicenseData(data);
   }
 
@@ -153,11 +169,11 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setShowLicenseForm(false); 
+    setShowLicenseForm(false);
   };
 
- // const currDate = new Date();
-  const dataFromRedux = useSelector((state:any)=>state.form);
+  // const currDate = new Date();
+  const dataFromRedux = useSelector((state: any) => state.form);
   // AgGridTable.tsx
   useEffect(() => {
     const currDate = new Date();
@@ -167,40 +183,66 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     });
     setExpiredLicensesData(expiredLicenses);
   }, [dataFromRedux]); // Add dataFromRedux as a dependency
-  
 
- 
+
+
   const [selectedDaysFilter, setSelectedDaysFilter] = useState<string>("all");
 
-// Update the expiring soon data useEffect
-useEffect(() => {
-  console.log('data from redux expiring soon', dataFromRedux);
-  const currentDate = new Date();
-  
-  // Process ALL licenses
-  const allLicensesWithDays = dataFromRedux.map((item: any) => {
-    const expirationDate = new Date(item.expirationDate);
-    const timeDiff = expirationDate.getTime() - currentDate.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    
-    return { 
-      ...item, 
-      expiredInDays: daysDiff >= 0 ? `${daysDiff} days` : "Expired",
-      daysRemaining: daysDiff // Add numeric value for filtering
-    };
-  });
+  // Update the expiring soon data useEffect
+  useEffect(() => {
+    console.log('data from redux expiring soon', dataFromRedux);
+    const currentDate = new Date();
 
-  // Apply filter based on selection
-  let filteredData = allLicensesWithDays;
-  if (selectedDaysFilter !== "all") {
-    const maxDays = parseInt(selectedDaysFilter);
-    filteredData = allLicensesWithDays.filter(item => 
-      item.daysRemaining >= 0 && item.daysRemaining < maxDays
-    );
+    // Process ALL licenses
+    const allLicensesWithDays = dataFromRedux.map((item: any) => {
+      const expirationDate = new Date(item.expirationDate);
+      const timeDiff = expirationDate.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+      return {
+        ...item,
+        expiredInDays: daysDiff >= 0 ? `${daysDiff} days` : "Expired",
+        daysRemaining: daysDiff // Add numeric value for filtering
+      };
+    });
+
+    // Apply filter based on selection
+    let filteredData = allLicensesWithDays;
+    if (selectedDaysFilter !== "all") {
+      const maxDays = parseInt(selectedDaysFilter);
+      filteredData = allLicensesWithDays.filter(item =>
+        item.daysRemaining >= 0 && item.daysRemaining < maxDays
+      );
+    }
+
+    setExpiringsoonData(filteredData);
+  }, [dataFromRedux, selectedDaysFilter]);
+
+  const filterLicensesByLicenseName = (licensesData: any) => {
+    if (searchText != "") {
+      //to display only filtered data
+      filteredValues = licensesData.filter((license) => {
+        if (license.licenseName.toLowerCase().search(searchText) != -1) {
+          //matched
+          return true;
+        }
+        //not matched
+        return false;
+      })
+    }
   }
 
-  setExpiringsoonData(filteredData);
-}, [dataFromRedux, selectedDaysFilter]);
+  //to filter values based on the url path and search field
+  const location = useLocation();
+  if (location.pathname == '/') {
+    filterLicensesByLicenseName(formValues);
+  }
+  else if (location.pathname == '/expired') {
+    filterLicensesByLicenseName(expiredLicensesData);
+  }
+  else if (location.pathname == '/expiring') {
+    filterLicensesByLicenseName(expiringsoonData);
+  }
 
 
   const CustomButtonComponent = (props: any) => {
@@ -211,7 +253,7 @@ useEffect(() => {
           <Eye onClick={() => handleViewClick(data)} />
         </button>
         <button className={styles.delbtn}>
-          <DeleteIcon   onClick={()=>handleDeleteClick(data)}/>
+          <DeleteIcon onClick={() => handleDeleteClick(data)} />
         </button>
       </div>
     );
@@ -230,14 +272,14 @@ useEffect(() => {
       field: "modalType",
       sortable: true,
       filter: true,
-      flex:1,
+      flex: 1,
     },
     {
       headerName: "Department Name",
       field: "departmentName",
       sortable: true,
       filter: true,
-      flex:1,
+      flex: 1,
     },
     {
       headerName: "Department Owner",
@@ -251,41 +293,41 @@ useEffect(() => {
       field: "totalSeats",
       sortable: true,
       filter: true,
-      flex:1,
+      flex: 1,
     },
     {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
-      flex:1,
+      flex: 1,
     },
     {
-      headerName:"Purchase Date",
-      field:"purchaseDate",
+      headerName: "Purchase Date",
+      field: "purchaseDate",
       sortable: true,
       filter: true,
-      flex:1,
+      flex: 1,
     },
     {
       headerName: "Expiration Date",
       field: "expirationDate",
       sortable: true,
       filter: true,
-      flex:1
+      flex: 1
     },
     {
       headerName: "License Status",
       field: "LicenseStatus",
       sortable: true,
       filter: true,
-      flex:1,
+      flex: 1,
     },
     {
       headerName: "Actions",
       field: "button",
       cellRenderer: CustomButtonComponent,
-      flex:1
+      flex: 1
     },
   ]);
 
@@ -302,7 +344,7 @@ useEffect(() => {
       field: "modalType",
       sortable: true,
       filter: true,
-      
+
     },
     {
       headerName: "Department Name",
@@ -312,23 +354,23 @@ useEffect(() => {
     },
     {
       headerName: "Department Owner",
-      field:"departmentOwner",
-      sortable:true,
-      filter:true,
+      field: "departmentOwner",
+      sortable: true,
+      filter: true,
     },
     {
       headerName: "Total seats",
       field: "totalSeats",
       sortable: true,
       filter: true,
-      flex:1
+      flex: 1
     },
     {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
-      flex:1
+      flex: 1
     },
     {
       headerName: "Expired Date",
@@ -340,10 +382,9 @@ useEffect(() => {
       headerName: "Renew",
       field: "button",
       cellRenderer: RenewButton,
-      flex:1
+      flex: 1
     },
   ]);
-
 
   //for expiring soon page 
   const [columnDefs2, setColumnDefs2] = useState<ColDef[]>(
@@ -358,7 +399,7 @@ useEffect(() => {
         headerName: "Modal Type",
         field: "modalType",
         sortable: true,
-        filter: true,       
+        filter: true,
       },
       {
         headerName: "Department Name",
@@ -368,23 +409,23 @@ useEffect(() => {
       },
       {
         headerName: "Department Owner",
-        field:"departmentOwner",
-        sortable:true,
-        filter:true,
+        field: "departmentOwner",
+        sortable: true,
+        filter: true,
       },
       {
         headerName: "Total seats",
         field: "totalSeats",
         sortable: true,
         filter: true,
-        flex:1
+        flex: 1
       },
       {
         headerName: "Total Cost",
         field: "totalCost",
         sortable: true,
         filter: true,
-        flex:1
+        flex: 1
       },
       {
         headerName: "Expiration Date",
@@ -393,11 +434,11 @@ useEffect(() => {
         filter: true,
       },
       {
-        headerName:"Expiring in",
-        field:"expiredInDays",
-        sortable:true,
-        filter:true,
-        flex:1
+        headerName: "Expiring in",
+        field: "expiredInDays",
+        sortable: true,
+        filter: true,
+        flex: 1
       }
     ]
   )
@@ -409,7 +450,7 @@ useEffect(() => {
       gridRef.current.api.refreshCells();
       gridRef.current.api.redrawRows();
     }
-  }, [formValues, expiredLicensesData,expiringsoonData]);
+  }, [formValues, expiredLicensesData, expiringsoonData]);
 
 
   return (
@@ -419,27 +460,34 @@ useEffect(() => {
         paddingTop: "2rem",
         overflowY: "scroll"
       }}>
-        {page === "expiring" && (
-      <div className={styles.filterContainer}>
-        <label>Expiration Range: </label>
-        <select 
-          value={selectedDaysFilter} 
-          onChange={(e) => setSelectedDaysFilter(e.target.value)}
-          className={styles.filterSelect}
-        >
-          <option value="all">All</option>
-          <option value="7">&lt; 7 days</option>
-          <option value="15">&lt; 15 days</option>
-          <option value="30">&lt; 30 days</option>
-        </select>
-      </div>
-    )}
+      {page === "expiring" && (
+        <div className={styles.filterContainer}>
+          <label>Expiration Range: </label>
+          <select
+            value={selectedDaysFilter}
+            onChange={(e) => setSelectedDaysFilter(e.target.value)}
+            className={styles.filterSelect}
+          >
+            <option value="all">All</option>
+            <option value="7">&lt; 7 days</option>
+            <option value="15">&lt; 15 days</option>
+            <option value="30">&lt; 30 days</option>
+          </select>
+        </div>
+      )}
 
       <div className="ag-theme-quartz" style={{ height: "590px", width: "100%" }}>
         {!showLicenseForm ?
           <AgGridReact
-            rowData={page ===  "expired" ?  expiredLicensesData : page ==='expiring' ?  expiringsoonData :formValues }
-            columnDefs={page === "expired" ?  columnDefs1 : page ==='expiring' ?  columnDefs2:columnDefs}
+            rowData={
+              searchText != ""
+                ?
+                //to display values that are matched with search field
+                filteredValues
+                :
+                page === "expired" ? expiredLicensesData : page === 'expiring' ? expiringsoonData : searchText != "" ? filteredValues : formValues
+            }
+            columnDefs={page === "expired" ? columnDefs1 : page === 'expiring' ? columnDefs2 : columnDefs}
             pagination={true}
             paginationPageSize={10}
             paginationPageSizeSelector={[5, 15, 25, 35]}
@@ -457,9 +505,9 @@ useEffect(() => {
             onClose={handleCloseDialog}
             fullWidth
           >
-            <DialogTitle sx={{backgroundColor : "navyblue"}}> Renew License </DialogTitle>
+            <DialogTitle sx={{ backgroundColor: "navyblue" }}> Renew License </DialogTitle>
             <DialogContent>
-              <LicenseForm close={handleCloseDialog} existingData={licenseData}/>
+              <LicenseForm close={handleCloseDialog} existingData={licenseData} />
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
@@ -467,10 +515,10 @@ useEffect(() => {
           </Dialog>
         }
       </div>
-      <ConfirmationDialog open={openDialog} onClose={() => setOpenDialog(false)} onConfirm={confirmDelete} 
-      title="Confirm Deletion"
-      message="Are you sure you want to delete this license? This action cannot be undone."
-/>
+      <ConfirmationDialog open={openDialog} onClose={() => setOpenDialog(false)} onConfirm={confirmDelete}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this license? This action cannot be undone."
+      />
     </Container>
   );
 };

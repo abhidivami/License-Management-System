@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Interface for  form data
-interface FormData {
+export interface FormData {
   id: string;
   licenseName: string;
   licenseType: string;

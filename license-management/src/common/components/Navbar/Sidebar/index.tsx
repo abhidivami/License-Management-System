@@ -3,7 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import Analytics from '@mui/icons-material/QueryStats';
 import Expired from '@mui/icons-material/RunningWithErrorsOutlined';
 import ExpiringSoon from '@mui/icons-material/AccessAlarmOutlined';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useMatch } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
 
 function Sidebar() {
@@ -11,15 +11,20 @@ function Sidebar() {
     //position of tooltip
     const position = "right";
 
+    //to highlight current page option in sidebar
+    const home = useMatch('/');
+    const analytics = useMatch('/analytics');
+    const expired = useMatch('/expired');
+    const expiring = useMatch('/expiring');
+
     return (
         <div className={styles.navigation}>
             <div>
-
                 {/* home page */}
                 <Tooltip title='Home' placement={position}>
                     <NavLink to='/' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
-                            <button className={styles.navigationElementIcon}>
+                            <button className={home==null ? styles.navigationElementIcon : `${styles.navigationElementIcon} ${styles.active}`}>
                                 <HomeIcon />
                             </button>
                             <span className={styles.navigationElementTitle}>Home</span>
@@ -31,7 +36,7 @@ function Sidebar() {
                 <Tooltip title='Analytics' placement={position}>
                     <NavLink to='/analytics' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
-                            <button className={styles.navigationElementIcon}>
+                            <button className={analytics==null ? styles.navigationElementIcon : `${styles.navigationElementIcon} ${styles.active}`}>
                                 <Analytics />
                             </button>
                             <span className={styles.navigationElementTitle}>Analytics</span>
@@ -43,7 +48,7 @@ function Sidebar() {
                 <Tooltip title='Expired' placement={position}>
                     <NavLink to='/expired' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
-                            <button className={styles.navigationElementIcon}>
+                            <button className={expired==null ? styles.navigationElementIcon : `${styles.navigationElementIcon} ${styles.active}`}>
                                 <Expired />
                             </button>
                             <span className={styles.navigationElementTitle}>Expired</span>
@@ -55,7 +60,7 @@ function Sidebar() {
                 <Tooltip title='Expiring soon' placement={position}>
                     <NavLink to='/expiring' className={styles.navigationLink}>
                         <div className={styles.navigationElement}>
-                            <button className={styles.navigationElementIcon}>
+                            <button className={expiring==null ? styles.navigationElementIcon : `${styles.navigationElementIcon} ${styles.active}`}>
                                 <ExpiringSoon />
                             </button>
                             <span className={styles.navigationElementTitle}>Expiring Soon</span>

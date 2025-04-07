@@ -7,3 +7,16 @@
     margin: auto;
 }
 
+.logo{
+    width: 26px;
+    height: 30px;
+    margin-right: 15px;
+    margin-left: 0px;
+}
+
+@media screen and (max-width: 900px) {
+    .logo{
+        display: none;
+    }
+}
+

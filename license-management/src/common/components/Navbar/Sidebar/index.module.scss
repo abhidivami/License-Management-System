@@ -8,9 +8,10 @@
     display: flex;
     justify-content: center;
 
-    &Link{
+    &Link {
         text-decoration: none;
     }
+
     &Element {
         border-radius: 10px;
         padding: 5px 0px;
@@ -44,13 +45,13 @@
 }
 
 .active {
-    background-color: lightblue;
-    color: black;
+    background-color: white;
+    color: #27548A;
     font-style: italic;
 }
 
 @media screen and (max-width: 900px) {
-    .navigation{
+    .navigation {
         display: none;
     }
 }
