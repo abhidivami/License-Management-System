@@ -4,7 +4,7 @@ import Drawer from '@mui/material/Drawer';
 import { Divider, IconButton, List, ListItem, ListItemButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import styles from './index.module.scss';
-import logo from '../../../../assets/logo.png';
+// import logo from '../../../../assets/logo.png';
 import HomeIcon from '@mui/icons-material/Home';
 import Analytics from '@mui/icons-material/QueryStats';
 import Expired from '@mui/icons-material/RunningWithErrorsOutlined';
