@@ -1,21 +1,20 @@
-import React, { useState, useEffect} from "react";
-import { useForm, Controller, set } from "react-hook-form";
-import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, Snackbar } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { addFormData, updateData } from "../../Redux/Slice/LicenseForm/";
 import axios from "axios";
 import { toast } from 'react-toastify';
 
-
-type LicenceformProps ={
-  close : () =>void;
-  existingData : any; 
+type LicenceformProps = {
+  close: () => void;
+  existingData: any;
   formRef?: React.RefObject<HTMLFormElement>;
 }
 
-export const LicenseForm: React.FC<LicenceformProps> = ({ close,existingData,formRef }: LicenceformProps) => {
+export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef }: LicenceformProps) => {
   const dispatch = useDispatch();
-  const { control, handleSubmit,formState: { errors }, watch,} = useForm({
+  const { control, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       licenseId: existingData?.id || "",
       licenseName: existingData?.licenseName || "",
@@ -36,15 +35,18 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close,existingData,for
   });
 
   const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const [formDataState, setFormDataState] = useState({
-    shelfLife: "",
-  });
+  const [formDataState, setFormDataState] = useState({ shelfLife: "" });
   const [loading, setLoading] = useState(false);
 
   const formData = watch();
 
   // Function to calculate shelf life in days
+
+  const validateType = (licenseName : string) =>{
+    if(licenseName.trim() == ""){
+      return "License Name should not be empty"
+    }
+  }
   const calculateShelfLife = (expirationDate: string): number => {
     const today = new Date();
     const expiry = new Date(expirationDate);
@@ -62,240 +64,250 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close,existingData,for
     return true;
   };
 
-  // Custom validation for date comparison
+  //  Date validation
   const validateDateOrder = (purchaseDate: string, expirationDate: string) => {
     if (new Date(expirationDate) <= new Date(purchaseDate)) {
-      return "Expiration date must be later than purchase date";
+      return "Expiration date must be greater than purchase date";
     }
     return true;
   };
 
-const onSubmit = async (data: any) => {
-  setLoading(true);
-  try {
-    if (existingData) {
-      data.id = existingData.id;
-      data.LicenseStatus = data.expirationDate < new Date().toISOString() ? 'Expired' : 'Active';
-      const response = await axios.put(`http://localhost:3005/licenses/${existingData.id}`,data);
-      
-      dispatch(updateData(response.data));
-      toast.success("License renewed successfully!");
-    } 
-    else{
-      const response = await axios.post("http://localhost:3005/licenses", data);
-      dispatch(addFormData(response.data));
-      toast.success("License created successfully!");
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+    try {
+      if (existingData) {
+        data.id = existingData.id;
+        data.LicenseStatus = data.expirationDate < new Date().toISOString() ? 'Expired' : 'Active';
+        const response = await axios.put(`http://localhost:3005/licenses/${existingData.id}`, data);
+
+        dispatch(updateData(response.data));
+        toast.success("License Renewed Successfully!");
+      } else {
+        const response = await axios.post("http://localhost:3005/licenses", data);
+        dispatch(addFormData(response.data));
+        toast.success("License Created Successfully!");
+      }
+      close();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to save changes.");
     }
-    close();
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    toast.error("Failed to save changes.");
-  }
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (formData.expirationDate) {
       const shelfLifeNumber = calculateShelfLife(formData.expirationDate);
       setFormDataState((prevState) => ({
         ...prevState,
-        shelfLife: shelfLifeNumber > 0 ? shelfLifeNumber.toString() : "0", 
+        shelfLife: shelfLifeNumber > 0 ? shelfLifeNumber.toString() : "0",
       }));
     }
   }, [formData.expirationDate]);
 
+  // Common style for input fields
+  const commonTextFieldStyle = {
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    width: "100%", // Ensure all fields are full width
+  };
 
   return (
     isModalOpen && (
-      <Container maxWidth="lg" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+      <Container maxWidth="xl" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
         <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
-        <Stack spacing={3}>
-          {/* License Name */}
-          <Controller
-            name="licenseName"
-            // defaultValue={data?.licenseName || ""}
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="License Name"
-                fullWidth
-                required
-                margin="normal"
-                error={!!errors.licenseName}
-                helperText={errors.licenseName?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
-
-          {/* License Type */}
-          <Controller
-            name="licenseType"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
-                <InputLabel>License Type</InputLabel>
-                <Select
-                  {...field}
-                  label="License Type"
-                  required
-                  error={!!errors.licenseType}
-                >
-                  <MenuItem value="Software">Software</MenuItem>
-                  <MenuItem value="Hardware">Hardware</MenuItem>
-                  <MenuItem value="Cloud Services">Cloud Services</MenuItem>
-                  <MenuItem value="Database">Database</MenuItem>
-                  <MenuItem value="API">API</MenuItem>
-                  <MenuItem value="Virtual Machine">Virtual Machine</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          />
-
-          {/* Modal Type */}
-          <Controller
-            name="modalType"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
-                <InputLabel>Modal Type</InputLabel>
-                <Select
-                  {...field}
-                  label="Modal Type"
-                  required
-                  error={!!errors.modalType}
-                >
-                  <MenuItem value="Perpetual">Perpetual</MenuItem>
-                  <MenuItem value="Subscription">Subscription</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          />
-
-          {/* Subscription Type */}
-          {formData.modalType === "Subscription" && (
+          <Stack spacing={3}>
+            {/* License Name */}
             <Controller
-              name="subscriptionType"
+              name="licenseName"
+              control={control}
+              rules={{ validate: validateType }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="License Name"
+                  type="text"
+                  fullWidth
+                  required
+                  margin="normal"
+                  error={!!errors.licenseName}
+                  sx={commonTextFieldStyle} 
+                />
+              )}
+            />
+            {/* License Type */}
+            <Controller
+              name="licenseType"
               control={control}
               render={({ field }) => (
-                <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
-                  <InputLabel>Subscription Type</InputLabel>
+                <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
+                  <InputLabel>License Type</InputLabel>
                   <Select
                     {...field}
-                    label="Subscription Type"
+                    label="License Type"
                     required
-                    error={!!errors.subscriptionType}
+                    error={!!errors.licenseType}
                   >
-                    <MenuItem value="Annual">Annual</MenuItem>
-                    <MenuItem value="Half-Yearly">Half-Yearly</MenuItem>
-                    <MenuItem value="Quarterly">Quarterly</MenuItem>
-                    <MenuItem value="Monthly">Monthly</MenuItem>
+                    <MenuItem value="Software">Software</MenuItem>
+                    <MenuItem value="Hardware">Hardware</MenuItem>
+                    <MenuItem value="Cloud Services">Cloud Services</MenuItem>
+                    <MenuItem value="Database">Database</MenuItem>
+                    <MenuItem value="API">API</MenuItem>
+                    <MenuItem value="Virtual Machine">Virtual Machine</MenuItem>
                   </Select>
                 </FormControl>
               )}
             />
-          )}
 
-          {/* Subscription Model */}
-          <Controller
-            name="subscriptionModel"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
-                <InputLabel>Subscription Model</InputLabel>
-                <Select
+            {/* Modal Type */}
+            <Controller
+              name="modalType"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
+                  <InputLabel>Modal Type</InputLabel>
+                  <Select
+                    {...field}
+                    label="Modal Type"
+                    required
+                    error={!!errors.modalType}
+                  >
+                    <MenuItem value="Perpetual">Perpetual</MenuItem>
+                    <MenuItem value="Subscription">Subscription</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
+
+            {/* Subscription Type */}
+            {formData.modalType === "Subscription" && (
+              <Controller
+                name="subscriptionType"
+                control={control}
+                render={({ field }) => (
+                  <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
+                    <InputLabel>Subscription Type</InputLabel>
+                    <Select
+                      {...field}
+                      label="Subscription Type"
+                      required
+                      error={!!errors.subscriptionType}
+                    >
+                      <MenuItem value="Annual">Annual</MenuItem>
+                      <MenuItem value="Half-Yearly">Half-Yearly</MenuItem>
+                      <MenuItem value="Quarterly">Quarterly</MenuItem>
+                      <MenuItem value="Monthly">Monthly</MenuItem>
+                    </Select>
+                  </FormControl>
+                )}
+              />
+            )}
+
+            {/* Subscription Model */}
+            <Controller
+              name="subscriptionModel"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
+                  <InputLabel>Subscription Model</InputLabel>
+                  <Select
+                    {...field}
+                    label="Subscription Model"
+                    required
+                    error={!!errors.subscriptionModel}
+                  >
+                    <MenuItem value="UserBased">User-Based</MenuItem>
+                    <MenuItem value="Enterprise">Enterprise</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
+
+            {/* Billing Email */}
+            <Controller
+              name="billingEmail"
+              control={control}
+              render={({ field }) => (
+                <TextField
                   {...field}
-                  label="Subscription Model"
+                  label="Billing Email"
+                  type="email"
+                  fullWidth
                   required
-                  error={!!errors.subscriptionModel}
-                >
-                  <MenuItem value="UserBased">User-Based</MenuItem>
-                  <MenuItem value="Enterprise">Enterprise</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          />
+                  margin="normal"
+                  error={!!errors.billingEmail}
+                
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
 
-          {/* Billing Email */}
-          <Controller
-            name="billingEmail"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Billing Email"
-                type="email"
-                fullWidth
-                required
-                margin="normal"
-                error={!!errors.billingEmail}
-                helperText={errors.billingEmail?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
+             {/* Department Name */}
+             <Controller
+              name="departmentName"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
+                  <InputLabel>Department Name</InputLabel>
+                  <Select
+                    {...field}
+                    label="Department Name"
+                    required
+                    error={!!errors.departmentName}
+                  >
+                    <MenuItem value="HR">HR</MenuItem>
+                    <MenuItem value="Software Engineering">Software Engineering</MenuItem>
+                    <MenuItem value="Sales">Sales</MenuItem>
+                    <MenuItem value="Finance">Finance</MenuItem>
+                    <MenuItem value="Marketing">Marketing</MenuItem>
+                    <MenuItem value="QA">QA</MenuItem>
+                    <MenuItem value="COE">COE</MenuItem>
+                    <MenuItem value="Devops">Devops</MenuItem>
+                    <MenuItem value="Project Management">Project Management</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
 
-          {/* Department Owner */}
-          <Controller
-            name="departmentOwner"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Department Head"
-                fullWidth
-                required
-                margin="normal"
-                error={!!errors.departmentOwner}
-                helperText={errors.departmentOwner?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
-
-          {/* Department Name */}
-          <Controller
-            name="departmentName"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth margin="normal" sx={{ backgroundColor: "#fff", borderRadius: "8px" }}>
-                <InputLabel>Department Name</InputLabel>
-                <Select
+            {/* Department Owner */}
+            <Controller
+              name="departmentOwner"
+              control={control}
+              render={({ field }) => (
+                <TextField
                   {...field}
-                  label="Department Type"
+                  label="Department Head"
+                  fullWidth
                   required
-                  error={!!errors.departmentName}
-                >
-                  <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="IT">IT</MenuItem>
-                  <MenuItem value="Sales">Sales</MenuItem>
-                  <MenuItem value="Finance">Finance</MenuItem>
-                  <MenuItem value="Marketing">Marketing</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          />
+                  margin="normal"
+                  error={!!errors.departmentOwner}
+                
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
 
-          {/* Employee Name */}
-          <Controller
-            name="employeeName"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Employee Name"
-                fullWidth
-                required
-                margin="normal"
-                error={!!errors.employeeName}
-                helperText={errors.employeeName?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
+           
 
-          {/* Total Seats */}
+            {/* Employee Name */}
+            <Controller
+              name="employeeName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Employee Name"
+                  fullWidth
+                  required
+                  margin="normal"
+                  error={!!errors.employeeName}
+                 
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
+
+            {/* Total Seats */}
           <Controller
             name="totalSeats"
             control={control}
@@ -308,111 +320,132 @@ const onSubmit = async (data: any) => {
                 fullWidth
                 required
                 margin="normal"
-                error={!!errors.totalSeats}
-                helperText={errors.totalSeats?.message}
+                // error={!!errors.totalSeats}
+                //  helperText={errors.totalSeats?.message}
                 sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
               />
             )}
           />
 
-          {/* Total Cost */}
-          <Controller
-            name="totalCost"
-            control={control}
-            rules={{ validate: validateNegativeValues }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Total Cost"
-                type="number"
-                fullWidth
-                required
-                margin="normal"
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+
+            {/* Total Cost */}
+            <Controller
+              name="totalCost"
+              control={control}
+              rules={{ validate: validateNegativeValues }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Total Cost"
+                  type="number"
+                  fullWidth
+                  required
+                  margin="normal"
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  }}
+                  error={!!errors.totalCost}
+                 
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
+
+            {/* Purchase Date */}
+            <Controller
+              name="purchaseDate"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Purchase Date"
+                  type="date"
+                  fullWidth
+                  required
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.purchaseDate}
+                  helperText={errors.purchaseDate?.message}
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
+
+            {/* Expiration Date */}
+            <Controller
+              name="expirationDate"
+              control={control}
+              rules={{
+                validate: (value) => validateDateOrder(formData.purchaseDate, value),
+              }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Expiration Date"
+                  type="date"
+                  fullWidth
+                  required
+                  margin="normal"
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.expirationDate}
+                  helperText={errors.expirationDate?.message}
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
+
+            {/* Shelf Life */}
+            <TextField
+              label="Shelf Life (in days)"
+              value={formDataState.shelfLife}
+              disabled
+              fullWidth
+              margin="normal"
+              sx={commonTextFieldStyle}
+            />
+
+            {/* Action Buttons */}
+            <Stack direction="row" spacing={2} sx={{ position: "sticky", marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={() => close()}
+                sx={{
+                  width: "120px",
+                  fontWeight: 600,
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
                 }}
-                error={!!errors.totalCost}
-                helperText={errors.totalCost?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
+              >
+                Cancel
+              </Button>
 
-          {/* Purchase Date */}
-          <Controller
-            name="purchaseDate"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Purchase Date"
-                type="date"
-                fullWidth
-                required
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.purchaseDate}
-                helperText={errors.purchaseDate?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
-
-          {/* Expiration Date */}
-          <Controller
-            name="expirationDate"
-            control={control}
-            rules={{
-              validate: (value) => validateDateOrder(formData.purchaseDate, value),
-            }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Expiration Date"
-                type="date"
-                fullWidth
-                required
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.expirationDate}
-                helperText={errors.expirationDate?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
-
-          {/* Shelf Life */}
-          <TextField
-            label="Shelf Life (in days)"
-            value={formDataState.shelfLife}
-            disabled
-            fullWidth
-            margin="normal"
-            sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-          />
-
-          {/* Action Buttons */}
-          {/* <Stack direction="row" spacing={2} sx={{ justifyContent: "flex-end", marginTop: "16px" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={loading}
-              sx={{
-                width: "120px",
-                fontWeight: 600,
-                backgroundColor: "#1976d2",
-                color: "#fff",
-                "&:hover": {
-                  backgroundColor: "#1565c0",
-                },
-              }}  
-            >
-              {loading ? "Submitting..." : "Create"}
-            </Button>
-          </Stack> */}
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={loading}
+                sx={{
+                  width: "120px",
+                  fontWeight: 600,
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                {loading ? "Submitting..." : "Create"}
+                </Button>
+          </Stack>
+          
         </Stack>
       </form>
+      
     </Container>
     )
   );
