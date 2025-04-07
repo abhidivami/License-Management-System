@@ -21,7 +21,7 @@ function App() {
           <Sidebar />
           <Routes>
             <Route path="/" element={<AgGridTable page="home" />} />
-            <Route path="/home" element={<AgGridTable page="home"/>} />
+            {/* <Route path="/home" element={<AgGridTable page="home"/>} /> */}
             <Route path="/detailedView" element={<DetailedViewOfEachRecord />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/expired" element={<AgGridTable page="expired" />} />

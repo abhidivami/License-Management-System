@@ -6,25 +6,25 @@ import { RootState } from '../../Redux/Store/index'
 import { useSelector } from 'react-redux';
 
 // Defining the icons 
-const userIcon = (
+export const userIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 1c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 12c3.31 0 6 2.69 6 6H6c0-3.31 2.69-6 6-6z" />
   </svg>
 );
 
-const buildingIcon = (
+export const buildingIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" d="M4 3v16h16V3H4zm2 6h12m-6 6h6" />
   </svg>
 );
 
-const briefcaseIcon = (
+export const briefcaseIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 2l1.5 3h7a2 2 0 012 2v13a2 2 0 01-2 2H4a2 2 0 01-2-2V7a2 2 0 012-2h7L12 2z" />
   </svg>
 );
 
-const walletIcon = (
+export const walletIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h18a2 2 0 012 2v14a2 2 0 01-2 2H3a2 2 0 01-2-2V5a2 2 0 012-2zm2 0v16h16V5H5zm9 10h4m-4-4h4" />
   </svg>
@@ -85,18 +85,6 @@ const Analytics = () => {
                 trendValue={`${growthRate}%`}
                 licenses={fetchedData}
                 filterKey="total"
-
-                sx={{
-                  transition: 'transform 0.3s, box-shadow 0.3s',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: 'md',
-                    '& .MuiCircularProgress-root': {
-                      transform: 'scale(1.1)',
-                      transition: 'transform 0.3s'
-                    }
-                  }
-                }}
               />
               <CardComponent
                 icon={userIcon}

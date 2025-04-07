@@ -39,6 +39,28 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
           item.subscriptionModel === 'Enterprise');
       case 'active':
         return licenses.filter(item => item.LicenseStatus === 'Active');
+      case 'expiredLicenses':
+        return licenses.filter(item =>
+          item.LicenseStatus === 'Expired'
+        )
+      case 'totalCostTORenweLicenses': {
+        const expiredLicenses = licenses.filter(item => item.LicenseStatus === 'Expired');
+        const totalCost = expiredLicenses.reduce((acc, item) => {
+            const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
+            return acc + cost;
+          }, 0);
+        const totalCostInMillions = (totalCost / 1000000).toFixed(1);
+        return totalCostInMillions;
+      }
+      case 'userBasedExpiredLicenses': {
+        const userExpired = licenses.filter((item)=> item.LicenseStatus === 'Expired' && item.subscriptionModel==='UserBased')
+        return userExpired
+      }
+      case 'groupExpiredLicenses': {
+        const groupExpired = licenses.filter((item)=> item.LicenseStatus === 'Expired' && item.subscriptionModel==='Enterprise')
+        return groupExpired
+      }
+      
       case 'total':
       default:
         return licenses;
