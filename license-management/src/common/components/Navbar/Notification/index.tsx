@@ -45,11 +45,11 @@ function Notification(props: NotificationProps) {
         setDetailesVisible(true)
         console.log('carddddddddddd',item.message);
         
-        console.log('-------------',LicensesFromRedux);
+     
         const firstWordOfMessage = item.message.split(' ')[0];
-        console.log('frtsssssssssssssssssss',firstWordOfMessage);
+      
        const matchedLicense= LicensesFromRedux.filter((itemName:any)=>{
-          //console.log('licensename',itemName.licenseName);
+          
           return itemName.licenseName===firstWordOfMessage
           
         })
@@ -102,59 +102,59 @@ function Notification(props: NotificationProps) {
                <div className={styles.detailsLicenseCard}>
                 <div>
                     <span className='detailsHeader' >License Name</span>
-                    <input type="text" value={detailesVisible[0].licenseName} disabled />
+                    <input  className = {styles.inputTag}type="text" value={detailesVisible[0].licenseName} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >License Type</span>
-                    <input type="text" value={detailesVisible[0].licenseType} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].licenseType} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >totalSeats </span>
-                    <input type="text" value={detailesVisible[0].totalSeats} disabled />
+                    <input  className = {styles.inputTag} type="text" value={detailesVisible[0].totalSeats} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >purchaseDate </span>
-                    <input type="text" value={detailesVisible[0].purchaseDate} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].purchaseDate} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >expirationDate </span>
-                    <input type="text" value={detailesVisible[0].expirationDate} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].expirationDate} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >shelfLife </span>
-                    <input type="text" value={detailesVisible[0].shelfLife} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].shelfLife} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >departmentOwner </span>
-                    <input type="text" value={detailesVisible[0].departmentOwner} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].departmentOwner} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >departmentName </span>
-                    <input type="text" value={detailesVisible[0].departmentName} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].departmentName} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >employeeName </span>
-                    <input type="text" value={detailesVisible[0].employeeName} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].employeeName} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >billingEmail </span>
-                    <input type="text" value={detailesVisible[0].billingEmail} disabled />
+                    <input  className = {styles.inputTag} type="text" value={detailesVisible[0].billingEmail} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >subscriptionType </span>
-                    <input type="text" value={detailesVisible[0].subscriptionType} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].subscriptionType} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >subscriptionModel </span>
-                    <input type="text" value={detailesVisible[0].subscriptionModel} disabled />
+                    <input  className = {styles.inputTag} type="text" value={detailesVisible[0].subscriptionModel} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >LicenseStatus </span>
-                    <input type="text" value={detailesVisible[0].LicenseStatus} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].LicenseStatus} disabled />
                 </div>
                 <div>
                     <span className='detailsHeader' >totalCost </span>
-                    <input type="text" value={detailesVisible[0].totalCost} disabled />
+                    <input className = {styles.inputTag} type="text" value={detailesVisible[0].totalCost} disabled />
                 </div>
                </div>
             </Box>

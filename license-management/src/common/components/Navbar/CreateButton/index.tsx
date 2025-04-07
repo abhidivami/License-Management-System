@@ -89,14 +89,14 @@ function CreateButton() {
         <DialogContent>
           <LicenseForm close={handleCloseDialog} formRef={formRef}/>
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
           <Button onClick={handleCreate} color="primary" type="submit">
             Create
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );
