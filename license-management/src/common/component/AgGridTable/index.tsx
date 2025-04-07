@@ -1,7 +1,7 @@
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Chip, Container, Dialog, DialogActions, DialogContent, DialogTitle, Tooltip} from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import styles from './index.module.scss';
@@ -42,7 +42,7 @@ type RowData = {
   modalType: string;
   billingEmail: string;
   totalCost: string;
-  totalSeats: string | number;
+  totalSeats: string ;
   LicenseStatus: string;
   departmentName: string;
 };
@@ -184,7 +184,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       return expirationDate < currDate;
     });
     setExpiredLicensesData(expiredLicenses);
-  }, [dataFromRedux]); // Add dataFromRedux as a dependency
+  }, [dataFromRedux]); 
 
 
 
@@ -245,36 +245,54 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   else if (location.pathname == '/expiring') {
     filterLicensesByLicenseName(expiringsoonData);
   }
-
-
+// To apply colour to the license Status
+ const StatusColor =(params: any) => {
+  const status = params.value;
+  return (
+    <Chip
+      variant="outlined"
+      color={
+        status === 'Active' ? 'success' : 
+        status === 'Expired' ? 'error' : 'default'
+      }
+      size="small"
+      sx={{ fontWeight: 'bold', textAlign:'center', alignItems:'center' }}
+      label={status}
+    />
+  );
+}
   const CustomButtonComponent = (props: any) => {
     const { data } = props;
     return (
       <div className={styles.btnContainer}>
+         <Tooltip title='View Details'>
         <button className={styles.vwbtn}>
-          <Eye onClick={() => handleViewClick(data)} />
+          <Eye onClick={() => handleViewClick(data)}  />
         </button>
+        </Tooltip>
+         <Tooltip title='Delete'>
         <button className={styles.delbtn}>
           <DeleteIcon onClick={() => handleDeleteClick(data)} />
         </button>
+        </Tooltip>
       </div>
     );
   };
-
+//  for home page
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     {
       headerName: "License Name",
       field: "licenseName",
       sortable: true,
       filter: true,
-      // flex:1,
+       flex:1,
     },
     {
       headerName: "Modal Type",
       field: "modalType",
       sortable: true,
       filter: true,
-      flex: 1,
+       flex:1,
     },
     {
       headerName: "Department Name",
@@ -283,13 +301,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       filter: true,
       flex: 1,
     },
-    {
-      headerName: "Department Owner",
-      field: "departmentOwner",
-      sortable: true,
-      filter: true,
-      // flex:1,
-    },
+   
     {
       headerName: "Total Seats",
       field: "totalSeats",
@@ -322,6 +334,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       headerName: "License Status",
       field: "LicenseStatus",
       sortable: true,
+      cellRenderer: StatusColor,
       filter: true,
       flex: 1,
     },
@@ -452,7 +465,12 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       gridRef.current.api.refreshCells();
       gridRef.current.api.redrawRows();
     }
-  }, [formValues, expiredLicensesData, expiringsoonData]);
+  }, [formValues, expiredLicensesData,expiringsoonData]);
+//  To filter the number of
+  const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
+    return [ 10, 15, 20, 25,30];
+  }, []);
+   
 
   const expiredLicenses = dataFromRedux.filter((item: any) => {
     const expirationDate = new Date(item.expirationDate);
@@ -552,13 +570,13 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
             columnDefs={page === "expired" ? columnDefs1 : page === 'expiring' ? columnDefs2 : columnDefs}
             pagination={true}
             paginationPageSize={10}
-            paginationPageSizeSelector={[5, 15, 25, 35]}
+            paginationPageSizeSelector={paginationPageSizeSelector}
             modules={[
               ClientSideRowModelModule,
               TextFilterModule,
-              NumberFilterModule,
+              // NumberFilterModule,
               PaginationModule,
-              RowSelectionModule,
+              // RowSelectionModule,
             ]}
           />
           :

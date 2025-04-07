@@ -198,7 +198,7 @@ function Navbar() {
                                 <SearchIconWrapper>
                                     <SearchIcon />
                                 </SearchIconWrapper>
-                                <StyledInputBase sx={{ display: { xs: "none", sm: "block" } }}
+                                <StyledInputBase sx={{  marginLeft : "50px",display: { xs: "none", sm: "block" } }}
                                     placeholder="Search…"
                                     inputProps={{ 'aria-label': 'search' }}
                                     value={searchField}
