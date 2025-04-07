@@ -201,6 +201,13 @@ body {
     background-color: red !important;
     border-radius:10px;
     color:white;
-
   }
   
+  .backArrowIcon {
+    cursor: pointer;
+    margin-right: 16px;
+    color: #555;
+    &:hover {
+      color: #000;
+    }
+  }

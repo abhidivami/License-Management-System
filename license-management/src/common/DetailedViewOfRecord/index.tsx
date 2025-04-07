@@ -1,6 +1,7 @@
 import { useState } from "react";
 import style from "./index.module.scss";
 import EditIcon from "@mui/icons-material/Edit";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -31,7 +32,7 @@ const DetailedViewOfEachRecord = () => {
   };
 
   const navigate = useNavigate();
-  const handleGoBack = () =>{
+  const handleGoBack = () => {
     navigate('/');
   }
 
@@ -78,27 +79,12 @@ const DetailedViewOfEachRecord = () => {
     <div className={style.detailedViewCard}>
       <div className={style.detailedViewCardHeader}>
         <div className={style.detailedViewCardleftHeader}>
-          <button
-            className={`${style.detailedViewCardHeaderInfoButton} ${infoClicked ? style.selected : ""
-              }`}
-            onClick={handleInfoClicked}
-          >
+          <ArrowBackIcon className={style.backArrowIcon} onClick={handleGoBack}/>
+          <button className={`${style.detailedViewCardHeaderInfoButton} ${infoClicked ? style.selected : ""}`}onClick={handleInfoClicked}>
             Info
           </button>
-          <button
-            className={`${style.detailedViewCardHeaderInfoButton} ${renewalHistoryClicked ? style.selected : ""
-              }`}
-            onClick={handleRenewalHistoryClicked}
-          >
+          <button className={`${style.detailedViewCardHeaderInfoButton} ${renewalHistoryClicked ? style.selected : ""}`} onClick={handleRenewalHistoryClicked}>
             Renewal History
-          </button>
-        </div>
-        <div className={style.detailedViewCardRightHeader}>
-        <button
-            className={`${style.detailedViewCardHeaderBackButton}`}
-            onClick={handleGoBack}
-          >
-            Go back
           </button>
         </div>
       </div>
