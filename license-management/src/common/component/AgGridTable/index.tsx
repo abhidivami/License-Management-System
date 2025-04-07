@@ -12,7 +12,7 @@ import {
   PaginationModule,
   RowSelectionModule,
 } from "ag-grid-community";
-import { Eye, View } from "lucide-react";
+import { Eye, UserIcon, View } from "lucide-react";
 import { ModuleRegistry } from "ag-grid-community";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ColDef } from "ag-grid-community";
@@ -20,9 +20,11 @@ import { useDispatch } from "react-redux";
 import { removeFormData, setData } from "../../../Redux/Slice/LicenseForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store/index";
-import { useLocation, useNavigate } from "react-router-dom";
+import { data, useLocation, useNavigate } from "react-router-dom";
 import { LicenseForm } from "../../../components/LicenseForm";
 import { toast } from "react-toastify";
+import CardComponent from "../../../components/Analytics/CardComponent";
+import { userIcon, walletIcon, briefcaseIcon, buildingIcon } from "../../../components/Analytics";
 
 // Register the filter modules
 ModuleRegistry.registerModules([
@@ -452,6 +454,29 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     }
   }, [formValues, expiredLicensesData, expiringsoonData]);
 
+  const expiredLicenses = dataFromRedux.filter((item: any) => {
+    const expirationDate = new Date(item.expirationDate);
+    return expirationDate < new Date();
+  }
+  );
+
+  const userLicensesExpired = expiredLicenses.filter((item:any)  =>{
+    return item.subscriptionModel === 'UserBased'
+  })
+
+  const groupLicensesExpired = expiredLicenses.filter((item:any) =>{
+    return item.subscriptionModel === 'Enterprise'
+  })
+
+  const totalLicenses = dataFromRedux.length;
+
+  const totalCostTorenew = expiredLicenses.reduce((acc: number, item: any) => {
+    const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
+    return acc + cost;
+  }
+  , 0);
+  const totalCostInMillions = (totalCostTorenew / 1000000).toFixed(1);
+
 
   return (
     <Container
@@ -460,21 +485,58 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         paddingTop: "2rem",
         overflowY: "scroll"
       }}>
-      {page === "expiring" && (
-        <div className={styles.filterContainer}>
-          <label>Expiration Range: </label>
-          <select
-            value={selectedDaysFilter}
-            onChange={(e) => setSelectedDaysFilter(e.target.value)}
-            className={styles.filterSelect}
-          >
-            <option value="all">All</option>
-            <option value="7">&lt; 7 days</option>
-            <option value="15">&lt; 15 days</option>
-            <option value="30">&lt; 30 days</option>
-          </select>
-        </div>
-      )}
+        {page === "expiring" && (
+      <div className={styles.filterContainer}>
+        <label>Expiration Range: </label>
+        <select 
+          value={selectedDaysFilter} 
+          onChange={(e) => setSelectedDaysFilter(e.target.value)}
+          className={styles.filterSelect}
+        >
+          <option value="all">All</option>
+          <option value="7">&lt; 7 days</option>
+          <option value="15">&lt; 15 days</option>
+          <option value="30">&lt; 30 days</option>
+        </select>
+      </div>
+    )}
+    {
+      page === "expired" && (
+        <div className={styles.cardContainer}>
+          <CardComponent
+                icon={briefcaseIcon}
+                title="No of Expired Licenses"
+                value={`${expiredLicenses.length} Licenses`}
+                progressValue={(expiredLicenses.length)/totalLicenses * 100}
+                licenses={dataFromRedux}
+                filterKey="expiredLicenses"
+              />
+          <CardComponent
+                icon={walletIcon}
+                title="Cost to renew expired licenses"
+                value={`${totalCostInMillions}M`}
+                progressValue={(expiredLicenses.length)/totalLicenses * 100}
+                licenses={dataFromRedux}
+                filterKey="expiredLicenses"
+              />
+          <CardComponent
+                icon={userIcon}
+                title="User based Expired Licenses"
+                value={`${userLicensesExpired.length} Licenses`}
+                progressValue={(userLicensesExpired.length)/expiredLicenses.length * 100}
+                licenses={dataFromRedux}
+                filterKey="userBasedExpiredLicenses"
+              />
+          <CardComponent
+                icon={buildingIcon}
+                title="group based Expired Licenses"
+                value={`${groupLicensesExpired.length} Licenses`}
+                progressValue={(groupLicensesExpired.length)/expiredLicenses.length * 100}
+                licenses={dataFromRedux}
+                filterKey="groupExpiredLicenses"
+              />
+      </div>
+    )}
 
       <div className="ag-theme-quartz" style={{ height: "590px", width: "100%" }}>
         {!showLicenseForm ?
