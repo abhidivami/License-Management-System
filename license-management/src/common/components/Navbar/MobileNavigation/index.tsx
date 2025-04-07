@@ -4,28 +4,36 @@ import Drawer from '@mui/material/Drawer';
 import { Divider, IconButton, List, ListItem, ListItemButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import styles from './index.module.scss';
-import logo from '../../../../assets/logo.png';
+// import logo from '../../../../assets/logo.png';
 import HomeIcon from '@mui/icons-material/Home';
 import Analytics from '@mui/icons-material/QueryStats';
 import Expired from '@mui/icons-material/RunningWithErrorsOutlined';
 import ExpiringSoon from '@mui/icons-material/AccessAlarmOutlined';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import LmsLogo from '../../../../assets/lms_logo.jpg';
 
 
 
 function DisplayNavigationBar() {
     const [open, setOpen] = React.useState(false);
 
+    const navigate = useNavigate();
+
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
+
+    //upon clicking on logo and name should navigate to home page
+    const handleHomePageNavigation = () => {
+        navigate('/');
+    }
 
 
     const DrawerList = (
         <Box sx={{ width: 320 }} role="Profile" onClick={toggleDrawer(false)}>
             <div className={styles.navigation}>
-                <img src={logo} className={styles.navigationLogo} />
-                <span className={styles.navigationTitle}>Divami Design Labs Private Limited</span>
+                <img src={LmsLogo} className={styles.navigationLogo} onClick={handleHomePageNavigation}/>
+                <span className={styles.navigationTitle} onClick={handleHomePageNavigation}>Divami Design Labs Private Limited</span>
             </div>
             <div className={styles.options}>
                 <List>

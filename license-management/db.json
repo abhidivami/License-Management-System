@@ -214,6 +214,42 @@
       "expirationDate": "2025-04-02",
       "shelfLife": "",
       "id": "176507"
+    },
+    {
+      "id": "c4de",
+      "licenseId": "",
+      "licenseName": "MongoDB",
+      "licenseType": "Database",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "mongo@gmail.com",
+      "departmentOwner": "Gopal",
+      "departmentName": "IT",
+      "employeeName": "Basha, Vinay, Phawan",
+      "totalSeats": "12",
+      "totalCost": "12000",
+      "purchaseDate": "2025-05-01",
+      "expirationDate": "2025-10-04",
+      "shelfLife": ""
+    },
+    {
+      "id": "7aae",
+      "licenseId": "",
+      "licenseName": "SQL",
+      "licenseType": "Database",
+      "modalType": "Subscription",
+      "subscriptionType": "Half-Yearly",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "sql@divami.com",
+      "departmentOwner": "Gopal",
+      "departmentName": "IT",
+      "employeeName": "Basha, Vinay, Phawan",
+      "totalSeats": "76",
+      "totalCost": "98768",
+      "purchaseDate": "2025-04-07",
+      "expirationDate": "2025-12-19",
+      "shelfLife": ""
     }
   ],
   "departments": [

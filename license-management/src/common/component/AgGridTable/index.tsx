@@ -59,20 +59,9 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   const [rowData, setRowData] = useState<RowData[]>([]);
   const formValues = useSelector((state: RootState) => state.form);
 
+  //to store licenses which are matched with search field
   let filteredValues: FormData[] = [];
   const searchText = useSelector((state: RootState) => state.search.searchText);
-
-  // if (searchText != "") {
-  //   //to display only filtered data
-  //   filteredValues = formValues.filter((license) => {
-  //     if (license.licenseName.toLowerCase().search(searchText) != -1) {
-  //       //matched
-  //       return true;
-  //     }
-  //     //not matched
-  //     return false;
-  //   })
-  // }
 
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
@@ -85,7 +74,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
 
   const notify = () => toast("Record Deleted Successfully!");
   //to handle expired page
-  // const expired = useMatch('/expired');
   const [expiredLicensesData, setExpiredLicensesData] = useState<RowData[]>([]);
 
   //to handle expiring soon page 
@@ -220,11 +208,13 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     setExpiringsoonData(filteredData);
   }, [dataFromRedux, selectedDaysFilter]);
 
+  
+  //store licenses that are matched with search field
   const filterLicensesByLicenseName = (licensesData: any) => {
     if (searchText != "") {
       //to display only filtered data
       filteredValues = licensesData.filter((license) => {
-        if (license.licenseName.toLowerCase().search(searchText) != -1) {
+        if (license.licenseName.toLowerCase().search(searchText.toLowerCase()) != -1) {
           //matched
           return true;
         }
@@ -547,6 +537,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
                 //to display values that are matched with search field
                 filteredValues
                 :
+                //to display all licenses data based on the current page
                 page === "expired" ? expiredLicensesData : page === 'expiring' ? expiringsoonData : searchText != "" ? filteredValues : formValues
             }
             columnDefs={page === "expired" ? columnDefs1 : page === 'expiring' ? columnDefs2 : columnDefs}

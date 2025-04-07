@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-// import MenuIcon from '@mui/icons-material/Menu';
 import LmsLogo from '../../../assets/lms_logo.jpg';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -20,7 +19,7 @@ import DisplayNavigationBar from './MobileNavigation';
 import Notification from './Notification';
 import { useDispatch } from 'react-redux';
 import { setSearchText } from '../../../Redux/Slice/Search';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //to style entire search div
 const Search = styled('div')(({ theme }) => ({
@@ -61,7 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         [theme.breakpoints.up('md')]: {
             width: '35ch',
         },
-        
+
         //to style input placeholder
         '&::placeholder': {
             color: "#27548A",
@@ -82,13 +81,16 @@ function Navbar() {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
+    //to make search field empty in input field and redux, when the url changes
     const location = useLocation();
     React.useEffect(() => {
         setSearchField("");
-        dispatch(setSearchText({search: ""}));
-    },[location]);
+        dispatch(setSearchText({ search: "" }));
+    }, [location]);
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -103,16 +105,18 @@ function Navbar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const handleNavigationToHome = () => {
+        //by clicking on logo and name, it should be redirected to home page
+        navigate('/');
+    }
+
     //storing search text
     const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchField(event.target.value);
-        dispatch(setSearchText({search: event.target.value}));
-    }
 
-    // const goToDefaultValues = () => {
-    //     setSearchField("");
-    //     dispatch(setSearchText({search: ""}));
-    // }
+        //store it in redux
+        dispatch(setSearchText({ search: event.target.value }));
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -173,16 +177,7 @@ function Navbar() {
                     <AppBar position="static" sx={{ bgcolor: "#27548A" }}>
                         <Toolbar>
                             {/* display for web and tablets */}
-                            {/* <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="open drawer"
-                                sx={{ pt: 2, display: { xs: "none", md: "block" } }}
-                            > */}
-                            {/* <MenuIcon /> */}
-                            <img src={LmsLogo} className={styles.logo} />
-                            {/* </IconButton> */}
+                            <img src={LmsLogo} className={styles.logo} onClick={handleNavigationToHome} />
 
                             {/* display only in mobiles */}
                             <DisplayNavigationBar />
@@ -190,7 +185,8 @@ function Navbar() {
                                 variant="h6"
                                 noWrap
                                 component="div"
-                                sx={{ display: { sm: 'block' }, width: "340px" }}
+                                onClick={handleNavigationToHome}
+                                sx={{ display: { sm: 'block' }, width: "340px", cursor: "pointer" }}
                             >
                                 License Management System
                             </Typography>
@@ -203,7 +199,6 @@ function Navbar() {
                                     inputProps={{ 'aria-label': 'search' }}
                                     value={searchField}
                                     onChange={handleSearchField}
-                                    // on={goToDefaultValues}
                                 />
                             </Search>
                             <Box sx={{ flexGrow: 1 }} />

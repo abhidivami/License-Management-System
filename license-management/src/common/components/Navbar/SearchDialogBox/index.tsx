@@ -30,6 +30,10 @@ function SimpleDialog(props: DialogProps) {
 
     const handleSearchText = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchField(event.target.value);
+        if(event.target.value == ""){
+            //to display all licenses when search field is empty
+            dispatch(setSearchText({search: ""}));
+        }
     }
 
     const handleEnterKeyForSearch = (event: React.KeyboardEvent) => {
