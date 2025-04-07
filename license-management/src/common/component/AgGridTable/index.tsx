@@ -211,7 +211,7 @@ useEffect(() => {
           <Eye onClick={() => handleViewClick(data)} />
         </button>
         <button className={styles.delbtn}>
-          <DeleteIcon onClick={()=>handleDeleteClick(data)}/>
+          <DeleteIcon   onClick={()=>handleDeleteClick(data)}/>
         </button>
       </div>
     );
