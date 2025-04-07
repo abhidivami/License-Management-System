@@ -184,7 +184,7 @@
       "shelfLife": ""
     },
     {
-      "id": "a2ab",
+      "id": "176507",
       "licenseId": "",
       "licenseName": "FireBase",
       "licenseType": "Software",
@@ -194,15 +194,51 @@
       "billingEmail": "se@divami.com",
       "departmentOwner": "Gopal",
       "departmentName": "IT",
-      "employeeName": "Vinay, Sweety, Ashwanth, Ravi",
-      "totalSeats": "12",
-      "totalCost": "32",
-      "purchaseDate": "2025-04-17",
-      "expirationDate": "2026-02-02",
+      "employeeName": "unknown1",
+      "totalSeats": 12,
+      "totalCost": "123456",
+      "purchaseDate": "2025-03-03",
+      "expirationDate": "2025-04-02",
       "shelfLife": ""
     },
     {
-      "id": "11e0",
+      "id": "dbf5",
+      "licenseId": "",
+      "licenseName": "",
+      "licenseType": "",
+      "modalType": "",
+      "subscriptionType": "",
+      "subscriptionModel": "",
+      "billingEmail": "",
+      "departmentOwner": "",
+      "departmentName": "",
+      "employeeName": "",
+      "totalSeats": "",
+      "totalCost": "",
+      "purchaseDate": "",
+      "expirationDate": "",
+      "shelfLife": ""
+    },
+    {
+      "id": "71be",
+      "licenseId": "",
+      "licenseName": "",
+      "licenseType": "",
+      "modalType": "",
+      "subscriptionType": "",
+      "subscriptionModel": "",
+      "billingEmail": "",
+      "departmentOwner": "",
+      "departmentName": "",
+      "employeeName": "",
+      "totalSeats": "",
+      "totalCost": "",
+      "purchaseDate": "",
+      "expirationDate": "",
+      "shelfLife": ""
+    },
+    {
+      "id": "c4de",
       "licenseId": "",
       "licenseName": "Gemini",
       "licenseType": "Software",
@@ -360,32 +396,32 @@
     },
     {
       "license_id": 2,
-      "message": "Slack has expired. Please renew immediately.",
+      "message": "Jira license is expiring in 1 days. Please renew by 4/8/2025.",
       "notification_date": "2023-06-01",
       "id": "95ea"
     },
     {
       "license_id": 3,
-      "message": "GitHub subscription is about to expire. Renew by 2023-08-01.",
+      "message": "Postman license is expiring in 0 days. Please renew by 4/5/2025.",
       "notification_date": "2023-07-15",
       "id": "f9b9"
     },
     {
       "license_id": 4,
-      "message": "Adobe Photoshop license is expiring soon. Please renew by 2024-03-10.",
+      "message": "Figma subscription will expire in 5 days. Renew by 2023-12-20.",
       "notification_date": "2024-02-25",
       "id": "ca53"
     },
     {
       "license_id": 5,
-      "message": "Zoom subscription will expire in 5 days. Renew by 2023-12-20.",
+      "message": "S3 subscription will expire in 5 days. Renew by 2023-12-20.",
       "notification_date": "2023-12-15",
       "id": "3c70"
     },
     {
       "license_id": "281741",
-      "message": "Jira license is expiring in 1 days. Please renew by 08/04/2025.",
-      "notification_date": "07/04/2025",
+      "message": "Jira license is expiring in 1 days. Please renew by 4/8/2025.",
+      "notification_date": "4/7/2025",
       "id": "n6twbzko"
     },
     {

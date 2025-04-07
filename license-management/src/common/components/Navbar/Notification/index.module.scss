@@ -1,31 +1,79 @@
 
+  ::-webkit-scrollbar{
+     display: none;
+  }
 
+//     .notifications{ 
+       
+//     padding: 15px;
+//     font-family: 'apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+//     &Element{
+//         background-color: white;
+//         border: 1px solid rgb(197, 193, 193);
+//         border-radius: 6px;
+//         padding: 10px;
+//         margin: 10px 0px;
+      
+//     }
 
-    .notifications{ 
-    padding: 15px;
-    font-family: 'apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    &Element{
+//     &Heading{
+//         display: flex;
+//         justify-content: space-between;
+//         margin-bottom: 20px;
+//         position: fixed;
+//         top: 20px;
+//         background-color: red;
+      
+    
+//         &Close{
+//             border-radius: 2px;
+//             border: none;
+//             background-color: transparent;
+//             cursor: pointer;
+//             position: fixed;
+//             right: 20px; 
+//             top: 20px;
+           
+//         }
+//     }
+
+// }
+
+.notificationHeader{
+       display: flex;
+        width: 100%;
+        height: 30px;
         background-color: white;
-        border: 1px solid rgb(197, 193, 193);
-        border-radius: 6px;
-        padding: 10px;
-        margin: 10px 0px;
-    }
-
-    &Heading{
-        display: flex;
+        z-index: 1;
+        position: fixed;
         justify-content: space-between;
-        margin-bottom: 20px;
+        max-width: 400px;
+        padding: 10px 0px;
+        border-radius: 20px;
+  
+}
 
-        &Close{
-            border-radius: 2px;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-        }
-    }
+.notificationHeading{
+    display: flex;
+    margin-left: 20px; 
+
+}
+
+.notificationClose{
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.cards{
+    margin-top: 80px;
+    z-index: 0;
+    
+}
 
 
+.detailsHeader{
+    width: 150px;
+    display: flex;   
 }
 
 
@@ -33,24 +81,26 @@
     margin: 30px;
     padding: 10px;
     box-shadow: 0px 0px 5px rgb(0, 0, 0, 0.6);
-    border-radius: 10px;
-  
+    border-radius: 10px; 
   }
 
+  .detailsInfo{
+    display: flex;
+    gap: 50px;
+    justify-content: space-around;
+    align-items: center;
+   
+  }
 
-//  input[type="text"]{ 
-  .inputTag{
+ .inputTag{ 
+  
     border: none;
     width: 250px;
     font-size: 15px;
-    margin-left: 50px;
+    margin-left: 20px;
     padding: 10px;
     border-bottom: 1px solid #cccc;
-
   }
-
-
-
 
 .mobile{
     display: flex;
