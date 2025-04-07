@@ -7,6 +7,7 @@ import profileLogo from '../../../../assets/brand.jpg';
 import styles from './index.module.scss';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import CloseIcon from '@mui/icons-material/CancelSharp';
+import logo from '../assets/logo.png';
 
 
 
@@ -35,7 +36,8 @@ function Profile(props: ProfileProps) {
             <Card sx={{height:"130px",width:"100%", }}>
                 <CardContent>
                     <div style={{ display: "flex", alignItems: "center" }}>
-                     <Avatar sx={{ width: "80px", height: "80px", borderRadius: "10px" }} />
+                       
+                     <Avatar sx={{ width: "80px", height: "80px", borderRadius: "10px" }}  />
                         <div style={{ marginLeft: "10px" }}>
                             <p style={{fontWeight:"500"}}>Divami</p>
                             <p style={{opacity:"0.7"}}>Divami@gmail.com</p>
@@ -54,7 +56,7 @@ function Profile(props: ProfileProps) {
                 </div>
              
               
-                <Card sx={{marginTop:"20px",height:"100px"}}>
+                <Card sx={{marginTop:"60px",height:"100px"}}>
                     <CardContent sx={{display:"flex", justifyContent:"center",alignItems:"center",gap:"10px"}}>
                       <img src={profileLogo} className={styles.profileLogo} />
                      <span className={styles.profileTitle}>Divami Design Labs Private Limited</span>
@@ -64,8 +66,11 @@ function Profile(props: ProfileProps) {
               
             </div>
             <Divider />
-            <br />
+            <br/>
+          
             <p className={styles.caption}>Focuses on design excellence and strategic growth</p>
+
+            
         </Box>
     );
 
