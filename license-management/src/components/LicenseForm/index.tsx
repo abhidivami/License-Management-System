@@ -10,9 +10,10 @@ import { toast } from 'react-toastify';
 type LicenceformProps ={
   close : () =>void;
   existingData : any; 
+  formRef?: React.RefObject<HTMLFormElement>;
 }
 
-export const LicenseForm: React.FC<LicenceformProps> = ({ close,existingData }: LicenceformProps) => {
+export const LicenseForm: React.FC<LicenceformProps> = ({ close,existingData,formRef }: LicenceformProps) => {
   const dispatch = useDispatch();
   const { control, handleSubmit,formState: { errors }, watch,} = useForm({
     defaultValues: {
@@ -107,7 +108,7 @@ const onSubmit = async (data: any) => {
   return (
     isModalOpen && (
       <Container maxWidth="lg" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
         <Stack spacing={3}>
           {/* License Name */}
           <Controller
@@ -391,7 +392,7 @@ const onSubmit = async (data: any) => {
           />
 
           {/* Action Buttons */}
-          <Stack direction="row" spacing={2} sx={{ justifyContent: "flex-end", marginTop: "16px" }}>
+          {/* <Stack direction="row" spacing={2} sx={{ justifyContent: "flex-end", marginTop: "16px" }}>
             <Button
               variant="contained"
               color="primary"
@@ -409,7 +410,7 @@ const onSubmit = async (data: any) => {
             >
               {loading ? "Submitting..." : "Create"}
             </Button>
-          </Stack>
+          </Stack> */}
         </Stack>
       </form>
     </Container>

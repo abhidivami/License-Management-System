@@ -4,9 +4,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    padding: 30px;
+    padding: 1rem;
     width: 100%;
     background-color: #f4f7fa;
+    overflow:scroll;
     // height: 100%;
 }
 
@@ -16,7 +17,6 @@
     align-items: center;
     margin-bottom: 30px;
     flex-wrap: wrap;
-    gap: 30px;
     padding: 10px;
 }
 
@@ -82,7 +82,7 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     padding: 25px;
-    margin-top:20px;
+    // margin-top:20px;
     background-color: #ffffff;
     // width: 100%;
     display: flex;
@@ -90,6 +90,81 @@
     justify-content: center;
     align-items: center;
 }
+
+/* Add these to your existing styles */
+
+.dashboardTitle {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  
+  .chartContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .analyticsGraph, .analyticsBarChart {
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+  }
+
+  
+  
+  .scrollableChart {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 10px;
+    }
+  }
+  
+  .chartNote {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  
+  @media (max-width: 768px) {
+    .chartContainer {
+      flex-direction: column;
+    }
+    
+    .analyticsGraph, .analyticsBarChart {
+      width: 100%;
+    }
+  }
 
 @keyframes fadeIn {
     0% {

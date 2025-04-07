@@ -12,7 +12,7 @@ import {
   PaginationModule,
   RowSelectionModule,
 } from "ag-grid-community";
-import { View } from "lucide-react";
+import { Eye, View } from "lucide-react";
 import { ModuleRegistry } from "ag-grid-community";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ColDef } from "ag-grid-community";
@@ -208,7 +208,7 @@ useEffect(() => {
     return (
       <div className={styles.btnContainer}>
         <button className={styles.vwbtn}>
-          <View onClick={() => handleViewClick(data)} />
+          <Eye onClick={() => handleViewClick(data)} />
         </button>
         <button className={styles.delbtn}>
           <DeleteIcon onClick={()=>handleDeleteClick(data)}/>

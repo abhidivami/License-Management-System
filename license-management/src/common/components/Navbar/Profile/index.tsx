@@ -40,15 +40,17 @@ function Profile(props: ProfileProps) {
             <Tooltip title='Profile'>
                 <div onClick={toggleDrawer(true)} className={styles.mobile}>
                     <IconButton
-                        size="medium"
+                        size="large"
                         edge='end'
                         aria-label="account of current user"
                         aria-controls={menuId}
                         aria-haspopup="true"
                         color="inherit"
-                        sx={{ color: iconColor }}
+                        sx={{ color: iconColor}}
                     >
-                        <AccountCircle />
+                        <AccountCircle  sx={{
+                            fontSize:'30px'
+                        }}/>
                     </IconButton>
 
                     {/* for mobile versions */}
