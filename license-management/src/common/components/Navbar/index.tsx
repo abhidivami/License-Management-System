@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
+import LmsLogo from '../../../assets/lms_logo.jpg';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import CreateButton from './CreateButton';
@@ -17,6 +18,9 @@ import SearchDialogBox from './SearchDialogBox';
 import Profile from './Profile';
 import DisplayNavigationBar from './MobileNavigation';
 import Notification from './Notification';
+import { useDispatch } from 'react-redux';
+import { setSearchText } from '../../../Redux/Slice/Search';
+import { useLocation } from 'react-router-dom';
 
 //to style entire search div
 const Search = styled('div')(({ theme }) => ({
@@ -49,13 +53,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: '#27548A',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
+        [theme.breakpoints.up('xs')]: {
+            width: '25ch',
+        },
         [theme.breakpoints.up('md')]: {
             width: '35ch',
         },
-
+        
         //to style input placeholder
         '&::placeholder': {
             color: "#27548A",
@@ -76,6 +82,14 @@ function Navbar() {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+    const dispatch = useDispatch();
+
+    const location = useLocation();
+    React.useEffect(() => {
+        setSearchField("");
+        dispatch(setSearchText({search: ""}));
+    },[location]);
+
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
@@ -92,14 +106,13 @@ function Navbar() {
     //storing search text
     const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchField(event.target.value);
+        dispatch(setSearchText({search: event.target.value}));
     }
 
-    //in order to search data after clicking on enter
-    const handleSearchFieldEnter = (event: React.KeyboardEvent) => {
-        if (event.key == "Enter") {
-            console.log("search text: ", searchField);
-        }
-    }
+    // const goToDefaultValues = () => {
+    //     setSearchField("");
+    //     dispatch(setSearchText({search: ""}));
+    // }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -137,7 +150,7 @@ function Navbar() {
             }}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
-            sx={{zIndex: 100}}
+            sx={{ zIndex: 100 }}
         >
             <MenuItem>
                 <div className={styles.create}>
@@ -145,10 +158,10 @@ function Navbar() {
                 </div>
             </MenuItem>
             <MenuItem>
-                <Notification iconColor="black"/>
+                <Notification iconColor="black" />
             </MenuItem>
             <MenuItem>
-                <Profile iconColor="black"/>
+                <Profile iconColor="black" />
             </MenuItem>
         </Menu>
     );
@@ -160,15 +173,16 @@ function Navbar() {
                     <AppBar position="static" sx={{ bgcolor: "#27548A" }}>
                         <Toolbar>
                             {/* display for web and tablets */}
-                            <IconButton
+                            {/* <IconButton
                                 size="large"
                                 edge="start"
                                 color="inherit"
                                 aria-label="open drawer"
-                                sx={{ mr: 2, pt: 2, display: { xs: "none", md: "block" } }}
-                            >
-                                <MenuIcon />
-                            </IconButton>
+                                sx={{ pt: 2, display: { xs: "none", md: "block" } }}
+                            > */}
+                            {/* <MenuIcon /> */}
+                            <img src={LmsLogo} className={styles.logo} />
+                            {/* </IconButton> */}
 
                             {/* display only in mobiles */}
                             <DisplayNavigationBar />
@@ -187,21 +201,22 @@ function Navbar() {
                                 <StyledInputBase sx={{ display: { xs: "none", sm: "block" } }}
                                     placeholder="Search…"
                                     inputProps={{ 'aria-label': 'search' }}
+                                    value={searchField}
                                     onChange={handleSearchField}
-                                    onKeyDown={handleSearchFieldEnter}
+                                    // on={goToDefaultValues}
                                 />
                             </Search>
                             <Box sx={{ flexGrow: 1 }} />
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: "center" }}>
-                                
+
                                 {/* create button */}
                                 <CreateButton />
-                                
+
                                 {/* notifications icon  */}
-                                <Notification iconColor='white'/>
+                                <Notification iconColor='white' />
 
                                 {/* profile icon  */}
-                                <Profile iconColor='white'/>
+                                <Profile iconColor='white' />
                             </Box>
 
                             <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: "center", justifyContent: "flex-end" }}>
