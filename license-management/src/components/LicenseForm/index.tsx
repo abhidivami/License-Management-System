@@ -27,7 +27,7 @@ interface Employee {
 
 export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef }: LicenceformProps) => {
   const dispatch = useDispatch();
-  const { control, handleSubmit, formState: { errors }, watch } = useForm({
+  const { control, handleSubmit, formState: { errors }, watch, setValue } = useForm({
     defaultValues: {
       licenseId: existingData?.id || "",
       licenseName: existingData?.licenseName || "",
@@ -104,8 +104,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
         dispatch(updateData(response.data));
         toast.success("License Renewed Successfully!");
       } else {
-        alert("I am here")
-        console.log("data is",data)
+        data.LicenseStatus = data.expirationDate < new Date().toISOString() ? 'Expired' : 'Active';
         const response = await axios.post("http://localhost:3005/licenses", data);
         dispatch(addFormData(response.data));
         toast.success("License Created Successfully!");
@@ -166,19 +165,17 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
       })
   }, []);
 
-
-  const [deptName, setDeptName] = useState<string>("");
-  const [deptOwner, setDeptOwner] = useState<string>("");
   //store department name in order to get respective dept owner
-  const handleDeptName = (event: any) => {
-    setDeptName(event.target.value);
-    for (let index = 0; index < departments.length; index++) {
-      if (departments[index].name == event.target.value) {
-        setDeptOwner(departments[index].owner);
-        break;
-      }
-    }
+  const handleDeptName = (event: any, fieldOnChange: any) => {
+    const selectedDeptName = event.target.value;
+    fieldOnChange(selectedDeptName); // Update the form field
+    
+    // Find and set the department owner
+    const selectedDept = departments.find(dept => dept.name === selectedDeptName);
+  if (selectedDept) {
+    setValue('departmentOwner', selectedDept.owner); // Update departmentOwner
   }
+  };
 
 
   return (
@@ -319,22 +316,23 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
               control={control}
               render={({ field }) => (
                 <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
-                  <InputLabel>Department Name</InputLabel>
-                  <Select
-                    {...field}
-                    label="Department Name"
-                    onChange={handleDeptName}
-                    value={deptName}
-                    required
-                    error={!!errors.departmentName}
-                  >
-                    {departments && Array.isArray(departments) && departments.length > 0 &&
-                      departments.map((department: Department) => {
-                        return <MenuItem value={department.name}>{department.name}</MenuItem>
-                      })
-                    }
-                  </Select>
-                </FormControl>
+                <InputLabel>Department Name</InputLabel>
+                <Select
+                  {...field}
+                  label="Department Name"
+                  onChange={(e) => handleDeptName(e, field.onChange)}
+                  required
+                  error={!!errors.departmentName}
+                >
+                  {departments && Array.isArray(departments) && departments.length > 0 &&
+                    departments.map((department: Department) => (
+                      <MenuItem key={department.id} value={department.name}>
+                        {department.name}
+                      </MenuItem>
+                    ))
+                  }
+                </Select>
+              </FormControl>
               )}
             />
 
