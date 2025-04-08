@@ -43,6 +43,10 @@ function CreateButton() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    e.stopPropagation();
+  }
+
   return (
     <div>
       <Button
@@ -80,7 +84,7 @@ function CreateButton() {
         }}
       >
         <MenuItem onClick={handleOpenDialog}>License</MenuItem>
-        <MenuItem><DepartmentForm/></MenuItem>
+        <MenuItem onKeyDown={handleKeyDown}><DepartmentForm/></MenuItem>
       </Menu>
 
       {/* Dialog */}
