@@ -275,21 +275,23 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       field: "licenseName",
       sortable: true,
       filter: true,
-       flex:1,
+      //  flex:1,
     },
     {
       headerName: "Modal Type",
       field: "modalType",
       sortable: true,
       filter: true,
-       flex:1,
+      // width:120,
+      //  flex:1,
     },
     {
       headerName: "Department Name",
       field: "departmentName",
       sortable: true,
       filter: true,
-      flex: 1,
+      width:100,
+      // flex: 1,
     },
    
     {
@@ -297,28 +299,31 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       field: "billingEmail",
       sortable: true,
       filter: true,
-      flex: 1,
+      // flex: 1,
     },
     {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
-      flex: 1,
+      width:100,
+      // flex: 1,
     },
     {
       headerName: "Purchase Date",
       field: "purchaseDate",
       sortable: true,
       filter: true,
-      flex: 1,
+      width:150,
+      // flex: 1,
     },
     {
       headerName: "Expiration Date",
       field: "expirationDate",
       sortable: true,
       filter: true,
-      flex: 1
+      width:150
+      // flex: 1
     },
     {
       headerName: "License Status",
@@ -326,13 +331,15 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       sortable: true,
       cellRenderer: StatusColor,
       filter: true,
-      flex: 1,
+      width:150
+      // flex: 1,
     },
     {
       headerName: "Actions",
       field: "button",
       cellRenderer: CustomButtonComponent,
-      flex: 1
+      width:150,
+      // flex: 1
     },
   ]);
 
@@ -358,24 +365,16 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       filter: true,
     },
     {
-      headerName: "Department Owner",
-      field: "departmentOwner",
-      sortable: true,
-      filter: true,
-    },
-    {
       headerName: "Total seats",
       field: "totalSeats",
       sortable: true,
       filter: true,
-      flex: 1
     },
     {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
-      flex: 1
     },
     {
       headerName: "Expired Date",
@@ -387,7 +386,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       headerName: "Renew",
       field: "button",
       cellRenderer: RenewButton,
-      flex: 1
     },
   ]);
 
@@ -399,6 +397,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         field: "licenseName",
         sortable: true,
         filter: true,
+        width:150
       },
       {
         headerName: "Modal Type",
@@ -423,14 +422,15 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         field: "totalSeats",
         sortable: true,
         filter: true,
-        flex: 1
+        width:120
+        // flex: 1
       },
       {
         headerName: "Total Cost",
         field: "totalCost",
         sortable: true,
         filter: true,
-        flex: 1
+        width:120
       },
       {
         headerName: "Expiration Date",
@@ -443,7 +443,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
         field: "expiredInDays",
         sortable: true,
         filter: true,
-        flex: 1
+        // flex: 1
       }
     ]
   )
@@ -546,7 +546,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       </div>
     )}
 
-      <div className="ag-theme-quartz" style={{ height: "590px", width: "100%" }}>
+      <div className="ag-theme-quartz" style={{ height: "590px", width: "100%", overflow:'scroll' }}>
         {!showLicenseForm ?
           <AgGridReact
             rowData={

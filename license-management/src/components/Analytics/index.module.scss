@@ -155,15 +155,18 @@
     font-style: italic;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 370px) {
+
     .chartContainer {
       flex-direction: column;
     }
     
     .analyticsGraph, .analyticsBarChart {
-      width: 100%;
+      max-width:250px !important;
+    }
+    .scrollableChart {
       overflow:scroll;
-      padding:30px;
+      max-width:300px;
     }
   }
 

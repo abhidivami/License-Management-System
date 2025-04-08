@@ -13,7 +13,7 @@ export default function GraphComponent() {
     const hr = data.filter((item)=>item.departmentName === 'HR').length;
     
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div className="scrollableChart">
             <PieChart
                 series={[
                     {
