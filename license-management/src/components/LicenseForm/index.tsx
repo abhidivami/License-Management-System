@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment } from "@mui/material";
+import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, Menu, Autocomplete } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addFormData, updateData } from "../../Redux/Slice/LicenseForm/";
 import axios from "axios";
@@ -10,6 +10,19 @@ type LicenceformProps = {
   close: () => void;
   existingData: any;
   formRef?: React.RefObject<HTMLFormElement>;
+}
+
+interface Department {
+  id: number;
+  name: string;
+  owner: string;
+  description: string;
+}
+
+interface Employee {
+  id: number;
+  name: string;
+  designation: string;
 }
 
 export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef }: LicenceformProps) => {
@@ -42,8 +55,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
 
   // Function to calculate shelf life in days
 
-  const validateType = (licenseName : string) =>{
-    if(licenseName.trim() == ""){
+  const validateType = (licenseName: string) => {
+    if (licenseName.trim() == "") {
       return "License Name should not be empty"
     }
   }
@@ -112,6 +125,52 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     width: "100%", // Ensure all fields are full width
   };
 
+  //to store departments data
+  const [departments, setDepartments] = useState<Department[]>([]);
+
+  //to store employees data
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
+  //retrieving departments data from api and users data
+  useEffect(() => {
+
+    //retrieving departments data
+    axios.get("http://localhost:3005/departments")
+      .then((response) => {
+        //store departments api data
+        setDepartments(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching departments data: ", error);
+      })
+
+
+    //retrieving users data
+    axios.get("http://localhost:3005/Users")
+      .then((response) => {
+        //store employees data
+        setEmployees(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching employees data: ", error);
+      })
+  }, []);
+
+
+  const [deptName, setDeptName] = useState<string>("");
+  const [deptOwner, setDeptOwner] = useState<string>("");
+  //store department name in order to get respective dept owner
+  const handleDeptName = (event: any) => {
+    setDeptName(event.target.value);
+    for (let index = 0; index < departments.length; index++) {
+      if (departments[index].name == event.target.value) {
+        setDeptOwner(departments[index].owner);
+        break;
+      }
+    }
+  }
+
+
   return (
     isModalOpen && (
       <Container maxWidth="xl" sx={{ backgroundColor: "#f4f6f9", padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
@@ -131,7 +190,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.licenseName}
-                  sx={commonTextFieldStyle} 
+                  sx={commonTextFieldStyle}
                 />
               )}
             />
@@ -236,14 +295,14 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.billingEmail}
-                
+
                   sx={commonTextFieldStyle}
                 />
               )}
             />
 
-             {/* Department Name */}
-             <Controller
+            {/* Department Name */}
+            <Controller
               name="departmentName"
               control={control}
               render={({ field }) => (
@@ -252,18 +311,16 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   <Select
                     {...field}
                     label="Department Name"
+                    onChange={handleDeptName}
+                    value={deptName}
                     required
                     error={!!errors.departmentName}
                   >
-                    <MenuItem value="HR">HR</MenuItem>
-                    <MenuItem value="Software Engineering">Software Engineering</MenuItem>
-                    <MenuItem value="Sales">Sales</MenuItem>
-                    <MenuItem value="Finance">Finance</MenuItem>
-                    <MenuItem value="Marketing">Marketing</MenuItem>
-                    <MenuItem value="QA">QA</MenuItem>
-                    <MenuItem value="COE">COE</MenuItem>
-                    <MenuItem value="Devops">Devops</MenuItem>
-                    <MenuItem value="Project Management">Project Management</MenuItem>
+                    {departments && Array.isArray(departments) && departments.length > 0 &&
+                      departments.map((department: Department) => {
+                        return <MenuItem value={department.name}>{department.name}</MenuItem>
+                      })
+                    }
                   </Select>
                 </FormControl>
               )}
@@ -281,16 +338,16 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.departmentOwner}
-                
+                  value={deptOwner}
+                  onChange={(e) => setDeptOwner(e.target.value)}
                   sx={commonTextFieldStyle}
                 />
               )}
             />
 
-           
 
             {/* Employee Name */}
-            <Controller
+            {/* <Controller
               name="employeeName"
               control={control}
               render={({ field }) => (
@@ -301,31 +358,45 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.employeeName}
-                 
+
                   sx={commonTextFieldStyle}
+                />
+              )}
+            /> */}
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              options={employees}
+              getOptionLabel={(employee: Employee) => employee.name}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Employees"
+                  placeholder="Employee"
                 />
               )}
             />
 
             {/* Total Seats */}
-          <Controller
-            name="totalSeats"
-            control={control}
-            rules={{ validate: validateNegativeValues }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Total Seats"
-                type="number"
-                fullWidth
-                required
-                margin="normal"
-                // error={!!errors.totalSeats}
-                //  helperText={errors.totalSeats?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
+            <Controller
+              name="totalSeats"
+              control={control}
+              rules={{ validate: validateNegativeValues }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Total Seats"
+                  type="number"
+                  fullWidth
+                  required
+                  margin="normal"
+                  // error={!!errors.totalSeats}
+                  //  helperText={errors.totalSeats?.message}
+                  sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
+                />
+              )}
+            />
 
 
             {/* Total Cost */}
@@ -345,7 +416,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
                   error={!!errors.totalCost}
-                 
+
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -440,13 +511,13 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                 }}
               >
                 {loading ? "Submitting..." : "Create"}
-                </Button>
+              </Button>
+            </Stack>
+
           </Stack>
-          
-        </Stack>
-      </form>
-      
-    </Container>
+        </form>
+
+      </Container>
     )
   );
 };
