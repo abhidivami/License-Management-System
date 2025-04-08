@@ -41,12 +41,6 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
   const formData = watch();
 
   // Function to calculate shelf life in days
-
-  const validateType = (licenseName : string) =>{
-    if(licenseName.trim() == ""){
-      return "License Name should not be empty"
-    }
-  }
   const calculateShelfLife = (expirationDate: string): number => {
     const today = new Date();
     const expiry = new Date(expirationDate);
@@ -55,11 +49,19 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     return dayDiff;
   }
 
+  // Validate the License Name
+
+  const validateLicenseName = (licenseName: string) => {
+    if (!licenseName.trim()) {
+      return "License Name Should not be empty";
+    }
+    return true; 
+  };
   // Validation function for negative numbers
   const validateNegativeValues = (value: string) => {
     const number = parseFloat(value);
-    if (number < 0) {
-      return "Value cannot be negative";
+    if (number <= 0 || isNaN(number)) {
+      return "Value cannot be negative or non-numeric";
     }
     return true;
   };
@@ -121,7 +123,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             <Controller
               name="licenseName"
               control={control}
-              rules={{ validate: validateType }}
+              rules={{ validate: validateLicenseName }}
+              
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -131,7 +134,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.licenseName}
-                  sx={commonTextFieldStyle} 
+                  // helperText={errors.licenseName?.message}
+                  sx={commonTextFieldStyle}
                 />
               )}
             />
@@ -236,14 +240,14 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.billingEmail}
-                
+                  // helperText={errors.billingEmail?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
             />
 
-             {/* Department Name */}
-             <Controller
+            {/* Department Name */}
+            <Controller
               name="departmentName"
               control={control}
               render={({ field }) => (
@@ -281,13 +285,11 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.departmentOwner}
-                
+                  // helperText={errors.departmentOwner?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
             />
-
-           
 
             {/* Employee Name */}
             <Controller
@@ -301,32 +303,31 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.employeeName}
-                 
+                  // helperText={errors.employeeName?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
             />
 
             {/* Total Seats */}
-          <Controller
-            name="totalSeats"
-            control={control}
-            rules={{ validate: validateNegativeValues }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Total Seats"
-                type="number"
-                fullWidth
-                required
-                margin="normal"
-                // error={!!errors.totalSeats}
-                //  helperText={errors.totalSeats?.message}
-                sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
-              />
-            )}
-          />
-
+            <Controller
+              name="totalSeats"
+              control={control}
+              rules={{ validate: validateNegativeValues }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Total Seats"
+                  type="number"
+                  fullWidth
+                  required
+                  margin="normal"
+                  error={!!errors.totalSeats}
+                  // helperText={errors.totalSeats?.message}
+                  sx={commonTextFieldStyle}
+                />
+              )}
+            />
 
             {/* Total Cost */}
             <Controller
@@ -345,7 +346,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
                   error={!!errors.totalCost}
-                 
+                  // helperText={errors.totalCost?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -405,48 +406,50 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             />
 
             {/* Action Buttons */}
-            <Stack direction="row" spacing={2} sx={{ position: "sticky", marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="button"
-                onClick={() => close()}
-                sx={{
-                  width: "120px",
-                  fontWeight: 600,
-                  backgroundColor: "#1976d2",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#1565c0",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={loading}
-                sx={{
-                  width: "120px",
-                  fontWeight: 600,
-                  backgroundColor: "#1976d2",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#1565c0",
-                  },
-                }}
-              >
-                {loading ? "Submitting..." : "Create"}
+              <Stack direction="row" spacing={2} sx={{ marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px"  ,position: "sticky", 
+    bottom: "16px", 
+    left: "auto", 
+    right: "16px", 
+    zIndex: 1000 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  onClick={() => close()}
+                  sx={{
+                    width: "120px",
+                    fontWeight: 600,
+                    backgroundColor: "#1976d2",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#1565c0",
+                    },
+                  }}
+                >
+                  Cancel
                 </Button>
-          </Stack>
-          
-        </Stack>
-      </form>
-      
-    </Container>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={loading}
+                  sx={{
+                    width: "120px",
+                    fontWeight: 600,
+                    backgroundColor: "#1976d2",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#1565c0",
+                    },
+                  }}
+                >
+                  {loading ? "Submitting..." : "Create"}
+                </Button>
+              </Stack>
+            </Stack>
+        </form>
+      </Container>
     )
   );
 };
