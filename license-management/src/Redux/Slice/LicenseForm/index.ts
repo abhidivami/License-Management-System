@@ -12,7 +12,7 @@ export interface FormData {
   departmentOwner: string;
   departmentName: string;
   employeeName: string;
-  totalSeats: string | number;
+  totalSeats:  string;
   totalCost: string;
   purchaseDate: string;
   expirationDate: string;
@@ -28,20 +28,16 @@ const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
+    // To add Data to the redux
     addFormData: (state, action: PayloadAction<FormData>) => {
       state.push(action.payload);
     },
-    // To delete the formData
-    // removeFormData: (state, action: PayloadAction<number>) => {
-    //   const index = action.payload;
-    //   if (index >= 0 && index < state.length) {
-    //     state.splice(index, 1); 
-    //   }
-    // },
+  //  To remove item from the redux
     removeFormData: (state, action: PayloadAction<number>) => {
       // Filter out the item based on the id to remove the item from the state
       return state.filter((formData) => formData.id !== action.payload.toString());
     },
+    // To clear the form
     clearFormData: () => initialState,
     setData: (state, action: PayloadAction<FormData[]>) => {
       return action.payload.map((item) => ({
@@ -50,14 +46,13 @@ const formSlice = createSlice({
         shelfLife: item.shelfLife, 
       }));
     },
-    // LicenseFormSlice.ts
-    // LicenseFormSlice.ts
+      // To update the data 
       updateData: (state, action) => {
         const index = state.findIndex(
-          (item) => item.id === action.payload.id // Match by existing ID
+          (item) => item.id === action.payload.id
         );
         if (index !== -1) {
-          state[index] = action.payload; // Replace the old entry
+          state[index] = action.payload; 
         }
       },
   },
