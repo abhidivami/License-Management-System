@@ -76,7 +76,10 @@
     animation: fadeIn 1s ease-out;
   }
 
-  
+  .ag-paging-panel {
+    overflow:scroll;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -91,3 +94,23 @@
 body{
     animation: fadeIn 1s ease-out;
 }
+
+@media screen and (max-width:520px){
+    .ag-paging-panel {
+        align-items: center !important;
+        border-top: var(--ag-footer-row-border);
+        display: flex;
+        height: max(var(--ag-row-height), 22px);
+        justify-content: flex-end;
+        padding: 0 var(--ag-cell-horizontal-padding);
+        height: 70px;
+        overflow-y: scroll;
+        padding: 2px !important;
+        font-size: small;
+        justify-content: normal;
+        gap: 13px !important;
+    }
+}
+
+
+
