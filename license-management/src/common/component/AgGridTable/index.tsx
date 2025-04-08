@@ -42,7 +42,7 @@ type RowData = {
   modalType: string;
   billingEmail: string;
   totalCost: string;
-  totalSeats: string ;
+  totalSeats: number ;
   LicenseStatus: string;
   departmentName: string;
 };
@@ -117,7 +117,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     }
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = ()  => {
     if (selectedLicenseId) {
       // Delete from Redux state
       dispatch(removeFormData(selectedLicenseId));
@@ -213,7 +213,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   const filterLicensesByLicenseName = (licensesData: any) => {
     if (searchText != "") {
       //to display only filtered data
-      filteredValues = licensesData.filter((license) => {
+      filteredValues = licensesData.filter((license : any) => {
         if (license.licenseName.toLowerCase().search(searchText.toLowerCase()) != -1) {
           //matched
           return true;
@@ -293,8 +293,8 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     },
    
     {
-      headerName: "Total Seats",
-      field: "totalSeats",
+      headerName: "Billing Email",
+      field: "billingEmail",
       sortable: true,
       filter: true,
       flex: 1,
@@ -593,4 +593,3 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     </Container>
   );
 };
-

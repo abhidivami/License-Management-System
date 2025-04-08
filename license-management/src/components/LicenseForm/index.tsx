@@ -68,11 +68,19 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     return dayDiff;
   }
 
+  // Validate the License Name
+
+  const validateLicenseName = (licenseName: string) => {
+    if (!licenseName.trim()) {
+      return "License Name Should not be empty";
+    }
+    return true; 
+  };
   // Validation function for negative numbers
   const validateNegativeValues = (value: string) => {
     const number = parseFloat(value);
-    if (number < 0) {
-      return "Value cannot be negative";
+    if (number <= 0 || isNaN(number)) {
+      return "Value cannot be negative or non-numeric";
     }
     return true;
   };
@@ -96,6 +104,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
         dispatch(updateData(response.data));
         toast.success("License Renewed Successfully!");
       } else {
+        alert("I am here")
+        console.log("data is",data)
         const response = await axios.post("http://localhost:3005/licenses", data);
         dispatch(addFormData(response.data));
         toast.success("License Created Successfully!");
@@ -180,7 +190,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             <Controller
               name="licenseName"
               control={control}
-              rules={{ validate: validateType }}
+              rules={{ validate: validateLicenseName }}
+              
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -190,6 +201,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.licenseName}
+                  // helperText={errors.licenseName?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -295,7 +307,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.billingEmail}
-
+                  // helperText={errors.billingEmail?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -338,13 +350,11 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.departmentOwner}
-                  value={deptOwner}
-                  onChange={(e) => setDeptOwner(e.target.value)}
+                  // helperText={errors.departmentOwner?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
             />
-
 
             {/* Employee Name */}
             {/* <Controller
@@ -358,7 +368,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.employeeName}
-
+                  // helperText={errors.employeeName?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -391,13 +401,12 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   fullWidth
                   required
                   margin="normal"
-                  // error={!!errors.totalSeats}
-                  //  helperText={errors.totalSeats?.message}
-                  sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
+                  error={!!errors.totalSeats}
+                  // helperText={errors.totalSeats?.message}
+                  sx={commonTextFieldStyle}
                 />
               )}
             />
-
 
             {/* Total Cost */}
             <Controller
@@ -416,7 +425,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
                   error={!!errors.totalCost}
-
+                  // helperText={errors.totalCost?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -476,47 +485,49 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             />
 
             {/* Action Buttons */}
-            <Stack direction="row" spacing={2} sx={{ position: "sticky", marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="button"
-                onClick={() => close()}
-                sx={{
-                  width: "120px",
-                  fontWeight: 600,
-                  backgroundColor: "#1976d2",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#1565c0",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
+              <Stack direction="row" spacing={2} sx={{ marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px"  ,position: "sticky", 
+    bottom: "16px", 
+    left: "auto", 
+    right: "16px", 
+    zIndex: 1000 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  onClick={() => close()}
+                  sx={{
+                    width: "120px",
+                    fontWeight: 600,
+                    backgroundColor: "#1976d2",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#1565c0",
+                    },
+                  }}
+                >
+                  Cancel
+                </Button>
 
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={loading}
-                sx={{
-                  width: "120px",
-                  fontWeight: 600,
-                  backgroundColor: "#1976d2",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#1565c0",
-                  },
-                }}
-              >
-                {loading ? "Submitting..." : "Create"}
-              </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={loading}
+                  sx={{
+                    width: "120px",
+                    fontWeight: 600,
+                    backgroundColor: "#1976d2",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#1565c0",
+                    },
+                  }}
+                >
+                  {loading ? "Submitting..." : "Create"}
+                </Button>
+              </Stack>
             </Stack>
-
-          </Stack>
         </form>
-
       </Container>
     )
   );
