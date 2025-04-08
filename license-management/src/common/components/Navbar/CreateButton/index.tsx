@@ -3,11 +3,10 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import {LicenseForm} from '../../../../components/LicenseForm/index'; 
-import DepartmentForm from '../../DepartmentForm';
+import DepartmentForm from '../../../../components/DepartmentForm';
 
 function CreateButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -43,7 +42,7 @@ function CreateButton() {
     }
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     e.stopPropagation();
   }
 
@@ -93,14 +92,6 @@ function CreateButton() {
         <DialogContent>
           <LicenseForm close={handleCloseDialog} formRef={formRef}/>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleCreate} color="primary" type="submit">
-            Create
-          </Button>
-        </DialogActions> */}
       </Dialog>
     </div>
   );
