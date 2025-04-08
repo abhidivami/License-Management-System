@@ -79,7 +79,7 @@ const Analytics = () => {
             <div className={style.analyticsBodyTopContent}>
               <CardComponent
                 icon={walletIcon}
-                title="Total Cost Spent"
+                title="Total Cost Spent(in M)"
                 value={totalCostString}
                 progressValue={20}
                 trendValue={`${growthRate}%`}
@@ -123,7 +123,9 @@ const Analytics = () => {
       <div className={style.chartContainer}>
         <div className={style.analyticsGraph}>
           <h3>License Distribution</h3>
-          <GraphComponent />
+            <div className={style.scrollableChart}>
+              <GraphComponent />
+            </div>
         </div>
         
         <div className={style.analyticsBarChart}>
@@ -131,7 +133,6 @@ const Analytics = () => {
           <div className={style.scrollableChart}>
             <BarChartComponent data={barChartData} />
           </div>
-          <p className={style.chartNote}>Scroll horizontally to view more years</p>
         </div>
       </div>
     </div>

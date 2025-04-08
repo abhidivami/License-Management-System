@@ -71,7 +71,10 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
 
   return (
     <>
-      <Card variant="solid" color="primary" invertedColors className="analyticsCard">
+      <Card variant="solid" color="primary" invertedColors className="analyticsCard"
+      sx={{
+        width:'250px'
+      }}>
         <CardContent orientation="horizontal">
           <CircularProgress size="lg" determinate value={progressValue}>
             <SvgIcon>{icon}</SvgIcon>
