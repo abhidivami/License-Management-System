@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import styles from './index.module.scss';
 import { TextField } from '@mui/material';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 //department props which contains handlers required to close and open dialog
 export interface DepartmentProps {
@@ -38,6 +39,9 @@ function Department(props: DepartmentProps) {
 
   //make get call whenever post call hit
   const [temp, setTemp] = React.useState<number>(0);
+
+  //to handle empty values
+  const [deptDetailsError, setDeptDetailsError] = React.useState<number>(0);
 
   //fetch data from departments api
   React.useEffect(() => {
@@ -76,6 +80,10 @@ function Department(props: DepartmentProps) {
       setDeptError(false);
     }
 
+    if (deptDetailsError != 0) {
+      setDeptDetailsError(0);
+    }
+
     setFormValues((prev) => ({
       ...prev,
       [name]: value,
@@ -93,6 +101,7 @@ function Department(props: DepartmentProps) {
 
     //consider there is no error
     setDeptError(false);
+    setDeptDetailsError(0);
     onClose();
   };
 
@@ -103,7 +112,7 @@ function Department(props: DepartmentProps) {
 
     let isPresent = false;
     for (let index = 0; index < departments.length; index++) {
-      if (departments[index].name.toLowerCase() == formValues.name.toLowerCase()) {
+      if (departments[index].name.toLowerCase().trim() == formValues.name.toLowerCase().trim()) {
         isPresent = true;
         console.log("department already present");
         setDeptError(true);
@@ -111,21 +120,40 @@ function Department(props: DepartmentProps) {
       }
     }
 
-    if (isPresent == false) {
-      const id: number = departments.length + 1;
-      axios.post("http://localhost:3005/departments", { id: id, ...formValues })
-        .then((response) => {
-          setTemp(1);
-          console.log("department created successfully: ", response);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+    if (formValues.name.trim() == "" || formValues.name.trim().search(/^[0-9]/) == 0) {
+      setDeptDetailsError(1);
     }
+    else if (formValues.owner.trim() == "" || formValues.owner.trim().search(/^[0-9]/) == 0) {
+      setDeptDetailsError(2);
+    }
+    else if (formValues.description.trim() == "" || formValues.description.trim().search(/^[0-9]/) == 0) {
+      setDeptDetailsError(3);
+    }
+    else {
+      if (isPresent == false) {
+        const id: number = departments.length + 1;
 
-    //make form values as empty
-    if (!isPresent) {
-      handleClose();
+        axios.post("http://localhost:3005/departments", {
+          id: id,
+          name: formValues.name.trim(),
+          owner: formValues.owner.trim(),
+          description: formValues.description.trim(),
+        })
+          .then((response) => {
+            setTemp(1);
+            console.log("department created successfully: ", response);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      }
+
+      toast("Department created successfully");
+
+      //make form values as empty
+      if (!isPresent) {
+        handleClose();
+      }
     }
   }
 
@@ -146,6 +174,7 @@ function Department(props: DepartmentProps) {
             autoFocus
           />
           {deptError && <p className={styles.departmentFormError}>Dept already present</p>}
+          {deptDetailsError == 1 && <p className={styles.departmentFormError}>Enter valid name</p>}
 
           <TextField
             id="outlined-basic"
@@ -157,6 +186,7 @@ function Department(props: DepartmentProps) {
             onChange={handleChange}
             required
           />
+          {deptDetailsError == 2 && <p className={styles.departmentFormError}>Enter valid value</p>}
 
           <TextField
             id="outlined-basic"
@@ -168,6 +198,7 @@ function Department(props: DepartmentProps) {
             onChange={handleChange}
             required
           />
+          {deptDetailsError == 3 && <p className={styles.departmentFormError}>Enter valid value</p>}
 
           <div className={styles.departmentFormButton}>
             <Button variant="text" onClick={handleClose}>Cancel</Button>
@@ -191,13 +222,9 @@ function DepartmentForm() {
     setOpen(false);
   };
 
-
   return (
     <div>
       <p onClick={handleClickOpen}>Department</p>
-      {/* <Button variant="contained" onClick={handleClickOpen}>
-        Department
-      </Button> */}
       <Department
         open={open}
         onClose={handleClose}

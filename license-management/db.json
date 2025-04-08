@@ -1,28 +1,6 @@
 {
   "licenses": [
     {
-      "licenseId": "10",
-      "licenseName": "Jira",
-      "licenseType": "Hardware",
-      "modalType": "Subscription",
-      "subscriptionType": "Annual",
-      "subscriptionModel": "Enterprise",
-      "billingEmail": "pm@company.com",
-      "departmentOwner": "Project Management",
-      "departmentName": "IT",
-      "employeeName": [
-        "John Doe",
-        "Jane Smith",
-        "Michael Johnson"
-      ],
-      "totalSeats": 80,
-      "totalCost": "80000",
-      "purchaseDate": "2025-04-17",
-      "expirationDate": "2025-04-30",
-      "shelfLife": 5,
-      "id": "10"
-    },
-    {
       "id": "670d",
       "licenseName": "Mercedes",
       "licenseType": "Hardware",
@@ -328,93 +306,162 @@
       "shelfLife": ""
     },
     {
-      "id": "4755",
+      "id": "f69f",
       "licenseId": "",
-      "licenseName": "Mercedes",
-      "licenseType": "Cloud Services",
-      "modalType": "Subscription",
-      "subscriptionType": "Half-Yearly",
+      "licenseName": "license",
+      "licenseType": "Software",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
       "subscriptionModel": "UserBased",
-      "billingEmail": "abhi@gmail.com",
+      "billingEmail": "lms@gmail.com",
       "departmentOwner": "Gopal",
-      "departmentName": "",
+      "departmentName": "Software Engineering",
       "employeeName": "",
-      "totalSeats": "99",
-      "totalCost": "57",
-      "purchaseDate": "2025-04-24",
-      "expirationDate": "2025-10-17",
-      "shelfLife": ""
+      "totalSeats": "4",
+      "totalCost": "40",
+      "purchaseDate": "2025-04-01",
+      "expirationDate": "2025-04-10",
+      "shelfLife": "",
+      "LicenseStatus": "Active"
     }
   ],
   "departments": [
     {
       "id": "1",
-      "name": "IT",
-      "owner": "will smith",
+      "name": "Software Engineering",
+      "owner": "Gopal",
       "description": "Responsible for technology and software management"
     },
     {
       "id": "2",
       "name": "HR",
-      "owner": "Jane Smith",
+      "owner": "Rajeev",
       "description": "Manages employee records, payroll, and benefits."
     },
     {
       "id": "3",
       "name": "Sales",
-      "owner": "Emily Davis",
+      "owner": "Kamal",
       "description": "Handles customer acquisition, sales processes, and client relationships."
     },
     {
       "id": "4",
       "name": "Marketing",
-      "owner": "Michael Johnson",
+      "owner": "Vishwa",
       "description": "Responsible for advertising, promotions, and brand development."
     },
     {
       "id": "5",
       "name": "Finance",
-      "owner": "Sophia Brown",
+      "owner": "Satya Krishna",
       "description": "Manages financial planning, analysis, budgeting, and accounting."
     },
     {
       "id": 6,
-      "name": "events",
-      "owner": "gopal",
+      "name": "Events",
+      "owner": "Ujwal Sharma",
       "description": "Which proves everything is possible"
     },
     {
       "id": 7,
-      "name": "Software Engineering",
-      "owner": "Gopal",
-      "description": "Development"
+      "name": "QA",
+      "owner": "Prabhakar",
+      "description": "Quality checking and Testing"
+    },
+    {
+      "id": 8,
+      "name": "Devops",
+      "owner": "Joshuva",
+      "description": "Continuous Integration and Continuous Development"
+    },
+    {
+      "id": 9,
+      "name": "Design",
+      "owner": "Vinay Kumar",
+      "description": "UI & UX Design"
+    },
+    {
+      "id": 10,
+      "name": "Product Management",
+      "owner": "Naveen",
+      "description": "Product Delivery"
     }
   ],
   "Users": [
     {
       "id": "1",
-      "name": "will card",
-      "designation": "junior software engineer"
+      "name": "Basha",
+      "designation": "Software Engineer Intern"
     },
     {
       "id": "2",
-      "name": "Jane Smith",
-      "designation": "Software Engineer"
+      "name": "Abhilash",
+      "designation": "Software Engineer Intern"
     },
     {
       "id": "3",
-      "name": "Michael Johnson",
-      "designation": "Lead Software Engineer"
+      "name": "Raviteja",
+      "designation": "Software Engineer Intern"
     },
     {
       "id": "4",
-      "name": "Alice Brown",
-      "designation": "Senior Software Engineer"
+      "name": "Vijaya Lakshmi",
+      "designation": "Software Engineer Intern"
     },
     {
       "id": "5",
-      "name": "David Kim",
-      "designation": "Software Engineering Manager"
+      "name": "Ramya",
+      "designation": "Software Engineer Intern"
+    },
+    {
+      "id": "6",
+      "name": "Pragna",
+      "designation": "Software Engineer Intern"
+    },
+    {
+      "id": "7",
+      "name": "Anitha",
+      "designation": "Software Engineer Intern"
+    },
+    {
+      "id": "8",
+      "name": "Anjali",
+      "designation": "Software Engineer Intern"
+    },
+    {
+      "id": "9",
+      "name": "Kasi",
+      "designation": "Software Engineer Intern"
+    },
+    {
+      "id": "10",
+      "name": "Harshith",
+      "designation": "Software Engineer Intern"
+    },
+    {
+      "id": "11",
+      "name": "Vinay",
+      "designation": "Software Engineer"
+    },
+    {
+      "id": "12",
+      "name": "Vaishnavi",
+      "designation": "Software Engineer"
+    },
+    {
+      "id": "13",
+      "name": "Phawhan",
+      "designation": "Software Engineer"
+    },
+    {
+      "id": "14",
+      "name": "Sweety",
+      "designation": "Software Engineer"
+    },
+    {
+      "id": "15",
+      "name": "Anantha Lakshmi",
+      "designation": "Software Engineer"
     }
   ],
   "notifications": [
@@ -450,8 +497,8 @@
     },
     {
       "license_id": "281741",
-      "message": "Jira license is expiring in 0 days. Please renew by 08/04/2025.",
-      "notification_date": "08/04/2025",
+      "message": "Jira license is expiring in 0 days. Please renew by 4/8/2025.",
+      "notification_date": "4/8/2025",
       "id": "n6twbzko"
     },
     {
@@ -465,6 +512,12 @@
       "message": "FireBase license is expiring in 3 days. Please renew by 10/04/2025.",
       "notification_date": "07/04/2025",
       "id": "vc7zlu7r"
+    },
+    {
+      "license_id": "f69f",
+      "message": "license license is expiring in 2 days. Please renew by 4/10/2025.",
+      "notification_date": "4/8/2025",
+      "id": "lzw7wd2s"
     }
   ]
 }

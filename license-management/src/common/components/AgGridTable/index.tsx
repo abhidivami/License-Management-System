@@ -1,4 +1,4 @@
-import { Button, Chip, Container, Dialog, DialogActions, DialogContent, DialogTitle, Tooltip} from "@mui/material";
+import {  Chip, Container, Dialog, DialogContent, DialogTitle, Tooltip} from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -580,9 +580,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
             <DialogContent>
               <LicenseForm close={handleCloseDialog} existingData={licenseData} />
             </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
-            </DialogActions>
           </Dialog>
         }
       </div>

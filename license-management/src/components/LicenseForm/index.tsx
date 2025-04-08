@@ -74,7 +74,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     if (!licenseName.trim()) {
       return "License Name Should not be empty";
     }
-    return true; 
+    return true;
   };
   // Validation function for negative numbers
   const validateNegativeValues = (value: string) => {
@@ -85,6 +85,11 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     return true;
   };
 
+  // Validate Email
+  const validateEmail = (billingEmail: string) => {
+    const regex = /^[a-z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(billingEmail);
+  }
   //  Date validation
   const validateDateOrder = (purchaseDate: string, expirationDate: string) => {
     if (new Date(expirationDate) <= new Date(purchaseDate)) {
@@ -169,12 +174,12 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
   const handleDeptName = (event: any, fieldOnChange: any) => {
     const selectedDeptName = event.target.value;
     fieldOnChange(selectedDeptName); // Update the form field
-    
+
     // Find and set the department owner
     const selectedDept = departments.find(dept => dept.name === selectedDeptName);
-  if (selectedDept) {
-    setValue('departmentOwner', selectedDept.owner); // Update departmentOwner
-  }
+    if (selectedDept) {
+      setValue('departmentOwner', selectedDept.owner); // Update departmentOwner
+    }
   };
 
 
@@ -188,7 +193,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
               name="licenseName"
               control={control}
               rules={{ validate: validateLicenseName }}
-              
+
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -295,6 +300,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             <Controller
               name="billingEmail"
               control={control}
+              rules={{ validate: validateEmail }}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -304,7 +310,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.billingEmail}
-                  // helperText={errors.billingEmail?.message}
+                  helperText={errors.billingEmail?.message}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -316,23 +322,23 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
               control={control}
               render={({ field }) => (
                 <FormControl fullWidth margin="normal" sx={commonTextFieldStyle}>
-                <InputLabel>Department Name</InputLabel>
-                <Select
-                  {...field}
-                  label="Department Name"
-                  onChange={(e) => handleDeptName(e, field.onChange)}
-                  required
-                  error={!!errors.departmentName}
-                >
-                  {departments && Array.isArray(departments) && departments.length > 0 &&
-                    departments.map((department: Department) => (
-                      <MenuItem key={department.id} value={department.name}>
-                        {department.name}
-                      </MenuItem>
-                    ))
-                  }
-                </Select>
-              </FormControl>
+                  <InputLabel>Department Name</InputLabel>
+                  <Select
+                    {...field}
+                    label="Department Name"
+                    onChange={(e) => handleDeptName(e, field.onChange)}
+                    required
+                    error={!!errors.departmentName}
+                  >
+                    {departments && Array.isArray(departments) && departments.length > 0 &&
+                      departments.map((department: Department) => (
+                        <MenuItem key={department.id} value={department.name}>
+                          {department.name}
+                        </MenuItem>
+                      ))
+                    }
+                  </Select>
+                </FormControl>
               )}
             />
 
@@ -483,48 +489,50 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             />
 
             {/* Action Buttons */}
-              <Stack direction="row" spacing={2} sx={{ marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px"  ,position: "sticky", 
-    bottom: "16px", 
-    left: "auto", 
-    right: "16px", 
-    zIndex: 1000 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="button"
-                  onClick={() => close()}
-                  sx={{
-                    width: "120px",
-                    fontWeight: 600,
-                    backgroundColor: "#1976d2",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#1565c0",
-                    },
-                  }}
-                >
-                  Cancel
-                </Button>
+            <Stack direction="row" spacing={2} sx={{
+              marginLeft: "800px", top: "640px", justifyContent: "flex-end", marginTop: "16px", position: "sticky",
+              bottom: "16px",
+              left: "auto",
+              right: "16px",
+              zIndex: 1000
+            }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={() => close()}
+                sx={{
+                  width: "120px",
+                  fontWeight: 600,
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                Cancel
+              </Button>
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={loading}
-                  sx={{
-                    width: "120px",
-                    fontWeight: 600,
-                    backgroundColor: "#1976d2",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#1565c0",
-                    },
-                  }}
-                >
-                  {loading ? "Submitting..." : "Create"}
-                </Button>
-              </Stack>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={loading}
+                sx={{
+                  width: "120px",
+                  fontWeight: 600,
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                {loading ? "Submitting..." : "Create"}
+              </Button>
             </Stack>
+          </Stack>
         </form>
       </Container>
     )

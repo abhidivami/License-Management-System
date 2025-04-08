@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './Redux/Store';
 import './App.css';
-import { AgGridTable } from './common/component/AgGridTable/index';
+import { AgGridTable } from './common/components/AgGridTable/index';
 import Navbar from './common/components/Navbar';
 import Sidebar from './common/components/Navbar/Sidebar';
 import DetailedViewOfEachRecord from './common/DetailedViewOfRecord/index';
