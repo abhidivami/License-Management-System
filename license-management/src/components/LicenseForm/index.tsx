@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment } from "@mui/material";
+import { TextField, Button, Container, Stack, FormControl, InputLabel, Select, MenuItem, InputAdornment, Menu, Autocomplete } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addFormData, updateData } from "../../Redux/Slice/LicenseForm/";
 import axios from "axios";
@@ -10,6 +10,19 @@ type LicenceformProps = {
   close: () => void;
   existingData: any;
   formRef?: React.RefObject<HTMLFormElement>;
+}
+
+interface Department {
+  id: number;
+  name: string;
+  owner: string;
+  description: string;
+}
+
+interface Employee {
+  id: number;
+  name: string;
+  designation: string;
 }
 
 export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef }: LicenceformProps) => {
@@ -41,6 +54,12 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
   const formData = watch();
 
   // Function to calculate shelf life in days
+
+  const validateType = (licenseName: string) => {
+    if (licenseName.trim() == "") {
+      return "License Name should not be empty"
+    }
+  }
   const calculateShelfLife = (expirationDate: string): number => {
     const today = new Date();
     const expiry = new Date(expirationDate);
@@ -85,6 +104,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
         dispatch(updateData(response.data));
         toast.success("License Renewed Successfully!");
       } else {
+        alert("I am here")
+        console.log("data is",data)
         const response = await axios.post("http://localhost:3005/licenses", data);
         dispatch(addFormData(response.data));
         toast.success("License Created Successfully!");
@@ -113,6 +134,52 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     borderRadius: "8px",
     width: "100%", // Ensure all fields are full width
   };
+
+  //to store departments data
+  const [departments, setDepartments] = useState<Department[]>([]);
+
+  //to store employees data
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
+  //retrieving departments data from api and users data
+  useEffect(() => {
+
+    //retrieving departments data
+    axios.get("http://localhost:3005/departments")
+      .then((response) => {
+        //store departments api data
+        setDepartments(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching departments data: ", error);
+      })
+
+
+    //retrieving users data
+    axios.get("http://localhost:3005/Users")
+      .then((response) => {
+        //store employees data
+        setEmployees(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching employees data: ", error);
+      })
+  }, []);
+
+
+  const [deptName, setDeptName] = useState<string>("");
+  const [deptOwner, setDeptOwner] = useState<string>("");
+  //store department name in order to get respective dept owner
+  const handleDeptName = (event: any) => {
+    setDeptName(event.target.value);
+    for (let index = 0; index < departments.length; index++) {
+      if (departments[index].name == event.target.value) {
+        setDeptOwner(departments[index].owner);
+        break;
+      }
+    }
+  }
+
 
   return (
     isModalOpen && (
@@ -256,18 +323,16 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   <Select
                     {...field}
                     label="Department Name"
+                    onChange={handleDeptName}
+                    value={deptName}
                     required
                     error={!!errors.departmentName}
                   >
-                    <MenuItem value="HR">HR</MenuItem>
-                    <MenuItem value="Software Engineering">Software Engineering</MenuItem>
-                    <MenuItem value="Sales">Sales</MenuItem>
-                    <MenuItem value="Finance">Finance</MenuItem>
-                    <MenuItem value="Marketing">Marketing</MenuItem>
-                    <MenuItem value="QA">QA</MenuItem>
-                    <MenuItem value="COE">COE</MenuItem>
-                    <MenuItem value="Devops">Devops</MenuItem>
-                    <MenuItem value="Project Management">Project Management</MenuItem>
+                    {departments && Array.isArray(departments) && departments.length > 0 &&
+                      departments.map((department: Department) => {
+                        return <MenuItem value={department.name}>{department.name}</MenuItem>
+                      })
+                    }
                   </Select>
                 </FormControl>
               )}
@@ -292,7 +357,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             />
 
             {/* Employee Name */}
-            <Controller
+            {/* <Controller
               name="employeeName"
               control={control}
               render={({ field }) => (
@@ -305,6 +370,20 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   error={!!errors.employeeName}
                   // helperText={errors.employeeName?.message}
                   sx={commonTextFieldStyle}
+                />
+              )}
+            /> */}
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              options={employees}
+              getOptionLabel={(employee: Employee) => employee.name}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Employees"
+                  placeholder="Employee"
                 />
               )}
             />
