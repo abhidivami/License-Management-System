@@ -26,6 +26,12 @@ interface Employee {
   designation: string;
 }
 
+interface Category {
+  id:number;
+  name:string;
+  description:string;
+}
+
 export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef,create }: LicenceformProps) => {
   const dispatch = useDispatch();
   const { control, handleSubmit, formState: { errors }, watch, setValue } = useForm({
@@ -111,6 +117,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
         toast.success("License Renewed Successfully!");
       } else {
         data.LicenseStatus = data.expirationDate < new Date().toISOString() ? 'Expired' : 'Active';
+        data.shelfLife = calculateShelfLife(data.expirationDate);
         const response = await axios.post("http://localhost:3005/licenses", data);
         dispatch(addFormData(response.data));
         toast.success("License Created Successfully!");
@@ -146,6 +153,8 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
   //to store employees data
   const [employees, setEmployees] = useState<Employee[]>([]);
 
+  const [categories,setcategories] = useState<Category[]>();
+
   //retrieving departments data from api and users data
   useEffect(() => {
 
@@ -169,6 +178,15 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
       .catch((error) => {
         console.log("Error fetching employees data: ", error);
       })
+
+      axios.get("http://localhost:3005/category")
+      .then((response) => {
+        //store employees data
+        setcategories(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching employees data: ", error);
+      })
   }, []);
 
   //store department name in order to get respective dept owner
@@ -182,6 +200,11 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
       setValue('departmentOwner', selectedDept.owner); // Update departmentOwner
     }
   };
+
+  const handleCategory = (event:any,fieldOnChange:any) =>{
+    const selectedCatName = event.target.value;
+    fieldOnChange(selectedCatName);
+  }
 
   
   //to store employees details related to respective license
@@ -233,15 +256,17 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   <Select
                     {...field}
                     label="License Type"
+                    onChange={(e) => handleCategory(e, field.onChange)}
                     required
                     error={!!errors.licenseType}
                   >
-                    <MenuItem value="Software">Software</MenuItem>
-                    <MenuItem value="Hardware">Hardware</MenuItem>
-                    <MenuItem value="Cloud Services">Cloud Services</MenuItem>
-                    <MenuItem value="Database">Database</MenuItem>
-                    <MenuItem value="API">API</MenuItem>
-                    <MenuItem value="Virtual Machine">Virtual Machine</MenuItem>
+                    {departments && Array.isArray(departments) && departments.length > 0 &&
+                      (categories ?? []).map((category: Category) => (
+                        <MenuItem key={category.id} value={category.name}>
+                          {category.name}
+                        </MenuItem>
+                      ))
+                    }
                   </Select>
                 </FormControl>
               )}

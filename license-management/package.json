@@ -40,6 +40,7 @@
     "react-toastify": "^11.0.5",
     "sass-embedded": "^1.86.0",
     "scss": "^0.2.4",
+    "xlsx": "^0.18.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {
