@@ -319,7 +319,7 @@ function Notification() {
                     <p style={{ opacity: 0.8, paddingTop: "10px" }}>
                       <b>{item.notification_date}</b>
                     </p>
-                    <div
+                    <div className="actionButtonsOfEachNotification"
                       style={{
                         display: "flex",
                         justifyContent: "end",
@@ -332,8 +332,10 @@ function Notification() {
                           onClick={() => handleMarkAsRead(item.id)}
                         />
                       </Tooltip>
-                      <Tooltip title="Detail Info">
-                        <InfoOutlineIcon
+                      <Tooltip title="Detail Info" sx={{
+                        display: { xs: "none", sm: "block" },
+                      }}>
+                        <InfoOutlineIcon className={styles.detailedinfoButton}
                           onClick={() => toggleVisibleDetails(item)}
                         />
                       </Tooltip>

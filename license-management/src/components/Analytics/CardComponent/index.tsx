@@ -19,7 +19,6 @@ import Box from '@mui/joy/Box';
 import Chip from '@mui/joy/Chip';
 import IconButton from '@mui/joy/IconButton';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import AspectRatio from '@mui/joy/AspectRatio';
 
 const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey }) => {
   const [open, setOpen] = React.useState(false);

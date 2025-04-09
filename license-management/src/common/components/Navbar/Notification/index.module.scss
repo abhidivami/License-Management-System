@@ -112,22 +112,34 @@
 @media only screen and (max-width: 468px) {
 
   .drawer{
-    width: auto;
+    // padding:10px;
+    align-items: center;
+    width: 300px !important;
     margin: 0px !important;
+    height: calc(100vh - 10px) !important;
   }
  
   .detailsLicenseCard{
     margin: 0px !important;
   }
   .notificationHeader{
-    width: 100%;
+    width: 85%;
   }
   .card{ 
     margin: 10px !important;
     width: auto !important;
   
   }
-
+  .MuiBox-root css-munmr0{
+    width:10px !important;
+  }
+  .detailedInfoButton{
+    display:none;
+  }
+  .actionButtonsOfEachNotification{
+    display:flex;
+    flex-direction: row-reverse;
+  }
 
  
 }

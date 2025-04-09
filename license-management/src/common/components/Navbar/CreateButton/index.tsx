@@ -90,7 +90,7 @@ function CreateButton() {
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle sx={{backgroundColor: "navyblue"}}>Create License</DialogTitle>
         <DialogContent>
-          <LicenseForm close={handleCloseDialog} formRef={formRef}/>
+          <LicenseForm close={handleCloseDialog} formRef={formRef} create="create"/>
         </DialogContent>
       </Dialog>
     </div>
