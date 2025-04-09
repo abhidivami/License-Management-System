@@ -374,7 +374,7 @@ function Notification( props:ProfileProps) {
       </Tooltip>
       <Drawer
         open={open}
-        onClose={toggleDrawer(false)}
+        // onClose={toggleDrawer(false)}
         anchor="right"
         sx={{
           "& .MuiDrawer-paper": {
