@@ -13,30 +13,29 @@ import "./index.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import MarkAsUnreadOutlinedIcon from "@mui/icons-material/MarkAsUnreadOutlined";
-import {
-  markAsRead,
-  setNotificationData,
-} from "../../../../Redux/Slice/notification";
+import {markAsRead, setNotificationData} from "../../../../Redux/Slice/notification";
 import { RootState } from "../../../../Redux/Store";
 
-function Notification() {
+
+interface ProfileProps {
+  iconColor: "white" | "black";
+}
+
+function Notification( props:ProfileProps) {
+
   //set notifications on notifications arrays
   const [notification, setNotification] = useState([]);
 
   //detials visible
-  const [detailesVisible, setDetailesVisible] = useState(false);
-  //notfication count
-  //const [notificationCount, setNotificationCount] = useState(
-  //   notification.length
-  // );
+  const [detailesVisible, setDetailesVisible] = useState<any>(false);
+  //props iconcolor 
+  const { iconColor } = props;
 
+  //dispatch arrays
   const dispatch = useDispatch();
 
-  // React.useEffect(() => {
-  //   console.log(notification, "notificationsss");
-  // }, [notification]);
 
-  //get notification arrays using useEffect and axios
+  //get request to fetch notification api
   React.useEffect(() => {
     axios
       .get("http://localhost:3005/notifications")
@@ -48,24 +47,22 @@ function Notification() {
       .catch((error) => console.log("error fetch notifications", error));
   }, [dispatch]);
 
+
   //notification data from json-server using useselector
   const notifications = useSelector(
     (state: RootState) => state.notification.Notification
   );
-  console.log("data from redux notificationssss  ", notifications);
+  console.log("data from redux notifications", notifications);
 
-  // const unreadCount = useSelector(
-  //   (state: RootState) => state.notification.unreadCount
-  // );
-
+  //open setopen mui Drawer 
   const [open, setOpen] = React.useState(false);
 
   //notification counter filter when mark as read
   const notificationsCount = notifications.filter(
-    (item: any) => !item.read
+    (item: any) => !item.markAsRead
   ).length;
 
-  //opne drawer
+  //open drawer
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -76,18 +73,19 @@ function Notification() {
     setDetailesVisible(false);
   };
 
-  //toggle visible details and split the first word message and licesne from redux
+  //function to visible details info message first word and licesne name matched
   const toggleVisibleDetails = (item: any) => {
-    setDetailesVisible(true);
-    console.log("card message", item.message);
-    console.log("licenses from redux", LicensesFromRedux);
-    const firstWordOfMessage = item.message.split(" ")[0];
+    setDetailesVisible(true); //set details visible true 
+
+    console.log("card message", item.message);  //console item messsage 
+    console.log("licenses from redux", LicensesFromRedux); 
+    const firstWordOfMessage = item.message.split(" ")[0]; // extracting the first word in message 
     console.log("first word of message", firstWordOfMessage);
 
     //matehed license message first word and license name matexh record show
     const matchedLicense = LicensesFromRedux.filter((itemName: any) => {
       //console.log('licensename',itemName.licenseName);
-      return itemName.licenseName === firstWordOfMessage;
+      return itemName.licenseName === firstWordOfMessage; //return matched license details 
     });
 
     if (matchedLicense.length > 0) {
@@ -103,22 +101,35 @@ function Notification() {
   const LicensesFromRedux = useSelector((state: any) => state.form);
   console.log("licenses data from redux", LicensesFromRedux);
 
+  //toggleDetails close 
   const toggleDetailsClose = () => {
     setDetailesVisible(false);
   };
 
+  //mark as read 
   const handleMarkAsRead = (id: any) => {
     console.log("item id mark as read ", id);
     dispatch(markAsRead(id));
+
+    //updating mark as read status in api
+    axios.patch(`http://localhost:3005/notifications/${id}`, {markAsRead: true})
+    .then((response) => {
+      console.log("response:",response);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   };
+
 
   const DrawerList = (
     <div style={{ display: "flex" }}>
       {detailesVisible && (
-        <Box
+        <Box 
           sx={{
+          
             height: "calc(100vh - 20px)",
-            width: "600px",
+            width: {xs: "340px", sm: "600px"},
             margin: "10px",
             boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.6)",
             borderRadius: "10px",
@@ -127,7 +138,7 @@ function Notification() {
             "::-webkit-scrollbar": { display: "none" },
           }}
         >
-          <div
+          <div 
             style={{
               display: "flex",
               justifyContent: "flex-end",
@@ -275,12 +286,12 @@ function Notification() {
           className={styles.drawer}
           sx={{
             height: "calc(100vh - 20px)",
-            width: "400px",
+            width: { xs: "320px", sm: "400px" },
+            display: { xs: !detailesVisible ? "block" : "none", lg: "block" },
             margin: "10px",
             boxShadow: "0px 0px 6px rgba(0, 0, 0, 0.6)",
             borderRadius: "10px",
             background: "white",
-
             overflow: "scroll",
             "::-webkit-scrollbar": { display: "none" },
           }}
@@ -311,7 +322,7 @@ function Notification() {
                     width: "auto",
                     boxShadow: "0px 0px 3px rgba(0, 0, 0, 0.6)",
                     borderRadius: "15px",
-                    backgroundColor: item.read ? "white" : "#ECECEC",
+                    backgroundColor: item.markAsRead ? "white" : "#ECECEC",
                   }}
                 >
                   <CardContent>
@@ -328,16 +339,10 @@ function Notification() {
                       }}
                     >
                       <Tooltip title="Mark as Read">
-                        <MarkAsUnreadOutlinedIcon
-                          onClick={() => handleMarkAsRead(item.id)}
-                        />
+                        <MarkAsUnreadOutlinedIcon  onClick={() => handleMarkAsRead(item.id)}  />
                       </Tooltip>
-                      <Tooltip title="Detail Info" sx={{
-                        display: { xs: "none", sm: "block" },
-                      }}>
-                        <InfoOutlineIcon className={styles.detailedinfoButton}
-                          onClick={() => toggleVisibleDetails(item)}
-                        />
+                      <Tooltip title="Detail Info">
+                        <InfoOutlineIcon  onClick={() => toggleVisibleDetails(item)}  />
                       </Tooltip>
                     </div>
                   </CardContent>
@@ -350,6 +355,7 @@ function Notification() {
     </div>
   );
 
+
   return (
     <div>
       <Tooltip title="Notification">
@@ -357,13 +363,13 @@ function Notification() {
           <IconButton
             size="large"
             aria-label="notifications regarding expired licenses"
-            color="inherit"
+            color="inherit" 
           >
-            <Badge badgeContent={notificationsCount} color="error">
+            <Badge badgeContent={notificationsCount} sx={{color:iconColor}} color="error">
               <NotificationsIcon />
             </Badge>
+           {iconColor == "black" && <p style={{fontSize:"15px",marginLeft:"25px"}}>Notification</p>}
           </IconButton>
-          {<p>Notifications</p>}
         </div>
       </Tooltip>
       <Drawer

@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
     license_id:number,
     message:string,
     notification_Date:string,
+    markAsRead: boolean,
  }
 
 
@@ -12,14 +13,14 @@ const notificationSlice = createSlice({
 
      name:"notification",
      initialState:{
-     Notification: [],
-   
-       
+     Notification:<Notification[]>[],
      },
      reducers:{
 
-        setNotificationData:(state, action:PayloadAction<Notification>)=>{
+        setNotificationData:(state, action:PayloadAction<Notification[]>)=>{
             state.Notification = action.payload;
+
+            console.log("redux data: ", state.Notification);
         },
        
         markAsRead: (state, action) => {
@@ -29,7 +30,7 @@ const notificationSlice = createSlice({
               if (item.id === licenseId ) {
                 console.log('matched item ',item);
                 
-                return { ...item, read: true }; 
+                return { ...item, markAsRead: true }; 
               }
               
               return item;
