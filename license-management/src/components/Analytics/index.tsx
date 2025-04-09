@@ -4,6 +4,8 @@ import GraphComponent from './GraphComponent';
 import BarChartComponent from './BarChartComponent'
 import { RootState } from '../../Redux/Store/index' 
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 // Defining the icons 
 export const userIcon = (
@@ -31,7 +33,18 @@ export const walletIcon = (
 );
 
 const Analytics = () => {
-    const fetchedData = useSelector((state: RootState) => state.form);
+    const Datafromredux = useSelector((state: RootState) => state.form);
+    const [data, setData] = useState<FormData[]>([]);
+
+    useEffect(() => {
+      if (fetchedData.length === 0) {
+        axios.get('http://localhost:3005/licenses')
+          .then((response) => setData(response.data))
+          .catch((error) => console.error('Error fetching data:', error));
+      }
+    }, [Datafromredux]);
+
+    const fetchedData = Datafromredux.length > 0 ? Datafromredux : data;
     
     // Calculating metrics for cards
     const totalLicenses = fetchedData.length;

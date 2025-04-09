@@ -283,7 +283,7 @@ const StatusColor = (params: any) => {
       field: "licenseName",
       sortable: true,
       filter: true,
-      //  flex:1,
+      //  flex:1,s
     },
     {
       headerName: "Modal Type",
@@ -291,7 +291,7 @@ const StatusColor = (params: any) => {
       sortable: true,
       filter: true,
       cellStyle: { textAlign: 'center' },
-      // width:120,
+      width:120,
       //  flex:1,
     },
     {
@@ -299,23 +299,23 @@ const StatusColor = (params: any) => {
       field: "departmentName",
       sortable: true,
       filter: true,
-      width:100,
+      width:150,
       // flex: 1,
     },
    
-    {
-      headerName: "Billing Email",
-      field: "billingEmail",
-      sortable: true,
-      filter: true,
-      // flex: 1,
-    },
+    // {
+    //   headerName: "Billing Email",
+    //   field: "billingEmail",
+    //   sortable: true,
+    //   filter: true,
+    //   // flex: 1,
+    // },
     {
       headerName: "Total Cost",
       field: "totalCost",
       sortable: true,
       filter: true,
-      width:100,
+      // width:150,
       // flex: 1,
     },
     {
@@ -323,7 +323,7 @@ const StatusColor = (params: any) => {
       field: "purchaseDate",
       sortable: true,
       filter: true,
-      width:150,
+      // width:150,
       // flex: 1,
     },
     {
@@ -331,7 +331,7 @@ const StatusColor = (params: any) => {
       field: "expirationDate",
       sortable: true,
       filter: true,
-      width:150
+      // width:150
       // flex: 1
     },
     {
@@ -342,14 +342,11 @@ const StatusColor = (params: any) => {
       filter: true,
       width:150,
       cellStyle: { textAlign: 'center' },
-      // flex: 1,
     },
     {
       headerName: "Actions",
       field: "button",
       cellRenderer: CustomButtonComponent,
-      width:150,
-      // flex: 1
     },
   ]);
 
@@ -407,7 +404,7 @@ const StatusColor = (params: any) => {
         field: "licenseName",
         sortable: true,
         filter: true,
-        width:150
+        // width:150
       },
       {
         headerName: "Modal Type",
@@ -421,18 +418,18 @@ const StatusColor = (params: any) => {
         sortable: true,
         filter: true,
       },
-      {
-        headerName: "Department Owner",
-        field: "departmentOwner",
-        sortable: true,
-        filter: true,
-      },
+      // {
+      //   headerName: "Department Owner",
+      //   field: "departmentOwner",
+      //   sortable: true,
+      //   filter: true,
+      // },
       {
         headerName: "Total seats",
         field: "totalSeats",
         sortable: true,
         filter: true,
-        width:120
+        // width:120
         // flex: 1
       },
       {
@@ -440,7 +437,7 @@ const StatusColor = (params: any) => {
         field: "totalCost",
         sortable: true,
         filter: true,
-        width:120
+        // width:120
       },
       {
         headerName: "Expiration Date",
@@ -559,6 +556,7 @@ const StatusColor = (params: any) => {
       <div className="ag-theme-quartz" style={{ height: "590px", width: "100%", overflow:'scroll' }}>
         {!showLicenseForm ?
           <AgGridReact
+          key={page}
             rowData={
               searchText != ""
                 ?
@@ -588,7 +586,7 @@ const StatusColor = (params: any) => {
           >
             <DialogTitle sx={{ backgroundColor: "navyblue" }}> Renew License </DialogTitle>
             <DialogContent>
-              <LicenseForm close={handleCloseDialog} existingData={licenseData} />
+              <LicenseForm close={handleCloseDialog} existingData={licenseData} create="renew"/>
             </DialogContent>
           </Dialog>
         }

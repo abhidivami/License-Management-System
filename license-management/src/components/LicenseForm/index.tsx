@@ -10,6 +10,7 @@ type LicenceformProps = {
   close: () => void;
   existingData: any;
   formRef?: React.RefObject<HTMLFormElement>;
+  create:string;
 }
 
 interface Department {
@@ -25,7 +26,7 @@ interface Employee {
   designation: string;
 }
 
-export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef }: LicenceformProps) => {
+export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, formRef,create }: LicenceformProps) => {
   const dispatch = useDispatch();
   const { control, handleSubmit, formState: { errors }, watch, setValue } = useForm({
     defaultValues: {
@@ -550,7 +551,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   },
                 }}
               >
-                {loading ? "Submitting..." : "Create"}
+                {loading ? "Submitting..." : create}
               </Button>
             </Stack>
           </Stack>
