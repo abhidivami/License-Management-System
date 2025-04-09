@@ -3,6 +3,7 @@ import emailjs from '@emailjs/browser';
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
+import { FormData } from "../../Redux/Slice/LicenseForm";
 
 const EmailTriggering = () => {
     const [notification, setNotification] = useState([]);
@@ -42,7 +43,7 @@ const EmailTriggering = () => {
                         await axios.post("http://localhost:3005/notifications",notificationData);
                         console.log("Notification created");
                     }
-                    // sendEmail(license);
+                     sendEmail(license);
                 }
 
                 setNotification(expiringInSevenDays);
@@ -57,14 +58,14 @@ const EmailTriggering = () => {
         return () => clearInterval(intervalId);
     }, [data]);
 
-    const sendEmail = (license) => {
+    const sendEmail = (license: FormData) => {
         const expirationDate = new Date(license.expirationDate);
         const daysDiff = Math.ceil(
             (expirationDate.getTime() - new Date().getTime()) / (1000 * 3600 * 24)
         );
 
         const templateParams = {
-            email: "user@example.com", // Replace with actual user email
+            email: `${license.billingEmail}`, // Replace with actual user email
             from_name: "Team License Management System",
             license_name: license.licenseName,
             days: daysDiff,
