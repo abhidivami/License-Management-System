@@ -19,7 +19,7 @@ import DisplayNavigationBar from './MobileNavigation';
 import Notification from './Notification';
 import { useDispatch } from 'react-redux';
 import { setSearchText } from '../../../Redux/Slice/Search';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 
 //to style entire search div
 const Search = styled('div')(({ theme }) => ({
@@ -84,6 +84,10 @@ function Navbar() {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
+    //to disable search bar in analytics page and details view page
+    const analytics = useMatch('/analytics');
+    const detailsPage = useMatch('/detailedView');
 
     //to make search field empty in input field and redux, when the url changes
     const location = useLocation();
@@ -199,6 +203,7 @@ function Navbar() {
                                     inputProps={{ 'aria-label': 'search' }}
                                     value={searchField}
                                     onChange={handleSearchField}
+                                    disabled={(analytics != null || detailsPage != null) ? true : false}
                                 />
                             </Search>
                             <Box sx={{ flexGrow: 1 }} />

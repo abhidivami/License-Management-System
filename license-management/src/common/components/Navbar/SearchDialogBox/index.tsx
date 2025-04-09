@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from './index.module.scss';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useMatch } from 'react-router-dom';
 import { setSearchText } from '../../../../Redux/Slice/Search';
 
 export interface DialogProps {
@@ -64,9 +64,18 @@ function SearchDialogBox() {
         setOpen(false);
     };
 
+    const handleEmptyFunction = () => {
+        console.log("search will not applicable for analytics and details view page");
+    }
+
+    //to disable search bar in analytics page and details view page
+    const analytics = useMatch('/analytics');
+    const detailsPage = useMatch('/detailedView');
+
     return (
         <div>
-            <SearchIcon onClick={handleClickOpen} />
+            {/* search function will not applicable for analytics and details view page */}
+            <SearchIcon onClick={(analytics != null || detailsPage != null) ? handleEmptyFunction : handleClickOpen } />
             <SimpleDialog
                 open={open}
                 onClose={handleClose}
