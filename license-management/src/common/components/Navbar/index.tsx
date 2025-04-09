@@ -199,7 +199,7 @@ function Navbar() {
                                     <SearchIcon />
                                 </SearchIconWrapper>
                                 <StyledInputBase sx={{  marginLeft : "50px",display: { xs: "none", sm: "block" } }}
-                                    placeholder="Search…"
+                                    placeholder="Search by License Name..."
                                     inputProps={{ 'aria-label': 'search' }}
                                     value={searchField}
                                     onChange={handleSearchField}

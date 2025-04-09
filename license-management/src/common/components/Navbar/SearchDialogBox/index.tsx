@@ -32,6 +32,7 @@ function SimpleDialog(props: DialogProps) {
         setSearchField(event.target.value);
         if(event.target.value == ""){
             //to display all licenses when search field is empty
+            
             dispatch(setSearchText({search: ""}));
         }
     }
@@ -48,7 +49,7 @@ function SimpleDialog(props: DialogProps) {
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <input type='text' placeholder='Search..' value={searchField} className={styles.search} onChange={handleSearchText} onKeyDown={handleEnterKeyForSearch} autoFocus/>
+            <input type='text' placeholder='Search by License Name...' value={searchField} className={styles.search} onChange={handleSearchText} onKeyDown={handleEnterKeyForSearch} autoFocus/>
         </Dialog>
     );
 }
@@ -79,6 +80,7 @@ function SearchDialogBox() {
             <SimpleDialog
                 open={open}
                 onClose={handleClose}
+                
             />
         </div>
     );

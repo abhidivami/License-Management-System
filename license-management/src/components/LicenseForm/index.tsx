@@ -218,7 +218,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.licenseName}
-                  // helperText={errors.licenseName?.message}
+                   helperText={errors.licenseName?.message?.toString()}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -325,7 +325,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.billingEmail}
-                  helperText={errors.billingEmail?.message}
+                  helperText={errors.billingEmail?.message?.toString()}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -369,7 +369,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.departmentOwner}
-                  // helperText={errors.departmentOwner?.message}
+                  helperText={errors.departmentOwner?.message?.toString()}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -428,7 +428,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   required
                   margin="normal"
                   error={!!errors.totalSeats}
-                  // helperText={errors.totalSeats?.message}
+                  helperText={errors.totalSeats?.message?.toString()}
                   sx={commonTextFieldStyle}
                 />
               )}
@@ -451,7 +451,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
                   error={!!errors.totalCost}
-                  // helperText={errors.totalCost?.message}
+                  helperText={errors.totalCost?.message?.toString()}
                   sx={commonTextFieldStyle}
                 />
               )}

@@ -20,7 +20,7 @@ import Chip from '@mui/joy/Chip';
 import IconButton from '@mui/joy/IconButton';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey }) => {
+const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey } : any) => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -29,22 +29,22 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
   const getFilteredLicenses = () => {
     switch (filterKey) {
       case 'userBased':
-        return licenses.filter(item => 
+        return licenses.filter((item: { subscriptionModel: string; }) => 
           item.subscriptionModel === 'user based' || item.subscriptionModel === 'UserBased');
       case 'group':
-        return licenses.filter(item => 
+        return licenses.filter((item: { subscriptionModel: string; }) => 
           item.subscriptionModel === 'group' || 
           item.subscriptionModel === 'hardware based' || 
           item.subscriptionModel === 'Enterprise');
       case 'active':
-        return licenses.filter(item => item.LicenseStatus === 'Active');
+        return licenses.filter((item: { LicenseStatus: string; }) => item.LicenseStatus === 'Active');
       case 'expiredLicenses':
-        return licenses.filter(item =>
+        return licenses.filter((item: { LicenseStatus: string; }) =>
           item.LicenseStatus === 'Expired'
         )
       case 'totalCostTORenweLicenses': {
-        const expiredLicenses = licenses.filter(item => item.LicenseStatus === 'Expired');
-        const totalCost = expiredLicenses.reduce((acc, item) => {
+        const expiredLicenses = licenses.filter((item: { LicenseStatus: string; }) => item.LicenseStatus === 'Expired');
+        const totalCost = expiredLicenses.reduce((acc: number, item: { totalCost: string; }) => {
             const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
             return acc + cost;
           }, 0);
@@ -52,11 +52,11 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
         return totalCostInMillions;
       }
       case 'userBasedExpiredLicenses': {
-        const userExpired = licenses.filter((item)=> item.LicenseStatus === 'Expired' && item.subscriptionModel==='UserBased')
+        const userExpired = licenses.filter((item: { LicenseStatus: string; subscriptionModel: string; })=> item.LicenseStatus === 'Expired' && item.subscriptionModel==='UserBased')
         return userExpired
       }
       case 'groupExpiredLicenses': {
-        const groupExpired = licenses.filter((item)=> item.LicenseStatus === 'Expired' && item.subscriptionModel==='Enterprise')
+        const groupExpired = licenses.filter((item: { LicenseStatus: string; subscriptionModel: string; })=> item.LicenseStatus === 'Expired' && item.subscriptionModel==='Enterprise')
         return groupExpired
       }
       
@@ -168,7 +168,7 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
                   borderRadius: '3px',
                 },
               }}>
-            {filteredLicenses.map((license, index) => (
+            {filteredLicenses.map((license: { licenseName: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; LicenseStatus: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; purchaseDate: string | number | Date; subscriptionModel: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; totalCost: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }, index: React.Key | null | undefined) => (
               <React.Fragment key={index}>
                 <ListItem sx={{ py: 1.5 }}>
                   <ListItemContent>

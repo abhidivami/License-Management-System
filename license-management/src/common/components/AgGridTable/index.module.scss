@@ -36,7 +36,7 @@
     color: red;
 }
 }
-
+// styling for the renew button
 .renew{
     background-color: rgb(217, 50, 50);
     color: white;
@@ -45,7 +45,7 @@
     padding: 5px 10px;
     border-radius: 5px;
 }
-
+// styling for dilte rdata
 .filterContainer {
     margin-bottom: 1rem;
     display: flex;
@@ -64,7 +64,7 @@
       background-color: white;
     }
   }
-
+// filters for cards in analytics page
   .cardContainer{
     display:flex;
     flex-wrap: wrap;
@@ -109,7 +109,7 @@
     justify-content: normal !important;
     gap: 13px !important;
 }
-
+// media queries
 @media screen and (max-width:520px){
 }
 .ag-theme-quartz{
