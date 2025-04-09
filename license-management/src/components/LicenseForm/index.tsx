@@ -182,6 +182,20 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
     }
   };
 
+  
+  //to store employees details related to respective license
+  let employeesDetails: string[] = [];
+  const handleEmployeeDetails = (event: any, newValue: Employee[]) => {
+
+    //newValue contains all employees details and storing employee name only
+    for(let index=0; index<newValue.length; index++){
+        employeesDetails.push(newValue[index].name);
+    }
+
+    //store details, in order to store in api
+    setValue("employeeName", employeesDetails);
+  }
+
 
   return (
     isModalOpen && (
@@ -377,17 +391,24 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                 />
               )}
             /> */}
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={employees}
-              getOptionLabel={(employee: Employee) => employee.name}
-              filterSelectedOptions
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Employees"
-                  placeholder="Employee"
+            <Controller
+              name="employeeName"
+              control={control}
+              render={({ field }) => (
+                <Autocomplete
+                  multiple
+                  id="tags-outlined"
+                  options={employees}
+                  getOptionLabel={(employee: Employee) => employee.name}
+                  onChange={(e, newEmployee) => handleEmployeeDetails(e, newEmployee)}
+                  filterSelectedOptions
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Employees"
+                      placeholder="Employee"
+                    />
+                  )}
                 />
               )}
             />
