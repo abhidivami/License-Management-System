@@ -196,8 +196,11 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       };
     });
 
+    //need only days with daysdiff >= 0
+    const expiringSoonLicenses = allLicensesWithDays.filter(item => item.daysRemaining >= 0);
+
     // Apply filter based on selection
-    let filteredData = allLicensesWithDays;
+    let filteredData = expiringSoonLicenses;
     if (selectedDaysFilter !== "all") {
       const maxDays = parseInt(selectedDaysFilter);
       filteredData = allLicensesWithDays.filter(item =>

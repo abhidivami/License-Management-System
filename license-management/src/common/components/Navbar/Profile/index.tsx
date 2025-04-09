@@ -40,7 +40,7 @@ function Profile(props: ProfileProps) {
                      <Avatar sx={{ width: "80px", height: "80px", borderRadius: "10px" }}  />
                         <div style={{ marginLeft: "10px" }}>
                             <p style={{fontWeight:"500"}}>Divami</p>
-                            <p style={{opacity:"0.7"}}>Divami@gmail.com</p>
+                            <p style={{opacity:"0.7"}}>abrv@divami.com</p>
                         </div>
                     </div>
                     <div style={{display:"flex",justifyContent:"end",gap:"10px",cursor:"pointer"}}>
@@ -90,7 +90,7 @@ function Profile(props: ProfileProps) {
                     {iconColor == "black" && <p>Profile</p>}
                 </div>
             </Tooltip>
-            <Drawer open={open} onClose={toggleDrawer(false)} anchor='right'   sx={{
+            <Drawer open={open}  anchor='right'   sx={{
                 "& .MuiDrawer-paper":{
                     backgroundColor:"transparent",
                     boxShadow:"none"

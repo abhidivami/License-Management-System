@@ -1,15 +1,16 @@
+// Declaring the styled css names
 $primaryColor: #5DA3FA; 
 $secondaryColor: #F8FAFD; 
 $accentColor: #E0E8F0;
 $textColor: #333;
 $subTextColor: #666;
 $fontFamily: 'apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-
+// styling for body
 body {
     background-color: $secondaryColor; 
     font-family: $fontFamily;
 }
-
+// styling for the card
 .detailedViewCard {
     display: flex;
     flex-direction: column;
@@ -41,14 +42,9 @@ body {
     font-size: 16px;
     font-family: $fontFamily;
     padding: 10px 18px;
-    // border-radius: 8px;
-    // transition: all 0.3s ease;
-    // color: $primaryColor;
     font-weight: 500;
-
     &:hover {
         background-color: rgba(93, 163, 250, 0.2);
-        // transform: scale(1.05);
     }
 }
 
@@ -56,7 +52,7 @@ body {
     background-color: #e9ecef;
     overflow:scroll;
 }
-
+// styling for the body basic info
 .detailedViewInfoBodyBasicInfo {
     background-color: white; 
     padding: 20px;
@@ -65,19 +61,17 @@ body {
     margin: 15px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
 }
-
-
+// styling for body details
 .detailedViewBodyBasicData {
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
-    gap: 30px; 
+    gap: 10px; 
     padding: 10px;
 }
 
 .detailedViewBodyBasicDataItem {
     display: flex;
     align-items: center;
-    // width: 85%;
     background: white; 
     padding: 12px;
     border-bottom: 1px solid $accentColor;
@@ -91,7 +85,7 @@ body {
     width: 40%; 
     text-align: left; 
 }
-
+// styling for span item in detailed view page
 .detailedViewBodyBasicDataItem span {
     font-size: 14px;
     font-weight: 400;
@@ -100,7 +94,7 @@ body {
     word-wrap: break-word;
     font-family: $fontFamily;
 }
-
+// styling for headings in detailed view 
 .bodyBasicDataHeadings{
     color: $subTextColor !important;
     font-weight:500 !important;
@@ -115,6 +109,7 @@ body {
 
 .detailedViewBodyHeader p{
     font-weight:bold;
+    margin-left: -10px;
 }
 
 .detailedViewCardHeader button {
@@ -151,17 +146,19 @@ body {
     color: #000;            
     border: none;            
   }
-  
+  // styling for input placeholder
+  ._detailedViewBodyBasicDataItem_zorjj_64
   .detailedViewBodyBasicDataItem input:focus::placeholder {
     color: transparent;      
   }
   
   .detailedViewBodyBasicDataItem {
     display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
+    justify-content: center;
+    padding: 8px 0; 
     font-size: 14px;
     line-height: 1.5;
+   
   }
   
   .detailedViewBodyBasicDataHeadings {
@@ -174,8 +171,12 @@ body {
   .detailedViewBodyBasicDataItem span {
     font-size: 14px;
     color: #333;
-  }
   
+  }
+  // Cost Icon [ Dollar ]
+  .costSymbol{
+    font-size: xx-large;
+  }
   .detailedViewBodyBasicDataItem input[disabled] {
     color: #777; 
   }
@@ -211,11 +212,10 @@ body {
       color: #000;
     }
   }
-
+// media queries
   @media(max-width:720px){
     .detailedViewBodyBasicData{
       grid-template-columns: repeat(1, 1fr);
-      // gap:30px;
     }
     .detailedViewBodyBasicDataItem{
       gap:50px;

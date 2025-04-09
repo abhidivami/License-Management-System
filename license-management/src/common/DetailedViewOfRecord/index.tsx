@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import style from "./index.module.scss";
 import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -36,7 +36,7 @@ const DetailedViewOfEachRecord = () => {
     navigate('/');
   }
 
-  const handleSaveClick = (section) => {
+  const handleSaveClick = (section: string) => {
     const hasChanges = JSON.stringify(data) !== JSON.stringify(originalData);
     if (hasChanges) {
       //use put api call
@@ -59,7 +59,7 @@ const DetailedViewOfEachRecord = () => {
   };
   
 
-  const toggleEditMode = (section) => {
+  const toggleEditMode = (section : string) => {
     setEditStates((prev) => ({
       ...prev,
       [section]: !prev[section],
@@ -67,9 +67,9 @@ const DetailedViewOfEachRecord = () => {
   };
   
 
-  const handleInputChange = (e, field) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     const { name, value } = e.target;
-    setData((prevData) => ({
+    setData((prevData: any) => ({
       ...prevData,
       [name]: value,
     }));
@@ -273,17 +273,17 @@ const DetailedViewOfEachRecord = () => {
             </div>
             <div className={style.detailedViewBodyBasicData}>
               <div className={style.detailedViewBodyBasicDataItem}>
-                <span className={style.bodyBasicDataHeadings}>Last Renewaled Date</span>
+                <span className={style.bodyBasicDataHeadings}>Last Renewal Date</span>
                 <span>{data.purchaseDate}</span>
               </div>
               <div className={style.detailedViewBodyBasicDataItem}>
                 <span className={style.bodyBasicDataHeadings}>Cost</span>
-                <span>{data.totalCost}</span>
+                <span> $ {data.totalCost}</span>
               </div>
             </div>
             <div className={style.detailedViewBodyBasicData}>
                 {Array.isArray(data.renewal_details?.renewal_history) && data.renewal_details.renewal_history.length > 0 ? (
-                  data.renewal_details.renewal_history.map((history, index) => (
+                  data.renewal_details.renewal_history.map((history : any, index : any) => (
                     <div key={index}>
                       <div className={style.detailedViewBodyBasicDataItem}>
                         <span className={style.bodyBasicDataHeadings}>Previous Renewaled Date</span>
@@ -296,7 +296,7 @@ const DetailedViewOfEachRecord = () => {
                     </div>
                   ))
                 ) : (
-                  <div>No More history available</div> // or handle the fallback case
+                  <div></div> 
                 )}
             </div>
 
