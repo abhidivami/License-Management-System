@@ -73,7 +73,7 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
     <>
       <Card variant="solid" color="primary" invertedColors className="analyticsCard"
       sx={{
-        width:'250px'
+        width:'246px'
       }}>
         <CardContent orientation="horizontal">
           <CircularProgress size="lg" determinate value={progressValue}>
@@ -192,7 +192,7 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
                       {/* <Chip variant="outlined" size="sm">
                         Users: {license.employeeName|| 'N/A'}
                       </Chip> */}
-                      <Chip variant="outlined" size="sm" color="primary">
+                      <Chip variant="outlined" size="sm" color="primary" >
                         Cost: {license.totalCost}
                       </Chip>
                     </Box>

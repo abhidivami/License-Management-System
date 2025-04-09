@@ -2,3 +2,32 @@
     display: flex;
     height: 91vh;
 }
+
+
+@media only screen and (max-width: 480px) {
+    .Toastify__toast {
+        --toastify-toast-width: 70% !important;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+}
+/*  */
+@media only screen and (max-width : 520px){
+.ag-theme-quartz{
+    .ag-paging-panel{
+        align-items: center !important;
+        border-top: var(--ag-footer-row-border);
+        display: flex !important;
+        justify-content: flex-end !important;
+        height: 70px !important;
+        overflow-y: scroll !important;
+        padding: 2px !important;
+        font-size: small !important;
+        justify-content: normal !important;
+        gap: 13px !important;
+    }
+    .ag-paging-row-summary-panel{
+        display:none;
+    }
+}
+}

@@ -1,4 +1,4 @@
-import {  Chip, Container, Dialog, DialogContent, DialogTitle, Tooltip} from "@mui/material";
+import { Button, Chip, Container, Dialog, DialogActions, DialogContent, DialogTitle, Tooltip} from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -236,27 +236,19 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     filterLicensesByLicenseName(expiringsoonData);
   }
 // To apply colour to the license Status
-const StatusColor = (params: any) => {
+ const StatusColor =(params: any) => {
   const status = params.value;
-  const color = status === 'Active' ? '#4caf50' : '#f44336';
-  
   return (
-    <div style={{display: 'flex',alignItems: 'center',gap: '6px'}}>
-      <span style={{
-        display: 'inline-block',
-        width: '8px',
-        height: '8px',
-        borderRadius: '50%',
-        backgroundColor: color
-      }} />
-      <span style={{
-        color: color,
-        fontWeight: 'bold',
-        fontSize: '0.875rem'
-      }}>
-        {status}
-      </span>
-    </div>
+    <Chip
+      variant="outlined"
+      color={
+        status === 'Active' ? 'success' : 
+        status === 'Expired' ? 'error' : 'default'
+      }
+      size="small"
+      sx={{ fontWeight: 'bold', textAlign:'center', alignItems:'center' }}
+      label={status}
+    />
   );
 }
   const CustomButtonComponent = (props: any) => {
@@ -290,7 +282,6 @@ const StatusColor = (params: any) => {
       field: "modalType",
       sortable: true,
       filter: true,
-      cellStyle: { textAlign: 'center' },
       // width:120,
       //  flex:1,
     },
@@ -299,7 +290,7 @@ const StatusColor = (params: any) => {
       field: "departmentName",
       sortable: true,
       filter: true,
-      width:100,
+      // width:100,
       // flex: 1,
     },
    
@@ -315,7 +306,7 @@ const StatusColor = (params: any) => {
       field: "totalCost",
       sortable: true,
       filter: true,
-      width:100,
+      // width:100,
       // flex: 1,
     },
     {
@@ -323,7 +314,7 @@ const StatusColor = (params: any) => {
       field: "purchaseDate",
       sortable: true,
       filter: true,
-      width:150,
+      // width:150,
       // flex: 1,
     },
     {
@@ -331,7 +322,7 @@ const StatusColor = (params: any) => {
       field: "expirationDate",
       sortable: true,
       filter: true,
-      width:150
+      // width:150
       // flex: 1
     },
     {
@@ -340,15 +331,14 @@ const StatusColor = (params: any) => {
       sortable: true,
       cellRenderer: StatusColor,
       filter: true,
-      width:150,
-      cellStyle: { textAlign: 'center' },
+      // width:150
       // flex: 1,
     },
     {
       headerName: "Actions",
       field: "button",
       cellRenderer: CustomButtonComponent,
-      width:150,
+      // width:150,
       // flex: 1
     },
   ]);
@@ -379,6 +369,7 @@ const StatusColor = (params: any) => {
       field: "totalSeats",
       sortable: true,
       filter: true,
+      // width:120
     },
     {
       headerName: "Total Cost",
@@ -407,7 +398,7 @@ const StatusColor = (params: any) => {
         field: "licenseName",
         sortable: true,
         filter: true,
-        width:150
+        // width:150
       },
       {
         headerName: "Modal Type",
@@ -432,7 +423,7 @@ const StatusColor = (params: any) => {
         field: "totalSeats",
         sortable: true,
         filter: true,
-        width:120
+        // width:120
         // flex: 1
       },
       {
@@ -440,7 +431,7 @@ const StatusColor = (params: any) => {
         field: "totalCost",
         sortable: true,
         filter: true,
-        width:120
+        // width:120
       },
       {
         headerName: "Expiration Date",
@@ -531,15 +522,15 @@ const StatusColor = (params: any) => {
               />
           <CardComponent
                 icon={walletIcon}
-                title="Cost to renew licenses"
-                value={`${totalCostInMillions}M$`}
+                title="Cost to renew expired licenses"
+                value={`${totalCostInMillions}M`}
                 progressValue={(expiredLicenses.length)/totalLicenses * 100}
                 licenses={dataFromRedux}
                 filterKey="expiredLicenses"
               />
           <CardComponent
                 icon={userIcon}
-                title="User based Licenses"
+                title="User based Expired Licenses"
                 value={`${userLicensesExpired.length} Licenses`}
                 progressValue={(userLicensesExpired.length)/expiredLicenses.length * 100}
                 licenses={dataFromRedux}
@@ -547,7 +538,7 @@ const StatusColor = (params: any) => {
               />
           <CardComponent
                 icon={buildingIcon}
-                title="group based Licenses"
+                title="group based Expired Licenses"
                 value={`${groupLicensesExpired.length} Licenses`}
                 progressValue={(groupLicensesExpired.length)/expiredLicenses.length * 100}
                 licenses={dataFromRedux}
@@ -556,7 +547,7 @@ const StatusColor = (params: any) => {
       </div>
     )}
 
-      <div className="ag-theme-quartz" style={{ height: "590px", width: "100%", overflow:'scroll' }}>
+      <div className="ag-theme-quartz" style={{ height: "590px", width: "100%", overflow:'auto' }}>
         {!showLicenseForm ?
           <AgGridReact
             rowData={
@@ -590,6 +581,9 @@ const StatusColor = (params: any) => {
             <DialogContent>
               <LicenseForm close={handleCloseDialog} existingData={licenseData} />
             </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
+            </DialogActions>
           </Dialog>
         }
       </div>

@@ -48,13 +48,14 @@ const DetailedViewOfEachRecord = () => {
         console.error("Error updating data:", error);
       });
       console.log("Saving changes...");
+      notify();
     }
     setOriginalData(data);
     setEditStates((prev) => ({
       ...prev,
       [section]: false,
     }));
-    notify();
+    
   };
   
 
@@ -295,7 +296,7 @@ const DetailedViewOfEachRecord = () => {
                     </div>
                   ))
                 ) : (
-                  <div>No renewal history available</div> // or handle the fallback case
+                  <div>No More history available</div> // or handle the fallback case
                 )}
             </div>
 

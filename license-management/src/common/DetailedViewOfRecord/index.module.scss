@@ -220,5 +220,8 @@ body {
     .detailedViewBodyBasicDataItem{
       gap:50px;
     }
+    .detailedViewBodyBasicDataItem input[disabled] {
+      margin-left:40px;
+    }
    
   }
