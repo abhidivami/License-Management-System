@@ -119,7 +119,7 @@ function Navbar() {
         setSearchField(event.target.value);
 
         //store it in redux
-        dispatch(setSearchText({ search: event.target.value }));
+        dispatch(setSearchText({ search: event.target.value.trim() }));
     }
 
     const menuId = 'primary-search-account-menu';
