@@ -503,6 +503,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
             />
 
             {/* Expiration Date */}
+            {formData.modalType === "Subscription" && (
             <Controller
               name="expirationDate"
               control={control}
@@ -523,9 +524,10 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
                   sx={commonTextFieldStyle}
                 />
               )}
-            />
+            />)}
 
             {/* Shelf Life */}
+            {formData.modalType === "Subscription" && (
             <TextField
               label="Shelf Life (in days)"
               value={formDataState.shelfLife}
@@ -533,7 +535,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({ close, existingData, f
               fullWidth
               margin="normal"
               sx={commonTextFieldStyle}
-            />
+            />)}
 
             {/* Action Buttons */}
             <Stack direction="row" spacing={2} sx={{

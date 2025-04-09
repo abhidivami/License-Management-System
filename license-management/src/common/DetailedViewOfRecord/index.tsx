@@ -239,7 +239,7 @@ const DetailedViewOfEachRecord = () => {
                   <input
                     type="text"
                     name="subscriptionType"
-                    value={data.subscriptionType}
+                    value={data.subscriptionType ? `${data.subscriptionType}`:"NA"}
                     disabled={!editStates.additionalDetails}
                     onChange={(e) => handleInputChange(e, "subscription_type")}
                   />
@@ -260,7 +260,7 @@ const DetailedViewOfEachRecord = () => {
                   <span className={style.bodyBasicDataHeadings}>
                     Shelf Life
                   </span>
-                  <input type="text" name="shelf_life" value={data.shelfLife} disabled={!editStates.additionalDetails} onChange={(e) => handleInputChange(e, "shelf_life")}/>
+                  <input type="text" name="shelf_life" value={data.shelfLife?`${data.shelfLife}`:"NA"} disabled={!editStates.additionalDetails} onChange={(e) => handleInputChange(e, "shelf_life")}/>
                 </div>
               </div>
             </div>

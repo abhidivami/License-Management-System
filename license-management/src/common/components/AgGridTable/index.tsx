@@ -305,16 +305,9 @@ const StatusColor = (params: any) => {
       width:150,
       // flex: 1,
     },
-   
-    // {
-    //   headerName: "Billing Email",
-    //   field: "billingEmail",
-    //   sortable: true,
-    //   filter: true,
-    //   // flex: 1,
-    // },
+
     {
-      headerName: "Total Cost",
+      headerName: "Total Cost (in $)",
       field: "totalCost",
       sortable: true,
       filter: true,
@@ -381,7 +374,7 @@ const StatusColor = (params: any) => {
       filter: true,
     },
     {
-      headerName: "Total Cost",
+      headerName: "Total Cost (in $)",
       field: "totalCost",
       sortable: true,
       filter: true,
@@ -421,26 +414,20 @@ const StatusColor = (params: any) => {
         sortable: true,
         filter: true,
       },
-      // {
-      //   headerName: "Department Owner",
-      //   field: "departmentOwner",
-      //   sortable: true,
-      //   filter: true,
-      // },
+      
       {
         headerName: "Total seats",
         field: "totalSeats",
         sortable: true,
         filter: true,
-        // width:120
-        // flex: 1
+        
       },
       {
-        headerName: "Total Cost",
+        headerName: "Total Cost (in $)",
         field: "totalCost",
         sortable: true,
         filter: true,
-        // width:120
+        
       },
       {
         headerName: "Expiration Date",
@@ -453,7 +440,7 @@ const StatusColor = (params: any) => {
         field: "expiredInDays",
         sortable: true,
         filter: true,
-        // flex: 1
+       
       }
     ]
   )

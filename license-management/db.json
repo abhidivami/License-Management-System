@@ -150,24 +150,6 @@
       "shelfLife": ""
     },
     {
-      "id": "df03",
-      "licenseId": "",
-      "licenseName": "Newwwwwwwwwwwww",
-      "licenseType": "Cloud Services",
-      "modalType": "Subscription",
-      "subscriptionType": "Half-Yearly",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "kasi@gmail.com",
-      "departmentOwner": "Damu",
-      "departmentName": "Sales",
-      "employeeName": "Neha",
-      "totalSeats": "12",
-      "totalCost": "2",
-      "purchaseDate": "2025-04-01",
-      "expirationDate": "2025-05-10",
-      "shelfLife": ""
-    },
-    {
       "id": "fad1",
       "licenseId": "",
       "licenseName": "Tata",
@@ -615,8 +597,8 @@
     },
     {
       "license_id": "c2a8",
-      "message": "Postman license is expiring in 7 days. Please renew by 4/16/2025.",
-      "notification_date": "4/9/2025",
+      "message": "Postman license is expiring in 7 days. Please renew by 16/04/2025.",
+      "notification_date": "09/04/2025",
       "id": "r8hq03h7"
     },
     {
@@ -628,8 +610,8 @@
     },
     {
       "license_id": "f69f",
-      "message": "license license is expiring in 1 days. Please renew by 4/10/2025.",
-      "notification_date": "4/9/2025",
+      "message": "license license is expiring in 1 days. Please renew by 10/04/2025.",
+      "notification_date": "09/04/2025",
       "id": "lzw7wd2s"
     }
   ]
