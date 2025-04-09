@@ -364,6 +364,48 @@
       "expirationDate": "2025-04-27",
       "shelfLife": "",
       "LicenseStatus": "Active"
+    },
+    {
+      "id": "95eb",
+      "licenseId": "",
+      "licenseName": "Testing3",
+      "licenseType": "Hardware",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "unknown@gmail.com",
+      "departmentOwner": "Prabhakar",
+      "departmentName": "QA",
+      "employeeName": [
+        "Basha"
+      ],
+      "totalSeats": "1",
+      "totalCost": "123456",
+      "purchaseDate": "2025-04-09",
+      "expirationDate": "2025-04-30",
+      "shelfLife": 20,
+      "LicenseStatus": "Active"
+    },
+    {
+      "id": "f4e3",
+      "licenseId": "",
+      "licenseName": "unknown",
+      "licenseType": "AIML",
+      "modalType": "Subscription",
+      "subscriptionType": "Half-Yearly",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "design@company.com",
+      "departmentOwner": "Satya Krishna",
+      "departmentName": "Finance",
+      "employeeName": [
+        "Abhilash"
+      ],
+      "totalSeats": "1",
+      "totalCost": "12345",
+      "purchaseDate": "2025-04-09",
+      "expirationDate": "2025-04-29",
+      "shelfLife": 19,
+      "LicenseStatus": "Active"
     }
   ],
   "departments": [
@@ -511,6 +553,23 @@
       "designation": "Software Engineer"
     }
   ],
+  "category": [
+    {
+      "id": "1",
+      "name": "Hardware",
+      "description": "It is for hardware"
+    },
+    {
+      "id": 2,
+      "name": "Software",
+      "description": "it is for testing"
+    },
+    {
+      "id": 3,
+      "name": "AIML",
+      "description": "for machine Learning"
+    }
+  ],
   "notifications": [
     {
       "license_id": 1,
@@ -556,10 +615,9 @@
     },
     {
       "license_id": "c2a8",
-      "message": "Postman license is expiring in 0 days. Please renew by 4/5/2025.",
-      "notification_date": "4/5/2025",
-      "id": "r8hq03h7",
-      "markAsRead": false
+      "message": "Postman license is expiring in 7 days. Please renew by 4/16/2025.",
+      "notification_date": "4/9/2025",
+      "id": "r8hq03h7"
     },
     {
       "license_id": "2ddf",
@@ -570,8 +628,8 @@
     },
     {
       "license_id": "f69f",
-      "message": "license license is expiring in 1 days. Please renew by 10/04/2025.",
-      "notification_date": "09/04/2025",
+      "message": "license license is expiring in 1 days. Please renew by 4/10/2025.",
+      "notification_date": "4/9/2025",
       "id": "lzw7wd2s"
     }
   ]

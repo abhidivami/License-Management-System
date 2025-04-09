@@ -55,9 +55,19 @@ const formSlice = createSlice({
           state[index] = action.payload; 
         }
       },
+      setImportedData: (state, action) => {
+        const importedData = action.payload.map(item => ({
+            ...item,
+            id: item.id || Math.random().toString(36).substr(2, 9),
+            LicenseStatus: 'Active'
+        }));
+        const existingIds = new Set(state.map(item => item.id));
+        const newItems = importedData.filter(item => !existingIds.has(item.id));
+        return [...state, ...newItems];
+    }
   },
 });
 
 // Export the actions and reducer
-export const { addFormData, removeFormData, clearFormData, setData, updateData } = formSlice.actions;
+export const { addFormData, removeFormData, clearFormData, setData, updateData, setImportedData } = formSlice.actions;
 export default formSlice.reducer;
