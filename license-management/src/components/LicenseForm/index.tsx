@@ -11,6 +11,7 @@ import {
   MenuItem,
   InputAdornment,
   Autocomplete,
+  SelectChangeEvent,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addFormData, updateData } from "../../Redux/Slice/LicenseForm/";
@@ -263,6 +264,46 @@ export const LicenseForm: React.FC<LicenceformProps> = ({
     //store details, in order to store in api
     setValue("employeeName", employeesDetails);
   };
+// To calculate expiry date 
+  const calculateExpiryDate = (purchaseDate: string) => {
+    console.log("purchase date------- ", purchaseDate);
+
+    const result = new Date(purchaseDate);
+    const subscription = watch('subscriptionType')
+    if (subscription === "Annual") {
+      result.setFullYear(result.getFullYear() + 1);
+    } else if (subscription === "Half-Yearly") {
+      result.setMonth(result.getMonth() + 6);
+    } else if (subscription === "Quarterly") {
+      result.setMonth(result.getMonth() + 3);
+    } else if (subscription === "Monthly") {
+      result.setMonth(result.getMonth() + 1);
+    }
+
+    setValue('expirationDate', result.toISOString().substring(0, 10));
+
+  };
+
+  const displayPurchaseDate = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log("purchase date: ", event.target.value);
+    setValue('purchaseDate', event.target.value);
+    // setValue('expirationDate', calculateExpiryDate(event.target.value));
+    calculateExpiryDate(event.target.value);
+  }
+
+
+  const handleSubscriptionType = (event:SelectChangeEvent<any>) => {
+    console.log("before setting values: ",formData);
+    console.log('event.target.value', event.target.value);
+    console.log("after setting values: ", formData);
+    setValue('subscriptionType', event.target.value);
+
+    console.log("type --- ", formData.subscriptionType);
+    if (formData.purchaseDate != "") {
+      console.log("purchase date in subscription type: ", formData.purchaseDate);
+      calculateExpiryDate(formData.purchaseDate);
+    }
+  }
 
   return (
     isModalOpen && (
@@ -368,6 +409,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({
                       label="Subscription Type"
                       required
                       error={!!errors.subscriptionType}
+                      onChange={(e) => handleSubscriptionType(e)}
                     >
                       <MenuItem value="Annual">Annual</MenuItem>
                       <MenuItem value="Half-Yearly">Half-Yearly</MenuItem>
@@ -472,23 +514,6 @@ export const LicenseForm: React.FC<LicenceformProps> = ({
               )}
             />
 
-            {/* Employee Name */}
-            {/* <Controller
-              name="employeeName"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Employee Name"
-                  fullWidth
-                  required
-                  margin="normal"
-                  error={!!errors.employeeName}
-                  // helperText={errors.employeeName?.message}
-                  sx={commonTextFieldStyle}
-                />
-              )}
-            /> */}
             <Controller
               name="employeeName"
               control={control}
@@ -572,6 +597,7 @@ export const LicenseForm: React.FC<LicenceformProps> = ({
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
                   error={!!errors.purchaseDate}
+                  onChange={(e) => displayPurchaseDate(e)}
                   helperText={errors.purchaseDate?.message}
                   sx={commonTextFieldStyle}
                 />
@@ -674,3 +700,4 @@ export const LicenseForm: React.FC<LicenceformProps> = ({
     )
   );
 };
+

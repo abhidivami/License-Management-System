@@ -194,14 +194,14 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     });
 
     //need only days with daysdiff >= 0
-    const expiringSoonLicenses = allLicensesWithDays.filter((item: { daysRemaining: number; }) => item.daysRemaining >= 0);
+    const expiringSoonLicenses = allLicensesWithDays.filter((item: { daysRemaining: number; }) => item.daysRemaining > 0);
 
     // Apply filter based on selection
     let filteredData = expiringSoonLicenses;
     if (selectedDaysFilter !== "all") {
       const maxDays = parseInt(selectedDaysFilter);
       filteredData = allLicensesWithDays.filter((item: { daysRemaining: number; }) =>
-        item.daysRemaining >= 0 && item.daysRemaining < maxDays
+        item.daysRemaining > 0 && item.daysRemaining < maxDays
       );
     }
 
@@ -282,8 +282,7 @@ const StatusColor = (params: any) => {
       headerName: "License Name",
       field: "licenseName",
       sortable: true,
-      filter: true,
-      //  flex:1,s
+      filter: true, 
     },
     {
       headerName: "Modal Type",
@@ -292,7 +291,7 @@ const StatusColor = (params: any) => {
       filter: true,
       cellStyle: { textAlign: 'center' },
       width:120,
-      //  flex:1,
+     
     },
     {
       headerName: "Department Name",
@@ -300,7 +299,7 @@ const StatusColor = (params: any) => {
       sortable: true,
       filter: true,
       width:150,
-      // flex: 1,
+      
     },
 
     {
@@ -308,24 +307,21 @@ const StatusColor = (params: any) => {
       field: "totalCost",
       sortable: true,
       filter: true,
-      // width:150,
-      // flex: 1,
+     
     },
     {
       headerName: "Purchase Date",
       field: "purchaseDate",
       sortable: true,
       filter: true,
-      // width:150,
-      // flex: 1,
+      
     },
     {
       headerName: "Expiration Date",
       field: "expirationDate",
       sortable: true,
       filter: true,
-      // width:150
-      // flex: 1
+      
     },
     {
       headerName: "License Status",
@@ -560,9 +556,7 @@ const StatusColor = (params: any) => {
             modules={[
               ClientSideRowModelModule,
               TextFilterModule,
-              // NumberFilterModule,
               PaginationModule,
-              // RowSelectionModule,
             ]}
           />
           :

@@ -54,6 +54,19 @@ const EmailTriggering = () => {
 
         postData();
         const intervalId = setInterval(postData, 86400000); // Run daily
+        const checkDayChange = () => {
+            const currentDate = new Date();
+            if (currentDate.getHours() === 0 && currentDate.getMinutes() === 0) {
+                postData();
+            }
+        };
+
+        const intervalId2 = setInterval(checkDayChange, 60000); // Check every minute
+
+        return () => {
+            clearInterval(intervalId);
+            clearInterval(intervalId2);
+        };
 
         return () => clearInterval(intervalId);
     }, [data]);
