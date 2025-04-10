@@ -33,13 +33,13 @@ const formSlice = createSlice({
       state.push(action.payload);
     },
   //  To remove item from the redux
-    removeFormData: (state, action: PayloadAction<number>) => {
+    removeFormData: (state, action: PayloadAction<string>) => {
       // Filter out the item based on the id to remove the item from the state
       return state.filter((formData) => formData.id !== action.payload.toString());
     },
     // To clear the form
     clearFormData: () => initialState,
-    setData: (state, action: PayloadAction<FormData[]>) => {
+    setData: (_state, action: PayloadAction<FormData[]>) => {
       return action.payload.map((item) => ({
         ...item,
         LicenseStatus: item.expirationDate < new Date().toISOString() ? 'Expired' : 'Active',
@@ -56,13 +56,13 @@ const formSlice = createSlice({
         }
       },
       setImportedData: (state, action) => {
-        const importedData = action.payload.map(item => ({
+        const importedData = action.payload.map((item: { id: any; }) => ({
             ...item,
             id: item.id || Math.random().toString(36).substr(2, 9),
             LicenseStatus: 'Active'
         }));
         const existingIds = new Set(state.map(item => item.id));
-        const newItems = importedData.filter(item => !existingIds.has(item.id));
+        const newItems = importedData.filter((item: { id: string; }) => !existingIds.has(item.id));
         return [...state, ...newItems];
     }
   },

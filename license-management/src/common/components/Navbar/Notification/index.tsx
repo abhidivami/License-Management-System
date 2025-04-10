@@ -24,7 +24,7 @@ interface ProfileProps {
 function Notification( props:ProfileProps) {
 
   //set notifications on notifications arrays
-  const [notification, setNotification] = useState([]);
+  const [, setNotification] = useState([]);
 
   //detials visible
   const [detailesVisible, setDetailesVisible] = useState<any>(false);
@@ -76,13 +76,12 @@ function Notification( props:ProfileProps) {
   //function to visible details info message first word and licesne name matched
   const toggleVisibleDetails = (item: any) => {
     setDetailesVisible(true); //set details visible true 
-
     console.log("card message", item.message);  //console item messsage 
     console.log("licenses from redux", LicensesFromRedux); 
     const firstWordOfMessage = item.message.split(" ")[0]; // extracting the first word in message 
     console.log("first word of message", firstWordOfMessage);
 
-    //matehed license message first word and license name matexh record show
+    //matched license message first word and license name match record show
     const matchedLicense = LicensesFromRedux.filter((itemName: any) => {
       //console.log('licensename',itemName.licenseName);
       return itemName.licenseName === firstWordOfMessage; //return matched license details 
@@ -106,15 +105,14 @@ function Notification( props:ProfileProps) {
     setDetailesVisible(false);
   };
 
-  //mark as read 
+  // handle mark as read function 
   const handleMarkAsRead = (id: any) => {
     console.log("item id mark as read ", id);
     dispatch(markAsRead(id));
-
     //updating mark as read status in api
     axios.patch(`http://localhost:3005/notifications/${id}`, {markAsRead: true})
     .then((response) => {
-      console.log("response:",response);
+      console.log("response patch :",response);
     })
     .catch((error) => {
       console.log(error);
@@ -127,7 +125,6 @@ function Notification( props:ProfileProps) {
       {detailesVisible && (
         <Box 
           sx={{
-          
             height: "calc(100vh - 20px)",
             width: {xs: "340px", sm: "600px"},
             margin: "10px",
@@ -241,15 +238,7 @@ function Notification( props:ProfileProps) {
                 disabled
               />
             </div>
-            <div className={styles.detailsInfo}>
-              <p className={styles.detailsHeader}>Subscription Type </p>
-              <input
-                className={styles.inputTag}
-                type="text"
-                value={detailesVisible[0].subscriptionType}
-                disabled
-              />
-            </div>
+     
             <div className={styles.detailsInfo}>
               <p className={styles.detailsHeader}>Subscription Model </p>
               <input
@@ -374,7 +363,6 @@ function Notification( props:ProfileProps) {
       </Tooltip>
       <Drawer
         open={open}
-        // onClose={toggleDrawer(false)}
         anchor="right"
         sx={{
           "& .MuiDrawer-paper": {

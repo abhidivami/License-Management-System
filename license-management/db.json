@@ -10,12 +10,13 @@
       "billingEmail": "damu@gmail.com",
       "departmentOwner": "Ganesh",
       "departmentName": "IT",
-      "employeeName": "suryaa",
+      "employeeName": "gfd",
       "totalSeats": 123,
       "totalCost": "12107",
       "purchaseDate": "2025-04-01",
       "expirationDate": "2025-11-05",
-      "shelfLife": ""
+      "shelfLife": "",
+      "LicenseStatus": "Active"
     },
     {
       "licenseId": "c2a8",
@@ -46,11 +47,7 @@
       "billingEmail": "pm@company.com",
       "departmentOwner": "Jane",
       "departmentName": "HR",
-      "employeeName": [
-        "John Doe",
-        "Jane Smith",
-        "Michael Johnson"
-      ],
+      "employeeName": "John Doe,Jane Smith,Michael Johnson, basha",
       "totalSeats": 80,
       "totalCost": "80000",
       "purchaseDate": "2025-04-01",
@@ -70,48 +67,13 @@
       "billingEmail": "basha@gmail.com",
       "departmentOwner": "suryaa",
       "departmentName": "IT",
-      "employeeName": "suryaa",
+      "employeeName": "basha",
       "totalSeats": "12",
       "totalCost": "98",
       "purchaseDate": "2025-04-24",
       "expirationDate": "2026-01-01",
-      "shelfLife": ""
-    },
-    {
-      "id": "176507",
-      "licenseId": "",
-      "licenseName": "FireBase",
-      "licenseType": "Software",
-      "modalType": "Subscription",
-      "subscriptionType": "Half-Yearly",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "se@divami.com",
-      "departmentOwner": "Gopal",
-      "departmentName": "IT",
-      "employeeName": "unknown1",
-      "totalSeats": 12,
-      "totalCost": "123456",
-      "purchaseDate": "2025-03-03",
-      "expirationDate": "2025-04-02",
-      "shelfLife": ""
-    },
-    {
-      "id": "0735",
-      "licenseId": "",
-      "licenseName": "Perplex",
-      "licenseType": "Software",
-      "modalType": "Subscription",
-      "subscriptionType": "Half-Yearly",
-      "subscriptionModel": "Enterprise",
-      "billingEmail": "se@divami.com",
-      "departmentOwner": "Gopal",
-      "departmentName": "Software Engineering",
-      "employeeName": "suryaa,rambabu",
-      "totalSeats": "21",
-      "totalCost": "21909",
-      "purchaseDate": "2025-04-07",
-      "expirationDate": "2026-01-10",
-      "shelfLife": ""
+      "shelfLife": "",
+      "LicenseStatus": "Active"
     },
     {
       "id": "1bb6",
@@ -197,7 +159,7 @@
       "billingEmail": "12@gmail.com",
       "departmentOwner": "Emily Davis",
       "departmentName": "Sales",
-      "employeeName": "",
+      "employeeName": "basha",
       "totalSeats": "12",
       "totalCost": "765432",
       "purchaseDate": "2025-04-25",
@@ -369,24 +331,43 @@
       "LicenseStatus": "Active"
     },
     {
-      "id": "f4e3",
+      "id": "a0a8",
       "licenseId": "",
-      "licenseName": "unknown",
+      "licenseName": "Test",
       "licenseType": "AIML",
-      "modalType": "Subscription",
-      "subscriptionType": "Half-Yearly",
+      "modalType": "Perpetual",
+      "subscriptionType": "Annual",
       "subscriptionModel": "UserBased",
-      "billingEmail": "design@company.com",
+      "billingEmail": "se@divami.com",
       "departmentOwner": "Satya Krishna",
       "departmentName": "Finance",
+      "employeeName": "Ram",
+      "totalSeats": "6543",
+      "totalCost": "980",
+      "purchaseDate": "2025-04-02",
+      "expirationDate": "Life Time Access",
+      "shelfLife": "",
+      "LicenseStatus": "Active"
+    },
+    {
+      "id": "67c1",
+      "licenseId": "",
+      "licenseName": "huuu",
+      "licenseType": "AIML",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "Enterprise",
+      "billingEmail": "bbb@gmil.com",
+      "departmentOwner": "Joshuva",
+      "departmentName": "Devops",
       "employeeName": [
-        "Abhilash"
+        "Anitha"
       ],
-      "totalSeats": "1",
-      "totalCost": "12345",
-      "purchaseDate": "2025-04-09",
-      "expirationDate": "2025-04-29",
-      "shelfLife": 19,
+      "totalSeats": "123",
+      "totalCost": "987",
+      "purchaseDate": "2025-05-09",
+      "expirationDate": "Life Time Access",
+      "shelfLife": "",
       "LicenseStatus": "Active"
     }
   ],
@@ -456,6 +437,12 @@
       "name": "Project Management",
       "owner": "Vamsi",
       "description": "Manages the projects"
+    },
+    {
+      "id": 12,
+      "name": "Security",
+      "owner": "Badri",
+      "description": "Guarding"
     }
   ],
   "Users": [
@@ -542,12 +529,12 @@
       "description": "It is for hardware"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Software",
       "description": "it is for testing"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "AIML",
       "description": "for machine Learning"
     }
@@ -597,8 +584,8 @@
     },
     {
       "license_id": "c2a8",
-      "message": "Postman license is expiring in 7 days. Please renew by 16/04/2025.",
-      "notification_date": "09/04/2025",
+      "message": "Postman license is expiring in 6 days. Please renew by 16/04/2025.",
+      "notification_date": "10/04/2025",
       "id": "r8hq03h7"
     },
     {
@@ -610,8 +597,8 @@
     },
     {
       "license_id": "f69f",
-      "message": "license license is expiring in 1 days. Please renew by 10/04/2025.",
-      "notification_date": "09/04/2025",
+      "message": "license license is expiring in 0 days. Please renew by 10/04/2025.",
+      "notification_date": "10/04/2025",
       "id": "lzw7wd2s"
     }
   ]
