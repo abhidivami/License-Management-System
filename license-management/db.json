@@ -1,99 +1,6 @@
 {
   "licenses": [
     {
-      "id": "223e",
-      "licenseName": "ChatGPT",
-      "licenseType": "Cloud Services",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "damu@gmail.com",
-      "departmentOwner": "Ganesh",
-      "departmentName": "IT",
-      "employeeName": "gfd",
-      "totalSeats": 123,
-      "totalCost": "12107",
-      "purchaseDate": "2025-04-01",
-      "expirationDate": "2025-11-05",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
-    },
-    {
-      "licenseId": "c2a8",
-      "licenseName": "Postman",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "Quarterly",
-      "subscriptionModel": "Enterprise",
-      "billingEmail": "bbb@gmil.com",
-      "departmentOwner": "Ja",
-      "departmentName": "HR",
-      "employeeName": "Neha",
-      "totalSeats": 43,
-      "totalCost": "76999",
-      "purchaseDate": "2025-04-09",
-      "expirationDate": "2025-04-16",
-      "shelfLife": "",
-      "id": "c2a8",
-      "LicenseStatus": "Active"
-    },
-    {
-      "licenseId": "281741",
-      "licenseName": "Jira",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "One-time",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "pm@company.com",
-      "departmentOwner": "Jane",
-      "departmentName": "HR",
-      "employeeName": "John Doe,Jane Smith,Michael Johnson, basha",
-      "totalSeats": 80,
-      "totalCost": "80000",
-      "purchaseDate": "2025-04-01",
-      "expirationDate": "2025-04-24",
-      "shelfLife": 5,
-      "id": "281741",
-      "LicenseStatus": "Active"
-    },
-    {
-      "id": "60fc",
-      "licenseId": "",
-      "licenseName": "Postman",
-      "licenseType": "API",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "basha@gmail.com",
-      "departmentOwner": "suryaa",
-      "departmentName": "IT",
-      "employeeName": "basha",
-      "totalSeats": "12",
-      "totalCost": "98",
-      "purchaseDate": "2025-04-24",
-      "expirationDate": "2026-01-01",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
-    },
-    {
-      "id": "1bb6",
-      "licenseId": "",
-      "licenseName": "Copilot",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "Enterprise",
-      "billingEmail": "basha@gmail.com",
-      "departmentOwner": "Gopal",
-      "departmentName": "Software Engineering",
-      "employeeName": "Amulya, Anjali",
-      "totalSeats": "21",
-      "totalCost": "29876",
-      "purchaseDate": "2025-04-07",
-      "expirationDate": "2025-11-07",
-      "shelfLife": ""
-    },
-    {
       "id": "f0bf",
       "licenseId": "",
       "licenseName": "  Basha",
@@ -130,25 +37,6 @@
       "shelfLife": ""
     },
     {
-      "id": "4686",
-      "licenseId": "",
-      "licenseName": "Mercedes                        ",
-      "licenseType": "Software",
-      "modalType": "Subscription",
-      "subscriptionType": "Annual",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "12@gmail.com",
-      "departmentOwner": "will smi",
-      "departmentName": "IT",
-      "employeeName": "",
-      "totalSeats": "982",
-      "totalCost": "91",
-      "purchaseDate": "2025-04-03",
-      "expirationDate": "2025-04-30",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
-    },
-    {
       "id": "209e",
       "licenseId": "",
       "licenseName": "Mercedes",
@@ -182,28 +70,9 @@
       "totalSeats": "7654",
       "totalCost": "8765",
       "purchaseDate": "2024-06-18",
-      "expirationDate": "2024-12-28",
+      "expirationDate": "2025-04-13",
       "shelfLife": "",
       "LicenseStatus": "Expired"
-    },
-    {
-      "id": "f69f",
-      "licenseId": "",
-      "licenseName": "license",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "lms@gmail.com",
-      "departmentOwner": "Gopal",
-      "departmentName": "Software Engineering",
-      "employeeName": "",
-      "totalSeats": "4",
-      "totalCost": "40",
-      "purchaseDate": "2025-04-01",
-      "expirationDate": "2025-04-10",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
     },
     {
       "id": "825f",
@@ -225,25 +94,6 @@
       "LicenseStatus": "Active"
     },
     {
-      "id": "86cd",
-      "licenseId": "",
-      "licenseName": "devops",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "devops@gmail.com",
-      "departmentOwner": "Gopal",
-      "departmentName": "Software Engineering",
-      "employeeName": "",
-      "totalSeats": "50",
-      "totalCost": "500",
-      "purchaseDate": "2025-04-10",
-      "expirationDate": "2025-04-27",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
-    },
-    {
       "id": "a42d",
       "licenseId": "",
       "licenseName": "MongoDB",
@@ -259,29 +109,6 @@
       "totalCost": "495",
       "purchaseDate": "2025-04-09",
       "expirationDate": "2025-04-18",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
-    },
-    {
-      "id": "1c50",
-      "licenseId": "",
-      "licenseName": "lms",
-      "licenseType": "Software",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "UserBased",
-      "billingEmail": "lms@gmail.com",
-      "departmentOwner": "Gopal",
-      "departmentName": "Software Engineering",
-      "employeeName": [
-        "Vijaya Lakshmi",
-        "Ramya",
-        "Pragna"
-      ],
-      "totalSeats": "50",
-      "totalCost": "500",
-      "purchaseDate": "2025-04-17",
-      "expirationDate": "2025-05-04",
       "shelfLife": "",
       "LicenseStatus": "Active"
     },
@@ -310,62 +137,65 @@
       "LicenseStatus": "Active"
     },
     {
-      "id": "95eb",
+      "id": "a04f",
       "licenseId": "",
-      "licenseName": "Testing3",
-      "licenseType": "Hardware",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
+      "licenseName": "Tat",
+      "licenseType": "AIML",
+      "modalType": "Subscription",
+      "subscriptionType": "Half-Yearly",
       "subscriptionModel": "UserBased",
-      "billingEmail": "unknown@gmail.com",
-      "departmentOwner": "Prabhakar",
-      "departmentName": "QA",
+      "billingEmail": "kasi@gmail.com",
+      "departmentOwner": "Ujwal Sharma",
+      "departmentName": "Events",
       "employeeName": [
-        "Basha"
+        "Raviteja"
       ],
-      "totalSeats": "1",
-      "totalCost": "123456",
-      "purchaseDate": "2025-04-09",
-      "expirationDate": "2025-04-30",
-      "shelfLife": 20,
+      "totalSeats": "28",
+      "totalCost": "12",
+      "purchaseDate": "2025-04-26",
+      "expirationDate": "2025-10-26",
+      "shelfLife": 198,
       "LicenseStatus": "Active"
     },
     {
-      "id": "a0a8",
+      "id": "7126",
       "licenseId": "",
-      "licenseName": "Test",
-      "licenseType": "AIML",
-      "modalType": "Perpetual",
-      "subscriptionType": "Annual",
+      "licenseName": "Apache Tomcat",
+      "licenseType": "Software",
+      "modalType": "Subscription",
+      "subscriptionType": "Half-Yearly",
       "subscriptionModel": "UserBased",
-      "billingEmail": "se@divami.com",
-      "departmentOwner": "Satya Krishna",
-      "departmentName": "Finance",
-      "employeeName": "Ram",
-      "totalSeats": "6543",
-      "totalCost": "980",
-      "purchaseDate": "2025-04-02",
-      "expirationDate": "Life Time Access",
-      "shelfLife": "",
-      "LicenseStatus": "Active"
-    },
-    {
-      "id": "67c1",
-      "licenseId": "",
-      "licenseName": "huuu",
-      "licenseType": "AIML",
-      "modalType": "Perpetual",
-      "subscriptionType": "",
-      "subscriptionModel": "Enterprise",
-      "billingEmail": "bbb@gmil.com",
+      "billingEmail": "kasi@gmail.com",
       "departmentOwner": "Joshuva",
       "departmentName": "Devops",
       "employeeName": [
-        "Anitha"
+        "Vijaya Lakshmi"
       ],
-      "totalSeats": "123",
-      "totalCost": "987",
-      "purchaseDate": "2025-05-09",
+      "totalSeats": "3",
+      "totalCost": "298",
+      "purchaseDate": "2025-04-04",
+      "expirationDate": "2025-10-04",
+      "shelfLife": 176,
+      "LicenseStatus": "Active"
+    },
+    {
+      "id": "c50c",
+      "licenseId": "",
+      "licenseName": "Perplex",
+      "licenseType": "Software",
+      "modalType": "Perpetual",
+      "subscriptionType": "",
+      "subscriptionModel": "UserBased",
+      "billingEmail": "basha@gmail.com",
+      "departmentOwner": "Gopal",
+      "departmentName": "Software Engineering",
+      "employeeName": [
+        "Basha",
+        "Kasi"
+      ],
+      "totalSeats": "12",
+      "totalCost": "2",
+      "purchaseDate": "2025-04-03",
       "expirationDate": "Life Time Access",
       "shelfLife": "",
       "LicenseStatus": "Active"
@@ -541,65 +371,28 @@
   ],
   "notifications": [
     {
-      "license_id": 1,
-      "message": "FireBase license is expiring in 4 days. Please renew by 4/10/2025.",
-      "notification_date": "2023-12-15",
-      "id": "7675",
-      "markAsRead": true
-    },
-    {
-      "license_id": 2,
-      "message": "Jira license is expiring in 1 days. Please renew by 4/8/2025.",
-      "notification_date": "2023-06-01",
-      "id": "95ea",
-      "markAsRead": true
-    },
-    {
-      "license_id": 3,
-      "message": "Postman license is expiring in 0 days. Please renew by 4/5/2025.",
-      "notification_date": "2023-07-15",
-      "id": "f9b9",
-      "markAsRead": true
-    },
-    {
-      "license_id": 4,
-      "message": "Figma subscription will expire in 5 days. Renew by 2023-12-20.",
-      "notification_date": "2024-02-25",
-      "id": "ca53",
-      "markAsRead": true
-    },
-    {
-      "license_id": 5,
-      "message": "S3 subscription will expire in 5 days. Renew by 2023-12-20.",
-      "notification_date": "2023-12-15",
-      "id": "3c70",
-      "markAsRead": true
-    },
-    {
-      "license_id": "281741",
-      "message": "Jira license is expiring in 0 days. Please renew by 4/8/2025.",
-      "notification_date": "4/8/2025",
-      "id": "n6twbzko",
-      "markAsRead": false
-    },
-    {
-      "license_id": "c2a8",
-      "message": "Postman license is expiring in 6 days. Please renew by 16/04/2025.",
-      "notification_date": "10/04/2025",
-      "id": "r8hq03h7"
-    },
-    {
-      "license_id": "2ddf",
-      "message": "FireBase license is expiring in 3 days. Please renew by 10/04/2025.",
-      "notification_date": "07/04/2025",
-      "id": "vc7zlu7r",
-      "markAsRead": true
-    },
-    {
       "license_id": "f69f",
       "message": "license license is expiring in 0 days. Please renew by 10/04/2025.",
       "notification_date": "10/04/2025",
-      "id": "lzw7wd2s"
+      "id": "ezwuvlfs"
+    },
+    {
+      "id": "9lfemjab",
+      "license_id": "f69f",
+      "message": "license license is expiring in 0 days. Please renew by 10/04/2025.",
+      "notification_date": "10/04/2025"
+    },
+    {
+      "license_id": "6abf",
+      "message": "Tata license is expiring in 3 days. Please renew by 13/04/2025.",
+      "notification_date": "10/04/2025",
+      "id": "8nznp0t5"
+    },
+    {
+      "id": "xdw8wdzp",
+      "license_id": "6abf",
+      "message": "Tata license is expiring in 3 days. Please renew by 13/04/2025.",
+      "notification_date": "10/04/2025"
     }
   ]
 }
