@@ -10,7 +10,7 @@ The **License Management System** helps organizations efficiently manage softwar
 - **Cost Summarization**: Visualize total license costs and renewals with interactive charts.
 - **Notifications & Profile Section**: Automatic notifications for license expirations and a profile section to display user details.
 
-## Functional Requirements
+## Functional Explaination
 
 ### 1. License Management
 - Create, edit, delete, and update licenses.
@@ -75,8 +75,9 @@ To run the **License Management System** locally, follow the steps below:
 ### Step 1: Clone the Repository
 First, clone the repository to your local machine:
 ```bash
-git clone https://github.com/your-username/license-management-system.git
-cd license-management-system
+git clone https://github.com/abhidivami/license-management-system.git
+git checkout develop
+cd license-management
 ```
 
 ### Step 2: Install Dependencies
@@ -84,14 +85,14 @@ cd license-management-system
 npm i
 ```
 
-### Step 3: Run the Application
-```bash
-npm run dev
-```
-
-### Step 4: Run the JOSN server
+### Step 3: Run the JOSN server
 ```bash
 json-server --watch db.json --port 3005
+```
+
+### Step 4: Run the Application
+```bash
+npm run dev
 ```
 
 
