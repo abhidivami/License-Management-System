@@ -8,7 +8,7 @@ const analyticsSlice = createSlice({
     name:"analytics",
     initialState,
     reducers:{
-        setData: (state, action) => {
+        setData: (_state, action) => {
             //just replace the existing data with the new data
             return action.payload;
           },

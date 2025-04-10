@@ -6,7 +6,7 @@ import axios from "axios";
 import { FormData } from "../../Redux/Slice/LicenseForm";
 
 const EmailTriggering = () => {
-    const [notification, setNotification] = useState([]);
+    const [notification, setNotification] = useState<FormData[]>([]);
     const data = useSelector((state: RootState) => state.form);
 
     const expiringInSevenDays = data.filter((license) => {
@@ -25,7 +25,7 @@ const EmailTriggering = () => {
                 const existingNotifications = existingNotificationsResponse.data;
 
                 for (const license of expiringInSevenDays) {
-                    const existingNotification = existingNotifications.find((n) => n.license_id === license.id);
+                    const existingNotification = existingNotifications.find((n: { license_id: string; }) => n.license_id === license.id);
                     // alert(existingNotification.license_id)
                     const notificationData = {
                         license_id: license.id,

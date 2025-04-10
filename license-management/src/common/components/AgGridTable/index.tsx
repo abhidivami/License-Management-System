@@ -1,4 +1,4 @@
-import {  Chip, Container, Dialog, DialogContent, DialogTitle, Tooltip} from "@mui/material";
+import {   Container, Dialog, DialogContent, DialogTitle, Tooltip} from "@mui/material";
 import ConfirmationDialog from "../ConfirmationDialog";
 import axios from "axios";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -12,7 +12,7 @@ import {
   PaginationModule,
   RowSelectionModule,
 } from "ag-grid-community";
-import { Eye, UserIcon, View } from "lucide-react";
+import { Eye } from "lucide-react";
 import { ModuleRegistry } from "ag-grid-community";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ColDef } from "ag-grid-community";
@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { removeFormData, setData } from "../../../Redux/Slice/LicenseForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store/index";
-import { data, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { LicenseForm } from "../../../components/LicenseForm";
 import { toast } from "react-toastify";
 import CardComponent from "../../../components/Analytics/CardComponent";
@@ -56,7 +56,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
 
   //to get details about current page
   const { page } = props;
-  const [rowData, setRowData] = useState<RowData[]>([]);
+  const [, setRowData] = useState<RowData[]>([]);
   const formValues = useSelector((state: RootState) => state.form);
 
   //to store licenses which are matched with search field
@@ -108,7 +108,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     navigate("/detailedView", { state: { rowData } });
   };
 
-  const handleDeleteClick = (rowData: RowData) => {
+  const handleDeleteClick = (rowData: RowData[]|any) => {
     if (rowData.id) {
       setSelectedLicenseId(rowData.id);
       setOpenDialog(true);
@@ -124,7 +124,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       // Delete from the server
       axios.delete(`http://localhost:3005/licenses/${selectedLicenseId}`)
         .then(() => {
-          setRowData(prevData => prevData.filter(item => item.id !== selectedLicenseId));
+          setRowData(prevData => prevData.filter(item => String(item.id) !== selectedLicenseId));
           console.log("Data deleted successfully");
         })
         .catch((error) => {
@@ -153,9 +153,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
 
   // const [openDialog, setOpenDialog] = React.useState(false);
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -197,13 +194,13 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     });
 
     //need only days with daysdiff >= 0
-    const expiringSoonLicenses = allLicensesWithDays.filter(item => item.daysRemaining >= 0);
+    const expiringSoonLicenses = allLicensesWithDays.filter((item: { daysRemaining: number; }) => item.daysRemaining >= 0);
 
     // Apply filter based on selection
     let filteredData = expiringSoonLicenses;
     if (selectedDaysFilter !== "all") {
       const maxDays = parseInt(selectedDaysFilter);
-      filteredData = allLicensesWithDays.filter(item =>
+      filteredData = allLicensesWithDays.filter((item: { daysRemaining: number; }) =>
         item.daysRemaining >= 0 && item.daysRemaining < maxDays
       );
     }
@@ -280,7 +277,7 @@ const StatusColor = (params: any) => {
     );
   };
 //  for home page
-  const [columnDefs, setColumnDefs] = useState<ColDef[]>([
+  const [columnDefs] = useState<ColDef[]>([
     {
       headerName: "License Name",
       field: "licenseName",
@@ -347,7 +344,7 @@ const StatusColor = (params: any) => {
   ]);
 
   //for expired page
-  const [columnDefs1, setColumnDefs1] = useState<ColDef[]>([
+  const [columnDefs1] = useState<ColDef[]>([
     {
       headerName: "License Name",
       field: "licenseName",
@@ -393,7 +390,7 @@ const StatusColor = (params: any) => {
   ]);
 
   //for expiring soon page 
-  const [columnDefs2, setColumnDefs2] = useState<ColDef[]>(
+  const [columnDefs2] = useState<ColDef[]>(
     [
       {
         headerName: "License Name",
@@ -570,7 +567,7 @@ const StatusColor = (params: any) => {
           />
           :
           <Dialog
-            open={handleOpenDialog}
+            open={openDialog}
             onClose={handleCloseDialog}
             fullWidth
           >

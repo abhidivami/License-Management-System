@@ -131,6 +131,7 @@ function Department(props: DepartmentProps) {
     }
     else {
       if (isPresent == false) {
+        toast("Department created successfully");
         const id: number = departments.length + 1;
 
         axios.post("http://localhost:3005/departments", {
@@ -148,7 +149,7 @@ function Department(props: DepartmentProps) {
           })
       }
 
-      toast("Department created successfully");
+     
 
       //make form values as empty
       if (!isPresent) {

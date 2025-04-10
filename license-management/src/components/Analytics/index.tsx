@@ -7,6 +7,13 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+type ExtendedFormData = {
+  totalCost: string;
+  subscriptionModel: string;
+  LicenseStatus: string;
+  purchaseDate: string;
+} & FormData;
+
 // Defining the icons 
 export const userIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -34,7 +41,7 @@ export const walletIcon = (
 
 const Analytics = () => {
     const Datafromredux = useSelector((state: RootState) => state.form);
-    const [data, setData] = useState<FormData[]>([]);
+    const [data, setData] = useState<ExtendedFormData[]>([]);
 
     useEffect(() => {
       if (fetchedData.length === 0) {

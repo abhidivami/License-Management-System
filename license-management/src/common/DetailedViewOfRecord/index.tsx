@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import style from "./index.module.scss";
 import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -35,6 +35,19 @@ const DetailedViewOfEachRecord = () => {
   const handleGoBack = () => {
     navigate('/');
   }
+  //  To handle the save after refreshing the page immedialtely after saving the data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3005/licenses/${data.id}`);
+        setData(response.data);
+        setOriginalData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [data.id]);
 
   const handleSaveClick = (section: string) => {
     const hasChanges = JSON.stringify(data) !== JSON.stringify(originalData);
@@ -49,6 +62,7 @@ const DetailedViewOfEachRecord = () => {
       });
       console.log("Saving changes...");
       notify();
+      
     }
     setOriginalData(data);
     setEditStates((prev) => ({
@@ -59,7 +73,7 @@ const DetailedViewOfEachRecord = () => {
   };
   
 
-  const toggleEditMode = (section : string) => {
+  const toggleEditMode = (section : 'departmentDetails') => {
     setEditStates((prev) => ({
       ...prev,
       [section]: !prev[section],
@@ -67,7 +81,7 @@ const DetailedViewOfEachRecord = () => {
   };
   
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, _: string) => {
     const { name, value } = e.target;
     setData((prevData: any) => ({
       ...prevData,
@@ -208,16 +222,6 @@ const DetailedViewOfEachRecord = () => {
             <div className={style.detailedViewInfoBodyBasicInfo}>
               <div className={style.detailedViewBodyHeader}>
               <p>Additional Details</p>
-                {/* {editStates.additionalDetails ? (
-                  <button className={style.saveButton} onClick={() => handleSaveClick("additionalDetails")}>
-                    Save
-                  </button>
-                ) : (
-                  <EditIcon
-                    className={style.editIcon}
-                    onClick={() => toggleEditMode("additionalDetails")}
-                  />
-                )} */}
               </div>
               <div className={style.detailedViewBodyBasicData}>
                 <div className={style.detailedViewBodyBasicDataItem}>
@@ -254,7 +258,7 @@ const DetailedViewOfEachRecord = () => {
                   <span className={style.bodyBasicDataHeadings}>
                     Expiry Date
                   </span>
-                  <input type="date" name="expiry_date" value={data.expirationDate} disabled={!editStates.additionalDetails} onChange={(e) => handleInputChange(e, "expiry_date")}/>
+                  <input type="date" name="expiry_date" value={data.expirationDate?`${data.expirationDate}`:"Life Time Access"} disabled={!editStates.additionalDetails} onChange={(e) => handleInputChange(e, "expiry_date")}/>
                 </div>
                 <div className={style.detailedViewBodyBasicDataItem}>
                   <span className={style.bodyBasicDataHeadings}>

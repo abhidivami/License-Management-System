@@ -118,7 +118,7 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <SvgIcon sx={{ fontSize: 'xl' }}>{icon}</SvgIcon>
-            <Typography level="h5" fontWeight="lg">{title} Breakdown</Typography>
+            <Typography level="h4" fontWeight="lg">{title} Breakdown</Typography>
           </Box>
           <IconButton
             aria-label="close"
@@ -197,7 +197,7 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
                     </Box>
                   </ListItemContent>
                 </ListItem>
-                {index < filteredLicenses.length - 1 && <Divider />}
+                {typeof index === 'number' && index < filteredLicenses.length - 1 && <Divider />}
               </React.Fragment>
             ))}
           </List>

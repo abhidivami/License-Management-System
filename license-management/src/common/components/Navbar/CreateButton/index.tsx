@@ -13,7 +13,6 @@ function CreateButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = React.useState(false);
   const open = Boolean(anchorEl);
-  const formRef = React.useRef<HTMLFormElement>(null);
 
   // Handle Menu Open/Close
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,13 +34,6 @@ function CreateButton() {
   };
 
   // Handle form submission from dialog button
-  const handleCreate = () => {
-    if (formRef.current) {
-      formRef.current.dispatchEvent(
-        new Event('submit', { cancelable: true, bubbles: true })
-      );
-    }
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     e.stopPropagation();
@@ -92,7 +84,7 @@ function CreateButton() {
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle sx={{backgroundColor: "navyblue"}}>Create License</DialogTitle>
         <DialogContent>
-          <LicenseForm close={handleCloseDialog} formRef={formRef} create="create"/>
+          <LicenseForm close={handleCloseDialog} create="create" existingData={undefined}/>
         </DialogContent>
       </Dialog>
     </div>
