@@ -567,7 +567,7 @@ const StatusColor = (params: any) => {
             onClose={handleCloseDialog}
             fullWidth
           >
-            <DialogTitle sx={{ backgroundColor: "navyblue" }}> Renew License </DialogTitle>
+            <DialogTitle sx={{backgroundColor: "#16225c",fontSize : "25px", color : "White" }}> Renew License </DialogTitle>
             <DialogContent>
               <LicenseForm close={handleCloseDialog} existingData={licenseData} create="renew"/>
             </DialogContent>
