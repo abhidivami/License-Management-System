@@ -142,24 +142,6 @@
       "LicenseStatus": "Active"
     },
     {
-      "id": "d094",
-      "licenseName": "Product A",
-      "subscriptionModel": "User Based",
-      "modalType": "Cloud",
-      "subscriptionType": "Monthly",
-      "subscriptionModel_1": "Subscription",
-      "billingEmail": "billing@email1@email.com",
-      "departmentOwner": "John Doe",
-      "departmentName": "IT",
-      "employeeName": "Alice Smith",
-      "totalSeats": 50,
-      "totalCost": 50000,
-      "purchaseDate": "2024-01-01",
-      "expirationDate": "2025-05-05",
-      "shelfLife": 12,
-      "LicenseStatus": "Active"
-    },
-    {
       "id": "b1da",
       "licenseName": "Product B",
       "subscriptionModel": "Premium",

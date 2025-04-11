@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import emailjs from '@emailjs/browser';
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/Store";
 import axios from "axios";
@@ -68,38 +67,29 @@ const EmailTriggering = () => {
             clearInterval(intervalId2);
         };
 
-        return () => clearInterval(intervalId);
+        return () => {
+            clearInterval(intervalId);
+            clearInterval(intervalId2)
+        }
     }, [data]);
 
-    const sendEmail = (license: FormData) => {
+    const sendEmail = async (license: FormData) => {
         const expirationDate = new Date(license.expirationDate);
         const daysDiff = Math.ceil(
             (expirationDate.getTime() - new Date().getTime()) / (1000 * 3600 * 24)
         );
-
-        const templateParams = {
-            email: `${license.billingEmail}`, // Replace with actual user email
-            from_name: "Team License Management System",
-            license_name: license.licenseName,
-            days: daysDiff,
-            expiry_date: expirationDate.toLocaleDateString(),
-        };
-
-        emailjs
-            .send(
-                'service_lev342c',
-                'template_t68ad3d',
-                templateParams,
-                'Kj-06fIjMN8qAELuq'
-            )
-            .then(
-                (response) => {
-                    console.log('SUCCESS!', response.status, response.text);
-                },
-                (error) => {
-                    console.log('FAILED...', error);
-                }
-            );
+            try {
+                await axios.post("http://localhost:3006/send-email", {
+                    email: license.billingEmail,
+                    licenseName: license.licenseName,
+                    days: daysDiff,
+                    expiryDate: expirationDate.toLocaleDateString(),
+                });
+                console.log("Email sent from backend!");
+            } 
+            catch (error: any) {
+                console.log("Failed to send email", error);
+            }
     };
 
     return (
