@@ -65,6 +65,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
 
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDelDialog, setOpenDelDialog] = useState(false);
   const [selectedLicenseId, setSelectedLicenseId] = useState<string | null>(null);
 
 
@@ -103,7 +104,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   }, [dispatch]);
   const navigate = useNavigate();
 
-  console.log("Data in the redux State :", formValues);
+  console.log("Data in  the redux State :", formValues);
   const handleViewClick = (rowData: RootState) => {
     navigate("/detailedView", { state: { rowData } });
   };
@@ -111,7 +112,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   const handleDeleteClick = (rowData: RowData[]|any) => {
     if (rowData.id) {
       setSelectedLicenseId(rowData.id);
-      setOpenDialog(true);
+      setOpenDelDialog(true);
     } else {
       console.error("License ID not found.");
     }
@@ -131,7 +132,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
           console.error("Error deleting data:", error);
         })
         .finally(() => {
-          setOpenDialog(false);
+          setOpenDelDialog(false);
           setSelectedLicenseId(null);
         });
       notify();
@@ -139,7 +140,9 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
   };
 
   const openLicenseForm = (data: any) => {
+    console.log("Button clicked")
     setShowLicenseForm(true);
+    setOpenDialog(true);
     setLicenseData(data);
   }
 
@@ -151,7 +154,7 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
     );
   }
 
-  // const [openDialog, setOpenDialog] = React.useState(false);
+ 
 
 
   const handleCloseDialog = () => {
@@ -161,7 +164,6 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
 
   // const currDate = new Date();
   const dataFromRedux = useSelector((state: any) => state.form);
-  // AgGridTable.tsx
   useEffect(() => {
     const currDate = new Date();
     const expiredLicenses = dataFromRedux.filter((item: any) => {
@@ -189,11 +191,11 @@ export const AgGridTable: React.FC<TableProps> = (props: TableProps) => {
       return {
         ...item,
         expiredInDays: daysDiff >= 0 ? `${daysDiff} days` : "Expired",
-        daysRemaining: daysDiff // Add numeric value for filtering
+        daysRemaining: daysDiff 
       };
     });
 
-    //need only days with daysdiff >= 0
+    //need only days with daysdiff >0
     const expiringSoonLicenses = allLicensesWithDays.filter((item: { daysRemaining: number; }) => item.daysRemaining > 0);
 
     // Apply filter based on selection
@@ -448,7 +450,7 @@ const StatusColor = (params: any) => {
   }, [formValues, expiredLicensesData,expiringsoonData]);
 //  To filter the number of
   const paginationPageSizeSelector = useMemo<number[] | boolean>(() => {
-    return [ 10, 15, 20, 25,30];
+    return [ 5,10, 15, 20, 25,30];
   }, []);
    
 
@@ -469,7 +471,7 @@ const StatusColor = (params: any) => {
   const totalLicenses = dataFromRedux.length;
 
   const totalCostTorenew = expiredLicenses.reduce((acc: number, item: any) => {
-    const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
+    const cost = parseFloat(item.totalCost);
     return acc + cost;
   }
   , 0);
@@ -572,7 +574,7 @@ const StatusColor = (params: any) => {
           </Dialog>
         }
       </div>
-      <ConfirmationDialog open={openDialog} onClose={() => setOpenDialog(false)} onConfirm={confirmDelete}
+      <ConfirmationDialog open={openDelDialog} onClose={() => setOpenDelDialog(false)} onConfirm={confirmDelete}
         title="Confirm Deletion"
         message="Are you sure you want to delete this license? This action cannot be undone."
       />
