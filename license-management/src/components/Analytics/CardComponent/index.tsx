@@ -45,7 +45,7 @@ const CardComponent = ({ icon, title, value, progressValue, licenses, filterKey 
       case 'totalCostTORenweLicenses': {
         const expiredLicenses = licenses.filter((item: { LicenseStatus: string; }) => item.LicenseStatus === 'Expired');
         const totalCost = expiredLicenses.reduce((acc: number, item: { totalCost: string; }) => {
-            const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
+            const cost = parseFloat(item.totalCost);
             return acc + cost;
           }, 0);
         const totalCostInMillions = (totalCost / 1000000).toFixed(1);

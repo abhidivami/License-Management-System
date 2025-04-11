@@ -56,7 +56,7 @@ const Analytics = () => {
     // Calculating metrics for cards
     const totalLicenses = fetchedData.length;
     const totalCost = fetchedData.reduce((acc, item) => {
-        const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
+        const cost = parseFloat(item.totalCost);
         return acc + cost;
     }, 0);
     const totalCostInMillions = (totalCost / 1000000).toFixed(1);
@@ -71,7 +71,7 @@ const Analytics = () => {
     // Preparing data for bar chart 
     const costByYear = fetchedData.reduce((acc, item) => {
         const year = new Date(item.purchaseDate).getFullYear();
-        const cost = parseFloat(item.totalCost.replace(/[^0-9.-]+/g, ""));
+        const cost = parseFloat(item.totalCost);
         
         if (!acc[year]) {
             acc[year] = 0;
